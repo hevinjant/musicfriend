@@ -85,23 +85,26 @@ export async function getUserTracks(token, playlistsID) {
 
 /* Map each Spotify JSON track to only store the data we need */
 function parseTracks(tracksJSON) {
-  let tracks = [];
-  tracksJSON.map((track) => {
+  const tracks = tracksJSON.map((track) => {
     const trackArtists = track["track"]["artists"];
+    // get all the names and id of the artists
     let artistNames = "";
+    let artistsId = [];
     for (const artist of trackArtists) {
       artistNames += artist["name"] + ", ";
+      artistsId.push(artist["id"]);
     }
     artistNames = artistNames.slice(0, -2);
     const parsed = {
       trackId: track["track"]["id"],
       trackName: track["track"]["name"],
       trackArtists: artistNames,
+      trackArtistsId: artistsId,
       trackImageUrl: track["track"]["album"]["images"][0]["url"],
       trackLink: track["track"]["external_urls"]["spotify"],
       trackPreviewUrl: track["track"]["preview_url"],
     };
-    tracks.push(parsed);
+    return parsed;
   });
   return tracks;
 }
