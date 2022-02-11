@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { getUserSpotifyInfo } from "../SpotifyManager";
+import {
+  getUserPlaylists,
+  getUserSpotifyInfo,
+  getUserTracks,
+  parseTracks,
+} from "../DataManagers/SpotifyManager";
 import { useSelector } from "react-redux";
 import store from "../redux/store";
 import UserItem from "../components/UserItem";
@@ -18,6 +23,12 @@ function Home() {
     getUserSpotifyInfo(token).then((user) => {
       console.log("user:", user);
       setUserInfo(user);
+    });
+    getUserPlaylists(token).then((playlistsID) => {
+      console.log("PlaylistsID:", playlistsID);
+      getUserTracks(token, playlistsID).then((tracks) => {
+        console.log("Tracks-Home:", tracks);
+      });
     });
   }, [token]);
 

@@ -4,7 +4,10 @@ import { setAccessToken } from "../redux/action";
 import "../styles/Login.css";
 
 // Spotify
-import { SPOTIFY_CLIENT_ID } from "../SpotifyManager";
+import {
+  OAUTH_SCOPES,
+  SPOTIFY_CLIENT_ID,
+} from "../DataManagers/SpotifyManager";
 import { SpotifyApiContext } from "react-spotify-api";
 import { SpotifyAuth, Scopes } from "react-spotify-auth";
 import "react-spotify-auth/dist/index.css";
@@ -38,13 +41,7 @@ function Login() {
             <SpotifyAuth
               redirectUri="http://localhost:3000"
               clientID={SPOTIFY_CLIENT_ID}
-              scopes={[
-                Scopes.userReadPrivate,
-                Scopes.userReadEmail,
-                Scopes.userReadCurrentlyPlaying,
-                Scopes.userLibraryRead,
-                Scopes.playlistReadPrivate,
-              ]}
+              scopes={OAUTH_SCOPES}
               onAccessToken={(token) => {
                 dispatch(setAccessToken(token));
                 storeToken(token);
