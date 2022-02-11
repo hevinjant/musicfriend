@@ -12,7 +12,7 @@ function insertTracksForUser(userEmail) {}
 /* Get all tracks from user */
 function getUserTracks(userEmail) {}
 
-/* Database Scheme for user
+/* Database scheme for user
 
 Users:
     user-email:
