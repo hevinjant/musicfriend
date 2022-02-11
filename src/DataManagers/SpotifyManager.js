@@ -53,42 +53,6 @@ export async function getUserPlaylists(token) {
   }
 }
 
-/* Get all tracks from user's playlists by playlist id, access token is required */
-// export async function getUserTracks(token, playlistsID) {
-//   try {
-//     let tracks = [];
-//     const limit = 50;
-//     await Promise.all(
-//       // iterate through all the playlists
-//       playlistsID.map((id) => {
-//         // for each playlist, get tracks per offset until we get all of the tracks
-//         for (let offset = 0; offset < 500; offset += 50) {
-//           console.log("OFFSET:", offset);
-//           let result = [];
-//           const endpoint = `${GET_PLAYLIST_ITEMS_ENDPOINT}${id}/tracks??limit=${limit}&offset=${offset}`;
-//           axios
-//             .get(endpoint, {
-//               headers: { Authorization: `Bearer ${token}` },
-//             })
-//             .then((response) => {
-//               result = response["data"]["items"];
-//               console.log("result:", result);
-//               tracks.concat(result);
-//             });
-//           // if (result.length === 0) {
-//           //   break;
-//           // }
-//         }
-//       })
-//     );
-//     console.log("TRACKS-1:", tracks);
-//     return tracks;
-//   } catch (error) {
-//     console.log(error);
-//     return false;
-//   }
-// }
-
 /* Get all tracks from user's Spotify playlists by playlist id, access token is required */
 export async function getUserTracks(token, playlistsID) {
   try {
@@ -119,8 +83,9 @@ export async function getUserTracks(token, playlistsID) {
   }
 }
 
-/* Parse each Spotify track's important information */
+/* Map each Spotify JSON track to only store the data we need */
 function parseTracks(tracksJSON) {
+  let tracks = [];
   tracksJSON.map((track) => {
     const trackArtists = track["track"]["artists"];
     let artistNames = "";
@@ -136,7 +101,7 @@ function parseTracks(tracksJSON) {
       trackLink: track["track"]["external_urls"]["spotify"],
       trackPreviewUrl: track["track"]["preview_url"],
     };
-    return parsed;
+    tracks.push(parsed);
   });
-  return tracksJSON;
+  return tracks;
 }
