@@ -104,6 +104,7 @@ function parseSpotifyTracks(tracksJSON) {
       trackImageUrl: track["track"]["album"]["images"][0]["url"],
       trackLink: track["track"]["external_urls"]["spotify"],
       trackPreviewUrl: track["track"]["preview_url"],
+      trackGenres: null,
     };
 
     return parsed;
