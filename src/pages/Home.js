@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
 import {
-  getUserPlaylists,
+  getUserSpotifyPlaylists,
   getUserSpotifyInfo,
-  getUserTracks,
-  parseTracks,
+  getUserSpotifyTracks,
 } from "../DataManagers/SpotifyManager";
-import { useSelector } from "react-redux";
-import store from "../redux/store";
 import UserItem from "../components/UserItem";
 import Form from "../components/Form";
-import "../styles/Home.css";
+import "../Styles/Home.css";
 
 function Home() {
   const [userInfo, setUserInfo] = useState({});
@@ -19,14 +16,13 @@ function Home() {
   //const token = useSelector((state) => state.token.access_token);
 
   useEffect(() => {
-    console.log("token:", token);
+    //console.log("token:", token);
     getUserSpotifyInfo(token).then((user) => {
-      console.log("user:", user);
+      //console.log("user:", user);
       setUserInfo(user);
     });
-    getUserPlaylists(token).then((playlistsID) => {
-      console.log("PlaylistsID:", playlistsID);
-      getUserTracks(token, playlistsID).then((tracks) => {
+    getUserSpotifyPlaylists(token).then((playlistsID) => {
+      getUserSpotifyTracks(token, playlistsID).then((tracks) => {
         console.log("Tracks-Home:", tracks);
       });
     });

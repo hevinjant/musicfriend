@@ -37,7 +37,7 @@ export async function getUserSpotifyInfo(token) {
 }
 
 /* Get all playlists from user's Spotify account, access token is required */
-export async function getUserPlaylists(token) {
+export async function getUserSpotifyPlaylists(token) {
   try {
     const response = await axios.get(GET_CURRENT_USER_PLAYLIST_ENDPOINT, {
       headers: { Authorization: `Bearer ${token}` },
@@ -54,7 +54,7 @@ export async function getUserPlaylists(token) {
 }
 
 /* Get all tracks from user's Spotify playlists by playlist id, access token is required */
-export async function getUserTracks(token, playlistsID) {
+export async function getUserSpotifyTracks(token, playlistsID) {
   try {
     let tracks = [];
     const limit = 100; // Spotify let app to retrieve 100 tracks at once
@@ -76,7 +76,7 @@ export async function getUserTracks(token, playlistsID) {
         }
       }
     }
-    return parseTracks(tracks);
+    return parseSpotifyTracks(tracks);
   } catch (error) {
     console.log("getUserTracks():", error);
     return false;
@@ -84,17 +84,18 @@ export async function getUserTracks(token, playlistsID) {
 }
 
 /* Map each Spotify JSON track to only store the data we need */
-function parseTracks(tracksJSON) {
+function parseSpotifyTracks(tracksJSON) {
   const tracks = tracksJSON.map((track) => {
-    const trackArtists = track["track"]["artists"];
     // get all the names and id of the artists
+    const trackArtists = track["track"]["artists"];
     let artistNames = "";
     let artistsId = [];
     for (const artist of trackArtists) {
       artistNames += artist["name"] + ", ";
       artistsId.push(artist["id"]);
     }
-    artistNames = artistNames.slice(0, -2);
+    artistNames = artistNames.slice(0, -2); // get rid of the last comma and space
+
     const parsed = {
       trackId: track["track"]["id"],
       trackName: track["track"]["name"],
@@ -104,7 +105,9 @@ function parseTracks(tracksJSON) {
       trackLink: track["track"]["external_urls"]["spotify"],
       trackPreviewUrl: track["track"]["preview_url"],
     };
+
     return parsed;
   });
+
   return tracks;
 }

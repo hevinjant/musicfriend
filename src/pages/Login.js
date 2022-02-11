@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setAccessToken } from "../redux/action";
-import "../styles/Login.css";
+import { setAccessToken } from "../Redux/action";
+import "../Styles/Login.css";
 
 // Spotify
 import {
@@ -13,7 +13,9 @@ import { SpotifyAuth, Scopes } from "react-spotify-auth";
 import "react-spotify-auth/dist/index.css";
 
 function Login() {
-  const [token, setToken] = useState(localStorage.getItem("access_token"));
+  //const [token, setToken] = useState(localStorage.getItem("access_token"));
+  const [token, setToken] = useState();
+
   const dispatch = useDispatch();
 
   const handleClick = () => {};
