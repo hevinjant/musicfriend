@@ -74,7 +74,6 @@ function Home() {
     return (
       <div className="display-result">
         <div className="match-header">
-          <button onClick={handleSearchAgain}>Search Again</button>
           <UserItem user={matchesInfo.otherUserInfo} />
           <div className="match-text">
             <p className="match-percentage">
@@ -84,6 +83,7 @@ function Home() {
               {matchesInfo.matches.length} total match songs
             </p>
           </div>
+          <button onClick={handleSearchAgain}>Search Again</button>
         </div>
         <div className="match-body">
           <div className="track-list">

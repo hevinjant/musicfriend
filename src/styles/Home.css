@@ -13,6 +13,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  border-right: 1px solid gray;
 }
 
 .home .user-item {
@@ -25,8 +26,8 @@
 }
 
 .home .user-item img {
-  height: 8vw;
-  width: 8vw;
+  height: clamp(150px, 8vw, 200px);
+  width: clamp(150px, 8vw, 200px);
   border-radius: 50%;
 }
 
@@ -37,7 +38,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-left: 1px solid gray;
 }
 
 .home-right .display-search .form {
@@ -87,6 +87,8 @@
 }
 
 .home-right .display-result {
+  height: 100vh;
+  width: 100%;
 }
 
 .home-right .display-result .match-header {
@@ -94,45 +96,44 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  height: 30vh;
+  min-height: 200px;
+  width: auto;
 }
 
 .home-right .display-result .match-header .user-item img {
-  width: 6vw;
-  height: 6vw;
+  width: clamp(100px, 6vw, 500px);
+  height: clamp(100px, 6vw, 500px);
 }
 
 .home-right .display-result .match-header .match-text {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 30px;
 }
 
 .home-right .display-result .match-header .match-percentage {
   color: white;
-  font-size: clamp(15px, 2.5vw, 35px);
-  margin-left: 50px;
+  font-size: clamp(20px, 3vw, 35px);
   margin-bottom: 0px;
 }
 
 .home-right .display-result .match-header .match-total {
   color: white;
-  font-size: clamp(10px, 1.5vw, 20px);
-  margin-left: 50px;
+  font-size: clamp(15px, 2vw, 20px);
 }
 
-.home-right .display-result {
-  height: 100vh;
-  width: 100%;
-}
-
-.home-right .display-result .match-header {
-  height: 30vh;
-  min-height: 200px;
-}
-
-.home-right .display-result .match-body .match-total {
+.home-right .display-result .match-header button {
+  background-color: aquamarine;
+  border: none;
+  border-radius: 5px;
+  width: 180px;
+  height: 40px;
+  margin: 20px;
   color: white;
-  font-size: clamp(15px, 1vw, 20px);
+  font-weight: 700;
+  font-size: clamp(14px, 1.1vw, 17px);
 }
 
 .home-right .display-result .match-body {
@@ -154,14 +155,14 @@
 
 .home-right .display-result .match-body .song-item img {
   margin-top: 10px;
-  height: 6vw;
-  width: 6vw;
+  height: clamp(100px, 6vw, 500px);
+  width: clamp(100px, 6vw, 500px);
   border-radius: 5px;
 }
 
 .home-right .display-result .match-body .song-item .track-name {
   color: white;
-  font-size: clamp(12px, 1vw, 15px);
+  font-size: clamp(15px, 1vw, 18px);
   font-weight: 700;
   margin-bottom: 3px;
   max-width: 300px;
@@ -171,11 +172,40 @@
 .home-right .display-result .match-body .song-item .track-artists {
   margin-top: 3px;
   color: white;
-  font-size: clamp(10px, 0.8vw, 13px);
+  font-size: clamp(12px, 0.8vw, 15px);
   max-width: 300px;
   text-align: center;
 }
 
 .home-right .display-result .match-body::-webkit-scrollbar {
   display: none; /* to hide scroll bar in Safari and Chrome */
+}
+
+@media only screen and (max-width: 800px) {
+  .home-left {
+    display: none;
+    border: none;
+  }
+
+  .home-right .display-result .match-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 400px;
+    margin-bottom: 30px;
+  }
+
+  .home-right .display-result .match-header .match-text {
+    margin: 0px;
+  }
+
+  .home-right .display-result .match-body .track-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media only screen and (max-width: 1300px) {
+  .home-right .display-result .match-body .track-list {
+    grid-template-columns: 1fr 1fr;
+  }
 }
