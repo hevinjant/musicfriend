@@ -1,32 +1,22 @@
 import React, { useEffect, useState } from "react";
-import {
-  getUserSpotifyPlaylists,
-  getUserSpotifyInfo,
-  getUserSpotifyTracks,
-} from "../DataManagers/SpotifyManager";
+import { getUserSpotifyInfo } from "../DataManagers/SpotifyManager";
 import UserItem from "../components/UserItem";
 import Form from "../components/Form";
+import { useSelector } from "react-redux";
 import "../Styles/Home.css";
 
 function Home() {
-  const [userInfo, setUserInfo] = useState({});
-  const [token, setToken] = useState(localStorage.getItem("access_token"));
   const [searched, setSearched] = useState(false);
   const [track, setTrack] = useState({});
+  //const [token, setToken] = useState(localStorage.getItem("access_token"));
   //const token = useSelector((state) => state.token.access_token);
+  const user = useSelector((state) => state.userInfo.user_info);
 
-  useEffect(() => {
-    //console.log("token:", token);
-    getUserSpotifyInfo(token).then((user) => {
-      //console.log("user:", user);
-      setUserInfo(user);
-    });
-    getUserSpotifyPlaylists(token).then((playlistsID) => {
-      getUserSpotifyTracks(token, playlistsID).then((tracks) => {
-        console.log("Tracks-Home:", tracks);
-      });
-    });
-  }, [token]);
+  // useEffect(() => {
+  //   const usrJSON = localStorage.getItem("user_info");
+  //   const usr = JSON.parse(usrJSON);
+  //   console.log("useEffect:", usr);
+  // }, []);
 
   const handleFormSubmit = () => {};
 
@@ -56,7 +46,7 @@ function Home() {
   return (
     <div className="home">
       <div className="home-left">
-        <UserItem user={userInfo} />
+        <UserItem user={user} />
       </div>
       <div className="home-right">
         {track.imageUrl && (

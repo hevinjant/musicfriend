@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setAccessToken } from "../Redux/action";
+import { setAccessToken, setUserInfo } from "../Redux/action";
+import {
+  getUserSpotifyPlaylists,
+  getUserSpotifyInfo,
+  getUserSpotifyTracks,
+} from "../DataManagers/SpotifyManager";
+import { useNavigate } from "react-router-dom";
 import "../Styles/Login.css";
 
 // Spotify
@@ -10,6 +16,7 @@ import {
 } from "../DataManagers/SpotifyManager";
 import { SpotifyApiContext } from "react-spotify-api";
 import { SpotifyAuth, Scopes } from "react-spotify-auth";
+import { insertUserToDatabase } from "../DataManagers/FirebaseManager";
 import "react-spotify-auth/dist/index.css";
 
 function Login() {
@@ -17,8 +24,23 @@ function Login() {
   const [token, setToken] = useState();
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const handleClick = () => {};
+  const handleClick = () => {
+    // fetch user's info
+    getUserSpotifyInfo(token).then((userInfo) => {
+      // fetch user's tracks
+      dispatch(setUserInfo(userInfo));
+      localStorage.setItem("user_info", JSON.stringify(userInfo));
+      getUserSpotifyPlaylists(token).then((playlistsID) => {
+        getUserSpotifyTracks(token, playlistsID).then((tracks) => {
+          insertUserToDatabase(userInfo, tracks).then(() => {
+            navigate("/home");
+          });
+        });
+      });
+    });
+  };
 
   const storeToken = (token) => {
     localStorage.setItem("access_token", token);

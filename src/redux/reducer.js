@@ -11,8 +11,19 @@ function tokenReducer(state = {}, action) {
   return state;
 }
 
+function userInfoReducer(state = {}, action) {
+  if (action.type === actionTypes.SET_USER_INFO) {
+    return {
+      user_info: action.payload.user_info,
+    };
+  }
+
+  return state;
+}
+
 const reducers = combineReducers({
   token: tokenReducer,
+  userInfo: userInfoReducer,
 });
 
 export default reducers;
