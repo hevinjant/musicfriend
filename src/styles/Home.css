@@ -39,6 +39,12 @@
   border-left: 1px solid gray;
 }
 
+.home-right .display-search .form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .home-right .display-search form {
   display: flex;
   flex-direction: column;

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function Form({ formLabel, placeholder, handleFormSubmit }) {
+function Form({ formLabel, placeholder, handleFormSubmit, handleButtonClick }) {
   const [input, setInput] = useState("");
 
   const handleInputOnChange = (event) => {
@@ -9,8 +9,17 @@ function Form({ formLabel, placeholder, handleFormSubmit }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    handleFormSubmit(input);
-    setInput("");
+    if (!(input === "")) {
+      handleFormSubmit(input);
+      setInput("");
+    }
+  };
+
+  const handleClick = () => {
+    if (!(input === "")) {
+      handleButtonClick(input);
+      setInput("");
+    }
   };
 
   return (
@@ -26,6 +35,7 @@ function Form({ formLabel, placeholder, handleFormSubmit }) {
           />
         </div>
       </form>
+      <button onClick={handleClick}>Search</button>
     </div>
   );
 }

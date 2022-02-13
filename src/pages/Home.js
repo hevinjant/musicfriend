@@ -3,24 +3,41 @@ import { getUserSpotifyInfo } from "../DataManagers/SpotifyManager";
 import UserItem from "../components/UserItem";
 import Form from "../components/Form";
 import { useSelector } from "react-redux";
+import { getUserTracks } from "../DataManagers/FirebaseManager";
 import "../Styles/Home.css";
+import { getMatchesTracks } from "../DataManagers/Util";
 
 function Home() {
   const [searched, setSearched] = useState(false);
   const [track, setTrack] = useState({});
+  const [matchesInfo, setMatchesInfo] = useState({});
   //const [token, setToken] = useState(localStorage.getItem("access_token"));
   //const token = useSelector((state) => state.token.access_token);
   const user = useSelector((state) => state.userInfo.user_info);
 
-  // useEffect(() => {
-  //   const usrJSON = localStorage.getItem("user_info");
-  //   const usr = JSON.parse(usrJSON);
-  //   console.log("useEffect:", usr);
-  // }, []);
+  useEffect(() => {
+    // const usrJSON = localStorage.getItem("user_info");
+    // const usr = JSON.parse(usrJSON);
+    // console.log("useEffect:", usr);
+    // getUserTracks(user.email).then((tracks) => {
+    //   console.log("Retrieved tracks:", tracks);
+    //   setTrack(tracks);
+    // });
+  }, []);
 
-  const handleFormSubmit = () => {};
+  const handleFormSubmit = (otherUserEmail) => {
+    getMatchesTracks(user.email, otherUserEmail).then((result) => {
+      setMatchesInfo(result);
+      setSearched(true);
+    });
+  };
 
-  const handleClick = () => {};
+  const handleSearch = (otherUserEmail) => {
+    getMatchesTracks(user.email, otherUserEmail).then((result) => {
+      setMatchesInfo(result);
+      setSearched(true);
+    });
+  };
 
   const displaySearch = () => {
     return (
@@ -29,8 +46,8 @@ function Home() {
           formLabel=""
           placeholder="Search a music friend"
           handleFormSubmit={handleFormSubmit}
+          handleButtonClick={handleSearch}
         />
-        <button onClick={handleClick}>Search</button>
         <p>
           The person you search must have logged in at least once to Music
           Friend to be searchable.
@@ -39,8 +56,16 @@ function Home() {
     );
   };
 
+  const handleSearchAgain = () => {
+    setSearched(false);
+  };
+
   const displayResult = () => {
-    return <div className="display-result"></div>;
+    return (
+      <div className="display-result">
+        <button onClick={handleSearchAgain}>Search Again</button>
+      </div>
+    );
   };
 
   return (

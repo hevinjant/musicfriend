@@ -76,7 +76,18 @@ export async function getUserSpotifyTracks(token, playlistsID) {
         }
       }
     }
-    return parseSpotifyTracks(tracks);
+    // remove duplicates track (because user may have same tracks in different playlists)
+    const tracksWithoutDuplicates = tracks.filter(
+      (track, index, self) =>
+        index ===
+        self.findIndex(
+          (target) =>
+            target["track"]["id"] === track["track"]["id"] &&
+            target["track"]["name"] === track["track"]["name"]
+        )
+    );
+
+    return parseSpotifyTracks(tracksWithoutDuplicates);
   } catch (error) {
     console.log("getUserTracks():", error);
     return false;

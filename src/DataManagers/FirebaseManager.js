@@ -18,17 +18,19 @@ const app = initializeApp(firebaseConfig);
 const database = getFirestore(app);
 
 /* Check if user exists in database, 
-if not then insert new user information to database */
+if not then insert new user information and their tracks to database.
+if user exists then just update their tracks.
+*/
 export async function insertUserToDatabase(userInfo, userTracks) {
   const userEmail = userInfo.email;
   const docRef = doc(database, "users", userEmail);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
     console.log("insertUserToDatabase(): User exists.");
-    // update user's tracks
+    // if user already exists, just update user's tracks
     await setDoc(docRef, { tracks: userTracks }, { merge: true });
   } else {
-    // insert new user
+    // insert new user and their tracks
     const userData = {
       display_name: userInfo.displayName,
       display_picture_url: userInfo.userImageUrl,
@@ -39,15 +41,16 @@ export async function insertUserToDatabase(userInfo, userTracks) {
   }
 }
 
-/* 
-Insert user tracks information to database.
-Always insert tracks for log in user (including existing users),
-to always have their tracks up to date. 
-*/
-export async function insertTracksForUser(userEmail) {}
-
-/* Get all tracks from user */
-export async function getUserTracks(userEmail) {}
+/* Get all user's tracks from database */
+export async function getUserTracks(userEmail) {
+  const docRef = doc(database, "users", userEmail);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    const tracks = docSnap.data().tracks;
+    return tracks;
+  }
+  return [];
+}
 
 /* Database scheme for user
 
