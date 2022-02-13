@@ -13,7 +13,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-right: 1px solid gray;
+  border-right: 1px solid var(--darker-gray);
 }
 
 .home .user-item {
@@ -69,7 +69,7 @@
 }
 
 .home-right .display-search button {
-  background-color: aquamarine;
+  background-color: var(--button-color);
   border: none;
   border-radius: 5px;
   width: 120px;
@@ -84,6 +84,7 @@
   color: gray;
   font-size: clamp(12px, 1vw, 15px);
   padding: 20px;
+  text-align: center;
 }
 
 .home-right .display-result {
@@ -92,6 +93,8 @@
 }
 
 .home-right .display-result .match-header {
+  background-image: linear-gradient(var(--light-purple), black);
+  /* background-image: linear-gradient(var(--winner-gold), black); */
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -125,7 +128,7 @@
 }
 
 .home-right .display-result .match-header button {
-  background-color: aquamarine;
+  background-color: var(--button-color);
   border: none;
   border-radius: 5px;
   width: 180px;
@@ -137,6 +140,7 @@
 }
 
 .home-right .display-result .match-body {
+  margin-top: 10px;
   overflow-y: scroll;
   height: 65vh;
 }
@@ -208,4 +212,12 @@
   .home-right .display-result .match-body .track-list {
     grid-template-columns: 1fr 1fr;
   }
+}
+
+.home button:hover {
+  background-color: var(--hover-color);
+}
+
+.home-right .display-result .match-header button:hover {
+  background-color: var(--hover-color);
 }

@@ -3,6 +3,11 @@
   --darker-gray: #333333;
   --lightest-gray: #a9a9a9;
   --spotify-green: #1db954;
+  --button-color: #272640;
+  --hover-color: #3e1f47;
+  --light-purple: #312244;
+  --dark-purple: #4d194d;
+  --winner-gold: #a3a380;
 }
 
 .App {
