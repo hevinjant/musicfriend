@@ -4,6 +4,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  overflow-y: hidden;
 }
 
 .home-left {
@@ -29,7 +30,7 @@
   border-radius: 50%;
 }
 
-.home-right .display-search {
+.home-right {
   width: 80vw;
   height: 100vh;
   display: flex;
@@ -83,4 +84,98 @@
   color: gray;
   font-size: clamp(12px, 1vw, 15px);
   padding: 20px;
+}
+
+.home-right .display-result {
+}
+
+.home-right .display-result .match-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-right .display-result .match-header .user-item img {
+  width: 6vw;
+  height: 6vw;
+}
+
+.home-right .display-result .match-header .match-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.home-right .display-result .match-header .match-percentage {
+  color: white;
+  font-size: clamp(15px, 2.5vw, 35px);
+  margin-left: 50px;
+  margin-bottom: 0px;
+}
+
+.home-right .display-result .match-header .match-total {
+  color: white;
+  font-size: clamp(10px, 1.5vw, 20px);
+  margin-left: 50px;
+}
+
+.home-right .display-result {
+  height: 100vh;
+  width: 100%;
+}
+
+.home-right .display-result .match-header {
+  height: 30vh;
+  min-height: 200px;
+}
+
+.home-right .display-result .match-body .match-total {
+  color: white;
+  font-size: clamp(15px, 1vw, 20px);
+}
+
+.home-right .display-result .match-body {
+  overflow-y: scroll;
+  height: 65vh;
+}
+
+.home-right .display-result .match-body .track-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+}
+
+.home-right .display-result .match-body .song-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.home-right .display-result .match-body .song-item img {
+  margin-top: 10px;
+  height: 6vw;
+  width: 6vw;
+  border-radius: 5px;
+}
+
+.home-right .display-result .match-body .song-item .track-name {
+  color: white;
+  font-size: clamp(12px, 1vw, 15px);
+  font-weight: 700;
+  margin-bottom: 3px;
+  max-width: 300px;
+  text-align: center;
+}
+
+.home-right .display-result .match-body .song-item .track-artists {
+  margin-top: 3px;
+  color: white;
+  font-size: clamp(10px, 0.8vw, 13px);
+  max-width: 300px;
+  text-align: center;
+}
+
+.home-right .display-result .match-body::-webkit-scrollbar {
+  display: none; /* to hide scroll bar in Safari and Chrome */
 }

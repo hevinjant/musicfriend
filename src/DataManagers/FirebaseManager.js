@@ -91,13 +91,32 @@ export async function getUserIdByDisplayName(displayName) {
   return result;
 }
 
+/* Get user information from database */
+export async function getUserInfo(userId) {
+  const docRef = doc(database, "users", userId);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    const docData = docSnap.data();
+    const user = {
+      displayName: docData.display_name,
+      imageUrl: docData.display_picture_url,
+    };
+
+    return user;
+  }
+
+  return {};
+}
+
 /* Search user by display name from database */
 export async function getUserByName(displayName) {}
 
 /* Database scheme for user
 
 Users:
-    user-email:
+    user-id:
+        email
+        country
         user-display-name
         user-picture-url
         tracks

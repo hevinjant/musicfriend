@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { getUserSpotifyInfo } from "../DataManagers/SpotifyManager";
 import UserItem from "../components/UserItem";
 import Form from "../components/Form";
+import SongItem from "../components/SongItem";
 import { useSelector } from "react-redux";
 import {
   getUserIdByDisplayName,
   getUserTracks,
 } from "../DataManagers/FirebaseManager";
-import "../Styles/Home.css";
 import { getMatchesTracks } from "../DataManagers/Util";
+import "../Styles/Home.css";
 
 function Home() {
   const [searched, setSearched] = useState(false);
@@ -72,7 +73,25 @@ function Home() {
   const displayResult = () => {
     return (
       <div className="display-result">
-        <button onClick={handleSearchAgain}>Search Again</button>
+        <div className="match-header">
+          <button onClick={handleSearchAgain}>Search Again</button>
+          <UserItem user={matchesInfo.otherUserInfo} />
+          <div className="match-text">
+            <p className="match-percentage">
+              Your songs match <strong>{matchesInfo.percentage}%</strong>
+            </p>
+            <p className="match-total">
+              {matchesInfo.matches.length} total match songs
+            </p>
+          </div>
+        </div>
+        <div className="match-body">
+          <div className="track-list">
+            {matchesInfo.matches.map((track, key) => {
+              return <SongItem key={key} track={track} />;
+            })}
+          </div>
+        </div>
       </div>
     );
   };
