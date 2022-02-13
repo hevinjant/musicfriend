@@ -32,12 +32,16 @@ function Home() {
   /* Get the matching tracks and matching percentage of users */
   const getSearchResult = (otherUserName) => {
     getUserIdByDisplayName(otherUserName).then((otherUserIds) => {
-      const otherUserId = otherUserIds[0];
-      getMatchesTracks(user.id, otherUserId).then((result) => {
-        setMatchesInfo(result);
-        setSearched(true);
-        console.log("search result:", result);
-      });
+      if (otherUserIds.length > 0) {
+        const otherUserId = otherUserIds[0];
+        getMatchesTracks(user.id, otherUserId).then((result) => {
+          setMatchesInfo(result);
+          setSearched(true);
+          console.log("search result:", result);
+        });
+      } else {
+        console.log("Cannot find user.");
+      }
     });
   };
 
