@@ -8,5 +8,6 @@
 ## To Do
 
 - Implement display result
+- Search people by their display name
 - Avoid access to home route if not logged in
 - Integrate with Apple Music

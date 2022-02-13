@@ -27,7 +27,9 @@ export async function getUserSpotifyInfo(token) {
     const user = {
       displayName: result["display_name"],
       email: result["email"],
-      userImageUrl: result["images"][0]["url"],
+      imageUrl: result["images"][0]["url"],
+      id: result["id"],
+      country: result["country"],
     };
     return user;
   } catch (error) {

@@ -3,7 +3,10 @@ import { getUserSpotifyInfo } from "../DataManagers/SpotifyManager";
 import UserItem from "../components/UserItem";
 import Form from "../components/Form";
 import { useSelector } from "react-redux";
-import { getUserTracks } from "../DataManagers/FirebaseManager";
+import {
+  getUserIdByDisplayName,
+  getUserTracks,
+} from "../DataManagers/FirebaseManager";
 import "../Styles/Home.css";
 import { getMatchesTracks } from "../DataManagers/Util";
 
@@ -25,18 +28,24 @@ function Home() {
     // });
   }, []);
 
-  const handleFormSubmit = (otherUserEmail) => {
-    getMatchesTracks(user.email, otherUserEmail).then((result) => {
-      setMatchesInfo(result);
-      setSearched(true);
+  /* Get the matching tracks and matching percentage of users */
+  const getSearchResult = (otherUserName) => {
+    getUserIdByDisplayName(otherUserName).then((otherUserIds) => {
+      const otherUserId = otherUserIds[0];
+      getMatchesTracks(user.id, otherUserId).then((result) => {
+        setMatchesInfo(result);
+        setSearched(true);
+        console.log("search result:", result);
+      });
     });
   };
 
-  const handleSearch = (otherUserEmail) => {
-    getMatchesTracks(user.email, otherUserEmail).then((result) => {
-      setMatchesInfo(result);
-      setSearched(true);
-    });
+  const handleFormSubmit = (otherUserName) => {
+    getSearchResult(otherUserName);
+  };
+
+  const handleSearch = (otherUserName) => {
+    getSearchResult(otherUserName);
   };
 
   const displaySearch = () => {
