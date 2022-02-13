@@ -192,9 +192,9 @@
   text-align: center;
 }
 
-/* .home-right .display-result .match-body::-webkit-scrollbar {
+.home-right .display-result .match-body::-webkit-scrollbar {
   display: none;
-} */
+}
 
 @media only screen and (max-width: 1300px) {
   .home-right .display-result .match-body .track-list {

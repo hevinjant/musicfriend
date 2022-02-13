@@ -7,7 +7,7 @@
 
 ## To Do
 
-- Implement display result
-- Search people by their display name
+- Deploy to Firebase
 - Avoid access to home route if not logged in
+- Search tracks by genres
 - Integrate with Apple Music
