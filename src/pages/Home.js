@@ -9,7 +9,7 @@ import {
   getUserTracks,
 } from "../DataManagers/FirebaseManager";
 import { getMatchesTracks } from "../DataManagers/Util";
-import "../Styles/Home.css";
+import "../styles/Home.css";
 
 function Home() {
   const [searched, setSearched] = useState(false);

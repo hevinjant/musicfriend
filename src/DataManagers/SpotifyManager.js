@@ -8,6 +8,7 @@ const GET_CURRENT_USER_PLAYLIST_ENDPOINT =
   "https://api.spotify.com/v1/me/playlists";
 const GET_PLAYLIST_ITEMS_ENDPOINT = "https://api.spotify.com/v1/playlists/"; // + {playlist_id}/tracks
 const GET_ARTIST_ENDPOINT = "https://api.spotify.com/v1/artists/"; // + {id}
+const GET_SONGS_ENDPOINT = "https://api.spotify.com/v1/search"; // ex. https://api.spotify.com/v1/search?q=ride%20or%20die
 
 export const OAUTH_SCOPES = [
   Scopes.userReadPrivate,
@@ -45,10 +46,11 @@ export async function getUserSpotifyPlaylists(token) {
       headers: { Authorization: `Bearer ${token}` },
     });
     const result = response.data["items"];
-    const playlistsID = result.map((playlist) => {
+    const playlistIDs = result.map((playlist) => {
+      console.log("Playlist:", playlist);
       return playlist["id"];
     });
-    return playlistsID;
+    return playlistIDs;
   } catch (error) {
     console.log("getUserPlaylists():", error);
     return false;
@@ -124,4 +126,51 @@ function parseSpotifyTracks(tracksJSON) {
   });
 
   return tracks;
+}
+
+function parseSpotifyTrack(track) {
+  const trackArtists = track["artists"];
+  let artistNames = "";
+  let artistsId = [];
+  for (const artist of trackArtists) {
+    artistNames += artist["name"] + ", ";
+    artistsId.push(artist["id"]);
+  }
+  artistNames = artistNames.slice(0, -2); // get rid of the last comma and space
+
+  const parsed = {
+    trackId: track["id"],
+    trackName: track["name"],
+    trackArtists: artistNames,
+    trackArtistsId: artistsId,
+    trackImageUrl: track["album"]["images"][0]["url"],
+    trackLink: track["external_urls"]["spotify"],
+    trackPreviewUrl: track["preview_url"],
+    trackGenres: null,
+  };
+
+  return parsed;
+}
+
+export async function getSongs(token, trackQuery) {
+  // For this app, params' type should always be "track".
+  const params = {
+    q: trackQuery,
+    type: "track", // track or artist
+  };
+  const searchQuery = "?" + new URLSearchParams(params).toString();
+  const url = GET_SONGS_ENDPOINT + searchQuery;
+  let results = [];
+  try {
+    const response = await axios.get(url, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    results = response["data"]["tracks"]["items"];
+    const tracks = results.map((track) => parseSpotifyTrack(track));
+
+    return tracks;
+  } catch (error) {
+    console.log("getSongs():", error);
+    return false;
+  }
 }

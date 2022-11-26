@@ -1,0 +1,13 @@
+.profile-setting .user-dp {
+    height: clamp(150px, 12vw, 250px);
+    width: clamp(150px, 12vw, 250px);
+    border-radius: 50%
+}
+
+.profile-setting form {
+
+}
+
+.profile-setting form input {
+    
+}

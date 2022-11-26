@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setAccessToken, setUserInfo } from "../Redux/action";
+import { setAccessToken, setUserInfo } from "../redux/action";
 import {
   getUserSpotifyPlaylists,
   getUserSpotifyInfo,
   getUserSpotifyTracks,
 } from "../DataManagers/SpotifyManager";
 import { useNavigate } from "react-router-dom";
-import "../Styles/Login.css";
+import "../styles/Login.css";
 
 // Spotify
 import {
