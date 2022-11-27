@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { setAccessToken, setUserInfo } from "../redux/action";
 import {
   getUserSpotifyPlaylists,
@@ -15,7 +15,7 @@ import {
   SPOTIFY_CLIENT_ID,
 } from "../DataManagers/SpotifyManager";
 import { SpotifyApiContext } from "react-spotify-api";
-import { SpotifyAuth, Scopes } from "react-spotify-auth";
+import { SpotifyAuth } from "react-spotify-auth";
 import { insertUserToDatabase } from "../DataManagers/FirebaseManager";
 import "react-spotify-auth/dist/index.css";
 

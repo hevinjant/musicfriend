@@ -128,7 +128,7 @@ function parseSpotifyTracks(tracksJSON) {
   return tracks;
 }
 
-function parseSpotifyTrack(track) {
+export function parseSpotifyTrack(track) {
   const trackArtists = track["artists"];
   let artistNames = "";
   let artistsId = [];

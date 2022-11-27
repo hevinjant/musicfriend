@@ -1,13 +1,88 @@
-.profile-setting .user-dp {
+.profile-setting-items {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 100px;
+    color: white;
+}
+
+.profile-setting::-webkit-scrollbar {
+    display: none;
+  }
+
+.profile-setting-items .user-dp {
     height: clamp(150px, 12vw, 250px);
     width: clamp(150px, 12vw, 250px);
     border-radius: 50%
 }
 
-.profile-setting form {
-
+.profile-setting-items .favorite-track {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
 }
 
-.profile-setting form input {
-    
+.profile-setting-items .song-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-setting-items p {
+    margin: 10px;
+}
+
+.profile-setting-items .song-item .track-img {
+    height: clamp(300px, 13vw, 500px);
+    width: clamp(300px, 13vw, 500px);
+}
+
+.profile-setting-items .form {
+    display: flex;
+    flex-direction: row;
+    margin-top: 50px;
+}
+
+.profile-setting-items .form button {
+    width: 100px;
+    background-color: transparent;
+    color: white;
+    font-size: 20px;
+    border: none;
+}
+
+.profile-setting-items .form button:hover {
+    color: var(--hover-color);
+}
+
+.profile-setting-items form input {
+    border: none;
+    border-bottom: 2px solid gray;
+    background-color: transparent;
+    font-size: clamp(15px, 1.3vw, 20px);
+    text-align: center;
+    color: white;
+    height: 40px;
+    width: 350px;
+}
+
+.profile-setting-items form input:focus {
+    outline: none;
+    border-bottom: 2px solid var(--hover-color);
+  }
+
+.profile-setting-items .track-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.profile-setting-items .track-list-item {
+    margin: 20px;
+    color: white;
+    background-color: transparent;
+    border: none;
 }

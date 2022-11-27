@@ -3,6 +3,7 @@ import { getUserSpotifyInfo } from "../DataManagers/SpotifyManager";
 import UserItem from "../components/UserItem";
 import Form from "../components/Form";
 import SongItem from "../components/SongItem";
+import Navbar from "../components/Navbar";
 import { useSelector } from "react-redux";
 import {
   getUserIdByDisplayName,
@@ -101,20 +102,23 @@ function Home() {
   };
 
   return (
-    <div className="home">
-      <div className="home-left">
-        <UserItem user={user} />
+    <>
+      <Navbar />
+      <div className="home">
+        <div className="home-left">
+          <UserItem user={user} />
+        </div>
+        <div className="home-right">
+          {track.imageUrl && (
+            <div
+              className="bg-image"
+              style={{ backgroundImage: `url(${track.imageUrl})` }}
+            ></div>
+          )}
+          {searched ? displayResult() : displaySearch()}
+        </div>
       </div>
-      <div className="home-right">
-        {track.imageUrl && (
-          <div
-            className="bg-image"
-            style={{ backgroundImage: `url(${track.imageUrl})` }}
-          ></div>
-        )}
-        {searched ? displayResult() : displaySearch()}
-      </div>
-    </div>
+    </>
   );
 }
 
