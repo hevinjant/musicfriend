@@ -63,7 +63,7 @@ function ProfileSetting() {
         <h1>{user.displayName}</h1>
         {favoriteTrack ? (
           <div className="favorite-track">
-            <h3 style={{ color: "gray" }}>Your favorite song</h3>
+            <h3 style={{ color: "var(--darker-gray)" }}>Your favorite song</h3>
             <SongItem track={favoriteTrack} />
           </div>
         ) : (

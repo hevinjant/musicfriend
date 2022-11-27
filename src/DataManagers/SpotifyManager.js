@@ -66,7 +66,7 @@ export async function getUserSpotifyTracks(token, playlistsID) {
     // iterate through all the playlists
     for (const id of playlistsID) {
       // for each playlist, get 100 tracks per offset until we get all of the tracks
-      for (let offset = 0; offset < 500; offset += 100) {
+      for (let offset = 0; offset < 10000; offset += 100) {
         let result = [];
         const endpoint = `${GET_PLAYLIST_ITEMS_ENDPOINT}${id}/tracks??limit=${limit}&offset=${offset}`;
         const response = await axios.get(endpoint, {

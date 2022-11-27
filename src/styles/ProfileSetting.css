@@ -29,6 +29,13 @@
     align-items: center;
 }
 
+.profile-setting-items h1 {
+    border-bottom: 2px solid var(--darker-gray);
+    text-align: center;
+    padding-bottom: 20px;
+    width: 300px;
+}
+
 .profile-setting-items p {
     margin: 10px;
 }
