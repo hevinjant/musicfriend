@@ -40,13 +40,16 @@ export async function getUserSpotifyInfo(token) {
 }
 
 /* Get all playlists from user's Spotify account, access token is required */
-export async function getUserSpotifyPlaylists(token) {
+export async function getUserSpotifyPlaylists(token, userId) {
   try {
     const response = await axios.get(GET_CURRENT_USER_PLAYLIST_ENDPOINT, {
       headers: { Authorization: `Bearer ${token}` },
     });
     const result = response.data["items"];
-    const playlistIDs = result.map((playlist) => {
+    const playlistCreatedByCurrentUser = result.filter(
+      (playlist) => playlist.owner.id === userId
+    );
+    const playlistIDs = playlistCreatedByCurrentUser.map((playlist) => {
       console.log("Playlist:", playlist);
       return playlist["id"];
     });

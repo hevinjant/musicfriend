@@ -32,7 +32,7 @@ function Login() {
       // fetch user's tracks
       dispatch(setUserInfo(userInfo));
       localStorage.setItem("user_info", JSON.stringify(userInfo));
-      getUserSpotifyPlaylists(token).then((playlistsID) => {
+      getUserSpotifyPlaylists(token, userInfo.id).then((playlistsID) => {
         getUserSpotifyTracks(token, playlistsID).then((tracks) => {
           insertUserToDatabase(userInfo, tracks).then(() => {
             navigate("/home");

@@ -41,7 +41,7 @@ function Home() {
           console.log("search result:", result);
         });
       } else {
-        console.log("Cannot find user.");
+        console.log("User not found.");
       }
     });
   };

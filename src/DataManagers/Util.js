@@ -17,7 +17,7 @@ export async function getMatchesTracks(userId, otherUserId) {
       }
     }
   }
-  percentage = (result.length / userTracks.length) * 100;
+  percentage = ((result.length / userTracks.length) * 100).toFixed(1);
   return {
     matches: result,
     percentage: percentage,
