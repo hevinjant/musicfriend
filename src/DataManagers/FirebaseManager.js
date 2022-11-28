@@ -167,6 +167,7 @@ export async function insertMatchResultToDatabase(userId, matchResult) {
   const matchHistory = {
     percentage: matchResult.percentage,
     otherUserInfo: matchResult.otherUserInfo,
+    timestamp: Date.now(),
   };
   const docRef = doc(database, "users", userId);
   const docSnap = await getDoc(docRef);

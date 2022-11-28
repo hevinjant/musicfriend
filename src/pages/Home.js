@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { getUserSpotifyInfo } from "../DataManagers/SpotifyManager";
 import UserItem from "../components/UserItem";
 import Form from "../components/Form";
@@ -11,9 +11,11 @@ import {
   insertMatchResultToDatabase,
 } from "../DataManagers/FirebaseManager";
 import { getMatchesTracks } from "../DataManagers/Util";
+import { useNavigate } from "react-router-dom";
 import "../styles/Home.css";
 
 function Home() {
+  const navigate = useRef(useNavigate());
   const [searched, setSearched] = useState(false);
   const [track, setTrack] = useState({});
   const [matchesInfo, setMatchesInfo] = useState({});
@@ -29,6 +31,10 @@ function Home() {
     //   console.log("Retrieved tracks:", tracks);
     //   setTrack(tracks);
     // });
+    const accessToken = localStorage.getItem("access_token");
+    if (accessToken === "") {
+      navigate.current("/");
+    }
   }, []);
 
   /* Get the matching tracks and matching percentage of users */

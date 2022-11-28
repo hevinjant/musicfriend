@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Form from "../components/Form";
 import SongItem from "../components/SongItem";
 import Navbar from "../components/Navbar";
@@ -11,9 +11,11 @@ import {
   updateUserFavoriteSong,
   getUserFavoriteSong,
 } from "../DataManagers/FirebaseManager";
+import { useNavigate } from "react-router-dom";
 import "../styles/ProfileSetting.css";
 
 function ProfileSetting() {
+  const navigate = useRef(useNavigate());
   const [tracks, setTracks] = useState([]);
   const [favoriteTrack, setFavoriteTrack] = useState(null);
   const user = useSelector((state) => state.userInfo.user_info);
@@ -24,10 +26,15 @@ function ProfileSetting() {
   // track list
 
   useEffect(() => {
-    const userId = JSON.parse(localStorage.getItem("user_info")).id;
-    getUserFavoriteSong(userId).then((track) => {
-      setFavoriteTrack(track);
-    });
+    const accessToken = localStorage.getItem("access_token");
+    if (accessToken === "") {
+      navigate.current("/");
+    } else {
+      const userId = JSON.parse(localStorage.getItem("user_info")).id;
+      getUserFavoriteSong(userId).then((track) => {
+        setFavoriteTrack(track);
+      });
+    }
   }, []);
 
   const handleUpdateFavoriteTrack = (track) => {
