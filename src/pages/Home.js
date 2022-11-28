@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import {
   getUserIdByDisplayName,
   getUserTracks,
+  insertMatchResultToDatabase,
 } from "../DataManagers/FirebaseManager";
 import { getMatchesTracks } from "../DataManagers/Util";
 import "../styles/Home.css";
@@ -37,6 +38,7 @@ function Home() {
         const otherUserId = otherUserIds[0];
         getMatchesTracks(user.id, otherUserId).then((result) => {
           setMatchesInfo(result);
+          insertMatchResultToDatabase(user.id, result);
           setSearched(true);
           console.log("search result:", result);
         });

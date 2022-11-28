@@ -7,6 +7,7 @@ import {
   setDoc,
   collection,
   getDocs,
+  arrayUnion,
 } from "firebase/firestore";
 import { parseSpotifyTrack } from "./SpotifyManager";
 
@@ -110,6 +111,17 @@ export async function getUserTracks(userId) {
   return [];
 }
 
+/* Get user's match history */
+export async function getUserMatchHistory(userId) {
+  const docRef = doc(database, "users", userId);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    const tracks = docSnap.data().match_history;
+    return tracks;
+  }
+  return [];
+}
+
 /* Find the corresponding user id for given user display name */
 export async function getUserIdByDisplayName(displayName) {
   // get all documents under 'users'
@@ -149,6 +161,24 @@ export async function getUserInfo(userId) {
 
 /* Search user by display name from database */
 export async function getUserByName(displayName) {}
+
+/* Insert match result to database */
+export async function insertMatchResultToDatabase(userId, matchResult) {
+  const matchHistory = {
+    percentage: matchResult.percentage,
+    otherUserInfo: matchResult.otherUserInfo,
+  };
+  const docRef = doc(database, "users", userId);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    await updateDoc(docRef, {
+      match_history: arrayUnion(matchHistory),
+    });
+  } else {
+    console.log("insertMatchResultToDatabase(): User doesn't exist.");
+  }
+}
 
 /* Database scheme for user
 
