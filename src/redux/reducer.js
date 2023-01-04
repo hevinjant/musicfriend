@@ -5,6 +5,7 @@ function tokenReducer(state = {}, action) {
   if (action.type === actionTypes.SET_ACCESS_TOKEN) {
     return {
       access_token: action.payload.access_token,
+      token_timestamp: action.payload.token_timestamp,
     };
   }
 

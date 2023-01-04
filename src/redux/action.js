@@ -3,11 +3,12 @@ export const actionTypes = {
   SET_USER_INFO: "SET_USER_INFO",
 };
 
-export function setAccessToken(token) {
+export function setAccessToken(token, timestamp) {
   return {
     type: actionTypes.SET_ACCESS_TOKEN,
     payload: {
       access_token: token,
+      token_timestamp: timestamp,
     },
   };
 }

@@ -5,7 +5,7 @@ import Navbar from "../components/Navbar";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserInfo } from "../redux/action";
 import TrackList from "../components/TrackList";
-import { getSongs, parseSpotifyTrack } from "../DataManagers/SpotifyManager";
+import { getSongs, accessTokenIsValid } from "../DataManagers/SpotifyManager";
 import {
   changeUserProfilePicture,
   updateUserFavoriteSong,
@@ -20,14 +20,14 @@ function ProfileSetting() {
   const [favoriteTrack, setFavoriteTrack] = useState(null);
   const user = useSelector((state) => state.userInfo.user_info);
   const access_token = localStorage.getItem("access_token");
+  const token_timestamp = localStorage.getItem("token_timestamp");
   const dispatch = useDispatch();
-  // profile pict
-  // search bar for track
-  // track list
 
   useEffect(() => {
     const accessToken = localStorage.getItem("access_token");
-    if (accessToken === "") {
+    const tokenTimestamp = localStorage.getItem("token_timestamp");
+
+    if (!accessTokenIsValid(accessToken, tokenTimestamp)) {
       navigate.current("/");
     } else {
       const userId = JSON.parse(localStorage.getItem("user_info")).id;
@@ -49,6 +49,11 @@ function ProfileSetting() {
   };
 
   const handleGetSongs = (token, trackQuery) => {
+    if (!accessTokenIsValid(access_token, token_timestamp)) {
+      navigate.current("/");
+      console.log("access token has expired.");
+    }
+
     getSongs(token, trackQuery).then((tracks) => {
       setTracks(tracks);
     });

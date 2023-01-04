@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setAccessToken } from "../redux/action";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +12,7 @@ const Navbar = () => {
 
   const handleSignOut = () => {
     // clear access token
-    dispatch(setAccessToken(""));
+    dispatch(setAccessToken("", null));
     localStorage.setItem("access_token", "");
     navigate("/");
   };

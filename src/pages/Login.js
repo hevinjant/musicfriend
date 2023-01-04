@@ -19,6 +19,8 @@ import { SpotifyAuth } from "react-spotify-auth";
 import { insertUserToDatabase } from "../DataManagers/FirebaseManager";
 import "react-spotify-auth/dist/index.css";
 
+// - before making a request to Spotify API, check if it's not yet an hour after timestamp
+
 function Login() {
   //const [token, setToken] = useState(localStorage.getItem("access_token"));
   const [token, setToken] = useState();
@@ -42,8 +44,9 @@ function Login() {
     });
   };
 
-  const storeToken = (token) => {
+  const storeToken = (token, current_time) => {
     localStorage.setItem("access_token", token);
+    localStorage.setItem("token_timestamp", JSON.stringify(current_time));
     setToken(token);
   };
 
@@ -67,9 +70,11 @@ function Login() {
               clientID={SPOTIFY_CLIENT_ID}
               scopes={OAUTH_SCOPES}
               onAccessToken={(token) => {
-                dispatch(setAccessToken(token));
-                storeToken(token);
+                const current_time = Date.now();
+                dispatch(setAccessToken(token, current_time));
+                storeToken(token, current_time);
               }}
+              showDialog={true} // to always requires user to agree on the Spotify website
             />
           )}
         </div>

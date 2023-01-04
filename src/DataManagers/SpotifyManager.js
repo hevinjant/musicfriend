@@ -18,6 +18,12 @@ export const OAUTH_SCOPES = [
   Scopes.playlistReadPrivate,
 ];
 
+/* Check if access token is expired (more than an hour) */
+export function accessTokenIsValid(token, timestamp) {
+  const oneHour = 60 * 60 * 1000; /* ms */
+  return token !== "" && Date.now() - timestamp < oneHour;
+}
+
 /* Get user's Spotify account information, access token is required */
 export async function getUserSpotifyInfo(token) {
   try {

@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import { getUserSpotifyInfo } from "../DataManagers/SpotifyManager";
 import UserItem from "../components/UserItem";
 import Form from "../components/Form";
 import SongItem from "../components/SongItem";
@@ -7,7 +6,6 @@ import Navbar from "../components/Navbar";
 import { useSelector } from "react-redux";
 import {
   getUserIdByDisplayName,
-  getUserTracks,
   insertMatchResultToDatabase,
 } from "../DataManagers/FirebaseManager";
 import { getMatchesTracks } from "../DataManagers/Util";
