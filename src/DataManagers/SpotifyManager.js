@@ -21,6 +21,7 @@ export const OAUTH_SCOPES = [
 /* Check if access token is expired (more than an hour) */
 export function accessTokenIsValid(token, timestamp) {
   const oneHour = 60 * 60 * 1000; /* ms */
+  //const threeMinutes = 180 * 1000;
   return token !== "" && Date.now() - timestamp < oneHour;
 }
 
