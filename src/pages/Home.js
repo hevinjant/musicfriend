@@ -77,6 +77,15 @@ function Home() {
     );
   };
 
+  const searchBarAndPeopleList = () => {
+    return (
+      <div className="search-and-people">
+        {displaySearch()}
+        <div className="people-list"></div>
+      </div>
+    );
+  };
+
   const handleSearchAgain = () => {
     setSearched(false);
   };
@@ -121,7 +130,7 @@ function Home() {
               style={{ backgroundImage: `url(${track.imageUrl})` }}
             ></div>
           )}
-          {searched ? displayResult() : displaySearch()}
+          {searched ? displayResult() : searchBarAndPeopleList()}
         </div>
       </div>
     </>
