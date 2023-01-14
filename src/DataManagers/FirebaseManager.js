@@ -149,6 +149,7 @@ export async function getUserInfo(userId) {
     const docData = docSnap.data();
     const user = {
       displayName: docData.display_name,
+      email: docData.email,
       imageUrl: docData.display_picture_url,
     };
 

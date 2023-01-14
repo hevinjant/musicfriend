@@ -3,9 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 function UserItem({ user }) {
   const navigate = useNavigate();
+  const currentUser = JSON.parse(localStorage.getItem("user_info"));
 
   const handleClick = () => {
-    navigate("/profile");
+    if (currentUser.email === user.email) {
+      navigate("/profile");
+    }
   };
 
   return (
