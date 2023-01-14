@@ -23,10 +23,10 @@ const Navbar = () => {
     border: "none",
     borderRadius: "12px",
     backgroundColor: "var(--darkest-gray)",
-    width: "140px",
+    width: "110px",
     lineHeight: "40px",
     textAlign: "center",
-    fontSize: "20px",
+    fontSize: "15px",
     letterSpacing: "2px",
   };
 
