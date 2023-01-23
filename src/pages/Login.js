@@ -7,6 +7,7 @@ import {
   getUserSpotifyTracks,
 } from "../DataManagers/SpotifyManager";
 import { useNavigate } from "react-router-dom";
+import { useGeolocated } from "react-geolocated";
 import "../styles/Login.css";
 
 // Spotify
@@ -23,15 +24,40 @@ import "react-spotify-auth/dist/index.css";
 
 function Login() {
   //const [token, setToken] = useState(localStorage.getItem("access_token"));
+  const { coords, isGeolocationAvailable, isGeolocationEnabled } =
+    useGeolocated({
+      positionOptions: {
+        enableHighAccuracy: false,
+      },
+      userDecisionTimeout: 5000,
+    });
+
+  console.log(coords, isGeolocationAvailable, isGeolocationEnabled);
+
   const [token, setToken] = useState();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const getUserInfoWithGeolocation = (spotifyUserInfo) => {
+    let userInfo = {};
+    const locationIsFound = isGeolocationAvailable && isGeolocationEnabled;
+
+    userInfo = {
+      ...spotifyUserInfo,
+      long: locationIsFound ? coords.longitude : null,
+      lat: locationIsFound ? coords.latitude : null,
+    };
+
+    return userInfo;
+  };
+
   const handleClick = () => {
     // fetch user's info
-    getUserSpotifyInfo(token).then((userInfo) => {
+    getUserSpotifyInfo(token).then((spotifyUserInfo) => {
       // fetch user's tracks
+      const userInfo = getUserInfoWithGeolocation(spotifyUserInfo);
+      console.log("userInfo: ", userInfo);
       dispatch(setUserInfo(userInfo));
       localStorage.setItem("user_info", JSON.stringify(userInfo));
       getUserSpotifyPlaylists(token, userInfo.id).then((playlistsID) => {

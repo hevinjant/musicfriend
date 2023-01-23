@@ -45,6 +45,8 @@ export async function insertUserToDatabase(userInfo, userTracks) {
         display_name: userInfo.displayName,
         display_picture_url: userInfo.imageUrl,
         country: userInfo.country,
+        long: userInfo.long,
+        lat: userInfo.lat,
       },
       { merge: true }
     );
@@ -58,6 +60,8 @@ export async function insertUserToDatabase(userInfo, userTracks) {
       match_history: [],
       country: userInfo.country,
       favorite_track: null,
+      long: userInfo.long,
+      lat: userInfo.lat,
     };
     await setDoc(docRef, userData);
   }
