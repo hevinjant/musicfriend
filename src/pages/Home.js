@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import {
   getUserIdByDisplayName,
   insertMatchResultToDatabase,
+  getAllUsersFromDatabase,
 } from "../DataManagers/FirebaseManager";
 import { getMatchesTracks } from "../DataManagers/Util";
 import { useNavigate } from "react-router-dom";
@@ -17,6 +18,7 @@ function Home() {
   const [searched, setSearched] = useState(false);
   const [track, setTrack] = useState({});
   const [matchesInfo, setMatchesInfo] = useState({});
+  const [users, setUsers] = useState([]);
   //const [token, setToken] = useState(localStorage.getItem("access_token"));
   //const token = useSelector((state) => state.token.access_token);
   const user = useSelector((state) => state.userInfo.user_info);
@@ -33,6 +35,10 @@ function Home() {
     if (accessToken === "") {
       navigate.current("/");
     }
+
+    getAllUsersFromDatabase().then((res) => {
+      setUsers(res);
+    });
   }, []);
 
   /* Get the matching tracks and matching percentage of users */

@@ -185,6 +185,17 @@ export async function insertMatchResultToDatabase(userId, matchResult) {
   }
 }
 
+export async function getAllUsersFromDatabase() {
+  // get all documents under 'users'
+  const querySnapshot = await getDocs(collection(database, "users"));
+  let result = [];
+  // iterate through all the documents
+  querySnapshot.forEach((doc) => {
+    result.push(doc.data());
+  });
+  return result;
+}
+
 /* Database scheme for user
 
 Users:

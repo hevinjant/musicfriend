@@ -24,3 +24,22 @@ export async function getMatchesTracks(userId, otherUserId) {
     otherUserInfo: otherUserInfo,
   };
 }
+
+export function getDistanceFromLatLong(lat1, long1, lat2, long2) {
+  const _long1 = (long1 * Math.PI) / 180;
+  const _long2 = (long2 * Math.PI) / 180;
+  const _lat1 = (lat1 * Math.PI) / 180;
+  const _lat2 = (lat2 * Math.PI) / 180;
+
+  const dLon = _long2 - _long1;
+  const dLat = _lat2 - _lat1;
+  const a =
+    Math.pow(Math.sin(dLat / 2), 2) +
+    Math.cos(_lat1) * Math.cos(_lat2) * Math.pow(Math.sin(dLon / 2), 2);
+
+  const c = 2 * Math.asin(Math.sqrt(a));
+
+  const r = 3956; // miles (use 6371 for kilometer)
+
+  return c * r;
+}

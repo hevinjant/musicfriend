@@ -32,14 +32,14 @@ function Login() {
       userDecisionTimeout: 5000,
     });
 
-  console.log(coords, isGeolocationAvailable, isGeolocationEnabled);
+  // console.log(coords, isGeolocationAvailable, isGeolocationEnabled);
 
   const [token, setToken] = useState();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const getUserInfoWithGeolocation = (spotifyUserInfo) => {
+  const getUserGeolocation = (spotifyUserInfo) => {
     let userInfo = {};
     const locationIsFound = isGeolocationAvailable && isGeolocationEnabled;
 
@@ -56,8 +56,7 @@ function Login() {
     // fetch user's info
     getUserSpotifyInfo(token).then((spotifyUserInfo) => {
       // fetch user's tracks
-      const userInfo = getUserInfoWithGeolocation(spotifyUserInfo);
-      console.log("userInfo: ", userInfo);
+      const userInfo = getUserGeolocation(spotifyUserInfo);
       dispatch(setUserInfo(userInfo));
       localStorage.setItem("user_info", JSON.stringify(userInfo));
       getUserSpotifyPlaylists(token, userInfo.id).then((playlistsID) => {
