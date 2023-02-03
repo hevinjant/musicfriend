@@ -12,6 +12,7 @@ import {
 import { getMatchesTracks } from "../DataManagers/Util";
 import { useNavigate } from "react-router-dom";
 import "../styles/Home.css";
+import ExploreList from "../components/ExploreList";
 
 function Home() {
   const navigate = useRef(useNavigate());
@@ -138,6 +139,7 @@ function Home() {
           )}
           {searched ? displayResult() : searchBarAndPeopleList()}
         </div>
+        <ExploreList users={users} />
       </div>
     </>
   );

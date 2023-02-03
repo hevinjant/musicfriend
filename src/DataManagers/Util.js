@@ -43,3 +43,26 @@ export function getDistanceFromLatLong(lat1, long1, lat2, long2) {
 
   return c * r;
 }
+
+export function getAllUsersWithinMiles(currentUser, users, miles) {
+  const nearbyUsers = users.filter((otherUser) => {
+    if (
+      currentUser.lat &&
+      currentUser.long &&
+      otherUser.lat &&
+      otherUser.long &&
+      currentUser.email !== otherUser.email
+    ) {
+      return (
+        getDistanceFromLatLong(
+          currentUser.lat,
+          currentUser.long,
+          otherUser.lat,
+          otherUser.long
+        ) < miles
+      );
+    }
+    return false;
+  });
+  return nearbyUsers;
+}
