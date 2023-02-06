@@ -138,8 +138,9 @@ function Home() {
             ></div>
           )}
           {searched ? displayResult() : searchBarAndPeopleList()}
+          <h3 style={{ color: "#a9a9a9" }}>People around you</h3>
+          <ExploreList users={users} />
         </div>
-        <ExploreList users={users} />
       </div>
     </>
   );

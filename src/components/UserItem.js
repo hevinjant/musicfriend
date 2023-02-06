@@ -17,10 +17,14 @@ function UserItem({ user }) {
         onClick={handleClick}
         style={{ backgroundColor: "transparent", border: "none" }}
       >
-        <img className="user-dp" src={user.imageUrl} alt="no image" />
+        <img
+          className="user-dp"
+          src={user.display_picture_url}
+          alt="no image"
+        />
       </button>
       <p className="display-name">
-        <strong>{user.displayName}</strong>
+        <strong>{user.display_name}</strong>
       </p>
     </div>
   );

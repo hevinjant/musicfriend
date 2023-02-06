@@ -42,8 +42,8 @@ export async function insertUserToDatabase(userInfo, userTracks) {
       {
         tracks: userTracks,
         email: userInfo.email,
-        display_name: userInfo.displayName,
-        display_picture_url: userInfo.imageUrl,
+        display_name: userInfo.display_name,
+        display_picture_url: userInfo.display_picture_url,
         country: userInfo.country,
         long: userInfo.long,
         lat: userInfo.lat,
@@ -54,8 +54,8 @@ export async function insertUserToDatabase(userInfo, userTracks) {
     // insert new user and their tracks
     const userData = {
       email: userInfo.email,
-      display_name: userInfo.displayName,
-      display_picture_url: userInfo.imageUrl,
+      display_name: userInfo.display_name,
+      display_picture_url: userInfo.display_picture_url,
       tracks: userTracks,
       match_history: [],
       country: userInfo.country,
@@ -152,9 +152,9 @@ export async function getUserInfo(userId) {
   if (docSnap.exists()) {
     const docData = docSnap.data();
     const user = {
-      displayName: docData.display_name,
+      display_name: docData.display_name,
       email: docData.email,
-      imageUrl: docData.display_picture_url,
+      display_picture_url: docData.display_picture_url,
     };
 
     return user;

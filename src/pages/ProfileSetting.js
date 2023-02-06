@@ -71,8 +71,12 @@ function ProfileSetting() {
     <div className="profile-setting">
       <Navbar />
       <div className="profile-setting-items">
-        <img className="user-dp" src={user.imageUrl} alt="no image" />
-        <h1>{user.displayName}</h1>
+        <img
+          className="user-dp"
+          src={user.display_picture_url}
+          alt="no image"
+        />
+        <h1>{user.display_name}</h1>
         {favoriteTrack ? (
           <div className="favorite-track">
             <h3 style={{ color: "var(--darker-gray)" }}>Your favorite song</h3>

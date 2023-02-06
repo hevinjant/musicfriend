@@ -50,8 +50,8 @@ export function getAllUsersWithinMiles(currentUser, users, miles) {
       currentUser.lat &&
       currentUser.long &&
       otherUser.lat &&
-      otherUser.long &&
-      currentUser.email !== otherUser.email
+      otherUser.long
+      // && currentUser.email !== otherUser.email
     ) {
       return (
         getDistanceFromLatLong(
