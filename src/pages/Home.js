@@ -137,9 +137,15 @@ function Home() {
               style={{ backgroundImage: `url(${track.imageUrl})` }}
             ></div>
           )}
-          {searched ? displayResult() : searchBarAndPeopleList()}
-          <h3 style={{ color: "#a9a9a9" }}>People around you</h3>
-          <ExploreList users={users} />
+          {searched ? (
+            displayResult()
+          ) : (
+            <>
+              {searchBarAndPeopleList()}
+              <h3 style={{ color: "#a9a9a9" }}>People around you</h3>
+              <ExploreList users={users} />
+            </>
+          )}
         </div>
       </div>
     </>
