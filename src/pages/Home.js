@@ -113,7 +113,7 @@ function Home() {
           <button onClick={handleSearchAgain}>Search Again</button>
         </div>
         <div className="match-body">
-          <div className="track-list">
+          <div className="track-list" style={{ marginBottom: "100px" }}>
             {matchesInfo.matches.map((track, key) => {
               return <SongItem key={key} track={track} />;
             })}
