@@ -93,3 +93,31 @@
     background-color: transparent;
     border: none;
 }
+
+.profile-setting-items .form {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+@media only screen and (max-width: 500px) {
+    .profile-setting-items .form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .profile-setting-items .form input {
+        width: 300px;
+        font-size: 16px;
+    }
+
+    .profile-setting-items .form button {
+        width: 125px;
+        margin-top: 25px;
+        background-color: var(--spotify-green);
+        height: 35px;
+        border-radius: 10px;
+    }
+}

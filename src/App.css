@@ -17,6 +17,7 @@
   flex-direction: column;
   font-family: Arial, Helvetica, sans-serif;
   background-color: var(--darkest-gray);
+  overflow-x: hidden;
 }
 
 body {

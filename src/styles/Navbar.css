@@ -3,11 +3,17 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
-    width: 500px;
+    width: 100%;
     position: fixed;
-    right: 0;
     margin-top: 25px;
-    margin-right: 10px;
+}
+
+@media only screen and (min-width: 500px) {
+    .navbar {
+        right: 0;
+        justify-content: space-evenly;
+        width: 500px;
+    }
 }
 
 .navbar .navbar-item:hover {
