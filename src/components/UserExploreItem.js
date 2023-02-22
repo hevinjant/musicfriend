@@ -18,7 +18,6 @@ const UserExploreItem = ({ user }) => {
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        width: "500px",
       }}
     >
       <button
