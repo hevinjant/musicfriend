@@ -10,6 +10,7 @@ import {
   changeUserProfilePicture,
   updateUserFavoriteSong,
   getUserFavoriteSong,
+  getUserGenres,
 } from "../DataManagers/FirebaseManager";
 import { useNavigate } from "react-router-dom";
 import "../styles/ProfileSetting.css";
@@ -18,6 +19,7 @@ function ProfileSetting() {
   const navigate = useRef(useNavigate());
   const [tracks, setTracks] = useState([]);
   const [favoriteTrack, setFavoriteTrack] = useState(null);
+  const [genres, setGenres] = useState([]);
   const user = useSelector((state) => state.userInfo.user_info);
   const access_token = localStorage.getItem("access_token");
   const token_timestamp = localStorage.getItem("token_timestamp");
@@ -33,6 +35,9 @@ function ProfileSetting() {
       const userId = JSON.parse(localStorage.getItem("user_info")).id;
       getUserFavoriteSong(userId).then((track) => {
         setFavoriteTrack(track);
+      });
+      getUserGenres(userId).then((genres) => {
+        setGenres(genres);
       });
     }
   }, []);
@@ -67,6 +72,32 @@ function ProfileSetting() {
     handleGetSongs(access_token, trackQuery);
   };
 
+  const genresGrid = (
+    <div
+      className="genres-grid"
+      style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}
+    >
+      {genres.map((genre) => {
+        return (
+          <p
+            style={{
+              textAlign: "center",
+              backgroundColor: "#1db954",
+              borderRadius: "5px",
+              width: "auto",
+              padding: "5px",
+              fontSize: "12px",
+              fontWeight: "700",
+              margin: "5px",
+            }}
+          >
+            {genre}
+          </p>
+        );
+      })}
+    </div>
+  );
+
   return (
     <div className="profile-setting">
       <Navbar />
@@ -77,6 +108,7 @@ function ProfileSetting() {
           alt="no image"
         />
         <h1>{user.display_name}</h1>
+        {genresGrid}
         {favoriteTrack ? (
           <div className="favorite-track">
             <h3 style={{ color: "var(--darker-gray)" }}>Your favorite song</h3>

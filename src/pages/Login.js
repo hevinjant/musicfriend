@@ -5,6 +5,7 @@ import {
   getUserSpotifyPlaylists,
   getUserSpotifyInfo,
   getUserSpotifyTracks,
+  getUserGenres,
 } from "../DataManagers/SpotifyManager";
 import { useNavigate } from "react-router-dom";
 import { useGeolocated } from "react-geolocated";
@@ -61,8 +62,10 @@ function Login() {
       localStorage.setItem("user_info", JSON.stringify(userInfo));
       getUserSpotifyPlaylists(token, userInfo.id).then((playlistsID) => {
         getUserSpotifyTracks(token, playlistsID).then((tracks) => {
-          insertUserToDatabase(userInfo, tracks).then(() => {
-            navigate("/home");
+          getUserGenres(token, tracks).then((genres) => {
+            insertUserToDatabase(userInfo, tracks, genres).then(() => {
+              navigate("/home");
+            });
           });
         });
       });

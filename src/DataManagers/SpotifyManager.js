@@ -184,3 +184,46 @@ export async function getSongs(token, trackQuery) {
     return false;
   }
 }
+
+export async function getArtist(token, artistId) {
+  const url = GET_ARTIST_ENDPOINT + artistId;
+  try {
+    const response = await axios.get(url, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const results = response["data"];
+    return results;
+  } catch (error) {
+    console.log("getArtist():", error);
+    return false;
+  }
+}
+
+export async function getUserGenres(token, tracks) {
+  let artistIDs = new Set();
+  let genres = new Object();
+
+  // iterate through all tracks
+  // getArtist for each track
+  // accumulate genres by dictionary
+  // keep track of artists to avoid re-getArtist
+
+  for (const track of tracks) {
+    for (const artistId of track.trackArtistsId) {
+      if (!artistIDs.has(artistId)) {
+        const artist = await getArtist(token, artistId);
+        for (const genre of artist.genres) {
+          if (genre in genres) {
+            genres[genre] += 1;
+          } else {
+            genres[genre] = 1;
+          }
+        }
+        artistIDs.add(artistId);
+      }
+    }
+  }
+
+  genres = Object.entries(genres).sort((a, b) => b[1] - a[1]);
+  return genres;
+}

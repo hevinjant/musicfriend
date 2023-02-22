@@ -30,10 +30,18 @@ const database = getFirestore(app);
 if not then insert new user information and their tracks to database.
 if user exists then just update their tracks.
 */
-export async function insertUserToDatabase(userInfo, userTracks) {
+export async function insertUserToDatabase(userInfo, userTracks, genres) {
   const userId = userInfo.id;
   const docRef = doc(database, "users", userId);
   const docSnap = await getDoc(docRef);
+
+  // only insert top 20 genres
+  const top = 21;
+  let top21genres = [];
+  for (let i = 0; i < top; i++) {
+    top21genres.push(genres[i][0]);
+  }
+
   if (docSnap.exists()) {
     console.log("insertUserToDatabase(): User exists.");
     // if user already exists, update user's info cause they may have changed
@@ -41,6 +49,7 @@ export async function insertUserToDatabase(userInfo, userTracks) {
       docRef,
       {
         tracks: userTracks,
+        genres: top21genres,
         email: userInfo.email,
         display_name: userInfo.display_name,
         display_picture_url: userInfo.display_picture_url,
@@ -57,6 +66,7 @@ export async function insertUserToDatabase(userInfo, userTracks) {
       display_name: userInfo.display_name,
       display_picture_url: userInfo.display_picture_url,
       tracks: userTracks,
+      genres: top21genres,
       match_history: [],
       country: userInfo.country,
       favorite_track: null,
@@ -101,6 +111,16 @@ export async function getUserFavoriteSong(userId) {
     return favoriteSong;
   }
   return null;
+}
+
+/* Get user genres */
+export async function getUserGenres(userId) {
+  const docRef = doc(database, "users", userId);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    const genres = docSnap.data().genres;
+    return genres;
+  }
 }
 
 /* Get all user's tracks from database */
@@ -185,6 +205,7 @@ export async function insertMatchResultToDatabase(userId, matchResult) {
   }
 }
 
+/* Get all users from the database */
 export async function getAllUsersFromDatabase() {
   // get all documents under 'users'
   const querySnapshot = await getDocs(collection(database, "users"));
