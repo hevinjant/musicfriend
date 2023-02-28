@@ -9,6 +9,7 @@ import {
 } from "../DataManagers/SpotifyManager";
 import { useNavigate } from "react-router-dom";
 import { useGeolocated } from "react-geolocated";
+import CircularProgress from "@mui/material/CircularProgress";
 import "../styles/Login.css";
 
 // Spotify
@@ -36,6 +37,7 @@ function Login() {
   // console.log(coords, isGeolocationAvailable, isGeolocationEnabled);
 
   const [token, setToken] = useState();
+  const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -54,6 +56,7 @@ function Login() {
   };
 
   const handleClick = () => {
+    setIsLoading(true);
     // fetch user's info
     getUserSpotifyInfo(token).then((spotifyUserInfo) => {
       // fetch user's tracks
@@ -64,6 +67,7 @@ function Login() {
         getUserSpotifyTracks(token, playlistsID).then((tracks) => {
           getUserGenres(token, tracks).then((genres) => {
             insertUserToDatabase(userInfo, tracks, genres).then(() => {
+              setIsLoading(false);
               navigate("/home");
             });
           });
@@ -87,8 +91,16 @@ function Login() {
             // Access token received, user can continue to app
             <SpotifyApiContext.Provider value={token}>
               <div className="success-login">
-                <p>You have successfuly logged in</p>
-                <button onClick={handleClick}>Continue to MusicFriend</button>
+                {isLoading ? (
+                  <CircularProgress color="success" />
+                ) : (
+                  <>
+                    <p>You have successfuly logged in</p>
+                    <button onClick={handleClick}>
+                      Continue to MusicFriend
+                    </button>
+                  </>
+                )}
               </div>
             </SpotifyApiContext.Provider>
           ) : (
