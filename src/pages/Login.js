@@ -65,6 +65,7 @@ function Login() {
       localStorage.setItem("user_info", JSON.stringify(userInfo));
       getUserSpotifyPlaylists(token, userInfo.id).then((playlistsID) => {
         getUserSpotifyTracks(token, playlistsID).then((tracks) => {
+          console.log("TRACKS:", tracks);
           getUserGenres(token, tracks).then((genres) => {
             insertUserToDatabase(userInfo, tracks, genres).then(() => {
               setIsLoading(false);

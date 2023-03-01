@@ -51,16 +51,27 @@ export async function getUserSpotifyInfo(token) {
 export async function getUserSpotifyPlaylists(token, userId) {
   console.log("Getting user Spotify playlists...");
   try {
-    const response = await axios.get(GET_CURRENT_USER_PLAYLIST_ENDPOINT, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    const result = response.data["items"];
-    const playlistCreatedByCurrentUser = result.filter(
+    let playlists = [];
+    const limit = 50;
+
+    for (let offset = 0; offset < 10000; offset += limit) {
+      const endpoint = `${GET_CURRENT_USER_PLAYLIST_ENDPOINT}?limit=${limit}&offset=${offset}`;
+      const response = await axios.get(endpoint, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const result = response.data["items"];
+      if (result.length === 0) {
+        break;
+      }
+      playlists = playlists.concat(result);
+    }
+    const playlistCreatedByCurrentUser = playlists.filter(
       (playlist) => playlist.owner.id === userId
     );
     const playlistIDs = playlistCreatedByCurrentUser.map((playlist) => {
       return playlist["id"];
     });
+    console.log("PL:", playlistIDs[0]);
     return playlistIDs;
   } catch (error) {
     console.log("getUserPlaylists():", error);
@@ -78,18 +89,17 @@ export async function getUserSpotifyTracks(token, playlistsID) {
     // iterate through all the playlists
     for (const id of playlistsID) {
       // for each playlist, get 100 tracks per offset until we get all of the tracks
-      for (let offset = 0; offset < 10000; offset += 100) {
-        let result = [];
+      for (let offset = 0; offset < 10000; offset += limit) {
         const endpoint = `${GET_PLAYLIST_ITEMS_ENDPOINT}${id}/tracks??limit=${limit}&offset=${offset}`;
         const response = await axios.get(endpoint, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        result = response["data"]["items"];
-        tracks = tracks.concat(result);
+        const result = response["data"]["items"];
         // if no more result is returned with the current offset, exit the loop
         if (result.length === 0) {
           break;
         }
+        tracks = tracks.concat(result);
       }
     }
     // remove duplicates track (because user may have same tracks in different playlists)
@@ -103,7 +113,8 @@ export async function getUserSpotifyTracks(token, playlistsID) {
         )
     );
 
-    return parseSpotifyTracks(tracksWithoutDuplicates);
+    const parsedTracks = parseSpotifyTracks(tracksWithoutDuplicates);
+    return parsedTracks;
   } catch (error) {
     console.log("getUserTracks():", error);
     return false;
@@ -115,7 +126,6 @@ function parseSpotifyTracks(tracksJSON) {
   const tracks = tracksJSON.map((track) => {
     return parseSpotifyTrack(track["track"]);
   });
-
   return tracks;
 }
 
@@ -134,9 +144,10 @@ export function parseSpotifyTrack(track) {
     trackName: track["name"],
     trackArtists: artistNames,
     trackArtistsId: artistsId,
-    trackImageUrl: track["album"]["images"]
-      ? track["album"]["images"][0]["url"]
-      : null,
+    trackImageUrl:
+      track["album"]["images"].length > 0
+        ? track["album"]["images"][0]["url"]
+        : null,
     trackLink: track["external_urls"]["spotify"],
     trackPreviewUrl: track["preview_url"],
     trackGenres: null,
@@ -189,11 +200,6 @@ export async function getUserGenres(token, tracks) {
   console.log("Getting user Spotify genres...");
   let artistIDs = new Set();
   let genres = new Object();
-
-  // iterate through all tracks
-  // getArtist for each track
-  // accumulate genres by dictionary
-  // keep track of artists to avoid re-getArtist
 
   for (const track of tracks) {
     for (const artistId of track.trackArtistsId) {

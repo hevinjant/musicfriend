@@ -42,7 +42,7 @@ const UserExploreItem = ({ user }) => {
           }}
         />
         <img
-          src={user.favorite_track.trackImageUrl}
+          src={user.favorite_track?.trackImageUrl}
           alt="no image"
           style={{
             width: "clamp(50px, 4vw, 75px)",
@@ -65,7 +65,7 @@ const UserExploreItem = ({ user }) => {
         </p>
 
         <p style={{ color: "white", marginLeft: "10px", marginTop: "0px" }}>
-          {user.favorite_track.trackName} - {user.favorite_track.trackArtists}
+          {user.favorite_track?.trackName} - {user.favorite_track?.trackArtists}
         </p>
       </div>
     </div>
