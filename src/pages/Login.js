@@ -48,8 +48,8 @@ function Login() {
 
     userInfo = {
       ...spotifyUserInfo,
-      long: locationIsFound ? coords.longitude : null,
-      lat: locationIsFound ? coords.latitude : null,
+      long: locationIsFound ? coords?.longitude : null,
+      lat: locationIsFound ? coords?.latitude : null,
     };
 
     return userInfo;

@@ -27,6 +27,7 @@ export function accessTokenIsValid(token, timestamp) {
 
 /* Get user's Spotify account information, access token is required */
 export async function getUserSpotifyInfo(token) {
+  console.log("Getting user Spotify info...");
   try {
     const response = await axios.get(GET_USER_SPOTIFY_PROFILE_ENDPOINT, {
       headers: { Authorization: `Bearer ${token}` },
@@ -48,6 +49,7 @@ export async function getUserSpotifyInfo(token) {
 
 /* Get all playlists from user's Spotify account, access token is required */
 export async function getUserSpotifyPlaylists(token, userId) {
+  console.log("Getting user Spotify playlists...");
   try {
     const response = await axios.get(GET_CURRENT_USER_PLAYLIST_ENDPOINT, {
       headers: { Authorization: `Bearer ${token}` },
@@ -57,7 +59,6 @@ export async function getUserSpotifyPlaylists(token, userId) {
       (playlist) => playlist.owner.id === userId
     );
     const playlistIDs = playlistCreatedByCurrentUser.map((playlist) => {
-      console.log("Playlist:", playlist);
       return playlist["id"];
     });
     return playlistIDs;
@@ -69,6 +70,7 @@ export async function getUserSpotifyPlaylists(token, userId) {
 
 /* Get all tracks from user's Spotify playlists by playlist id, access token is required */
 export async function getUserSpotifyTracks(token, playlistsID) {
+  console.log("Getting user Spotify tracks...");
   try {
     let tracks = [];
     const limit = 100; // Spotify let app to retrieve 100 tracks at once
@@ -132,7 +134,9 @@ export function parseSpotifyTrack(track) {
     trackName: track["name"],
     trackArtists: artistNames,
     trackArtistsId: artistsId,
-    trackImageUrl: track["album"]["images"][0]["url"],
+    trackImageUrl: track["album"]["images"]
+      ? track["album"]["images"][0]["url"]
+      : null,
     trackLink: track["external_urls"]["spotify"],
     trackPreviewUrl: track["preview_url"],
     trackGenres: null,
@@ -182,6 +186,7 @@ export async function getArtist(token, artistId) {
 
 /* Get user genres based on all user's tracks */
 export async function getUserGenres(token, tracks) {
+  console.log("Getting user Spotify genres...");
   let artistIDs = new Set();
   let genres = new Object();
 

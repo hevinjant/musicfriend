@@ -31,6 +31,7 @@ if not then insert new user information and their tracks to database.
 if user exists then just update their tracks.
 */
 export async function insertUserToDatabase(userInfo, userTracks, genres) {
+  console.log("Inserting user to database...");
   const userId = userInfo.id;
   const docRef = doc(database, "users", userId);
   const docSnap = await getDoc(docRef);

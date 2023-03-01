@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import DefaultPict from "../assets/dfpic.jpeg";
 
 const UserExploreItem = ({ user }) => {
   const navigate = useNavigate();
@@ -30,6 +31,10 @@ const UserExploreItem = ({ user }) => {
           className="user-dp"
           src={user.display_picture_url}
           alt="no image"
+          onError={(event) => {
+            event.target.src = DefaultPict;
+            event.oneerror = null;
+          }}
           style={{
             borderRadius: "50%",
             width: "clamp(50px, 4vw, 75px)",
