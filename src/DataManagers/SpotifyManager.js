@@ -111,28 +111,7 @@ export async function getUserSpotifyTracks(token, playlistsID) {
 /* Map each Spotify JSON track to only store the data we need */
 function parseSpotifyTracks(tracksJSON) {
   const tracks = tracksJSON.map((track) => {
-    // get all the names and id of the artists
-    const trackArtists = track["track"]["artists"];
-    let artistNames = "";
-    let artistsId = [];
-    for (const artist of trackArtists) {
-      artistNames += artist["name"] + ", ";
-      artistsId.push(artist["id"]);
-    }
-    artistNames = artistNames.slice(0, -2); // get rid of the last comma and space
-
-    const parsed = {
-      trackId: track["track"]["id"],
-      trackName: track["track"]["name"],
-      trackArtists: artistNames,
-      trackArtistsId: artistsId,
-      trackImageUrl: track["track"]["album"]["images"][0]["url"],
-      trackLink: track["track"]["external_urls"]["spotify"],
-      trackPreviewUrl: track["track"]["preview_url"],
-      trackGenres: null,
-    };
-
-    return parsed;
+    return parseSpotifyTrack(track["track"]);
   });
 
   return tracks;
@@ -162,6 +141,7 @@ export function parseSpotifyTrack(track) {
   return parsed;
 }
 
+/* Get a track based on user's query */
 export async function getSongs(token, trackQuery) {
   // For this app, params' type should always be "track".
   const params = {
@@ -185,6 +165,7 @@ export async function getSongs(token, trackQuery) {
   }
 }
 
+/* Get artist information from a given artist Id */
 export async function getArtist(token, artistId) {
   const url = GET_ARTIST_ENDPOINT + artistId;
   try {
@@ -199,6 +180,7 @@ export async function getArtist(token, artistId) {
   }
 }
 
+/* Get user genres based on all user's tracks */
 export async function getUserGenres(token, tracks) {
   let artistIDs = new Set();
   let genres = new Object();

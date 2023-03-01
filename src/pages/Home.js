@@ -19,7 +19,7 @@ function Home() {
   const [searched, setSearched] = useState(false);
   const [track, setTrack] = useState({});
   const [matchesInfo, setMatchesInfo] = useState({});
-  const [users, setUsers] = useState([]);
+  const [nearbyUsers, setNearbyUsers] = useState([]);
   //const [token, setToken] = useState(localStorage.getItem("access_token"));
   //const token = useSelector((state) => state.token.access_token);
   const user = useSelector((state) => state.userInfo.user_info);
@@ -38,7 +38,7 @@ function Home() {
     }
 
     getAllUsersFromDatabase().then((res) => {
-      setUsers(res);
+      setNearbyUsers(res);
     });
   }, []);
 
@@ -143,7 +143,7 @@ function Home() {
             <>
               {searchBarAndPeopleList()}
               <h3 style={{ color: "#a9a9a9" }}>People around you</h3>
-              <ExploreList users={users} />
+              <ExploreList nearbyUsers={nearbyUsers} />
             </>
           )}
         </div>

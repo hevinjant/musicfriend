@@ -48,6 +48,7 @@ export async function insertUserToDatabase(userInfo, userTracks, genres) {
     await setDoc(
       docRef,
       {
+        id: userInfo.id,
         tracks: userTracks,
         genres: top21genres,
         email: userInfo.email,
@@ -62,6 +63,7 @@ export async function insertUserToDatabase(userInfo, userTracks, genres) {
   } else {
     // insert new user and their tracks
     const userData = {
+      id: userInfo.id,
       email: userInfo.email,
       display_name: userInfo.display_name,
       display_picture_url: userInfo.display_picture_url,
@@ -90,8 +92,7 @@ export async function changeUserProfilePicture(userInfo, newImageUrl) {
   }
 }
 
-export async function updateUserFavoriteSong(userInfo, favoriteTrack) {
-  const userId = userInfo.id;
+export async function updateUserFavoriteSong(userId, favoriteTrack) {
   const docRef = doc(database, "users", userId);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
@@ -172,6 +173,7 @@ export async function getUserInfo(userId) {
   if (docSnap.exists()) {
     const docData = docSnap.data();
     const user = {
+      id: docData.id,
       display_name: docData.display_name,
       email: docData.email,
       display_picture_url: docData.display_picture_url,

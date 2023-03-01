@@ -6,9 +6,12 @@ function UserItem({ user }) {
   const currentUser = JSON.parse(localStorage.getItem("user_info"));
 
   const handleClick = () => {
-    if (currentUser.email === user.email) {
-      navigate("/profile");
-    }
+    navigate(`/profile/${currentUser.id}`, {
+      state: {
+        display_picture_url: user.display_picture_url,
+        display_name: user.display_name,
+      },
+    });
   };
 
   return (

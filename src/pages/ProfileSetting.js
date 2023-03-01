@@ -12,18 +12,19 @@ import {
   getUserFavoriteSong,
   getUserGenres,
 } from "../DataManagers/FirebaseManager";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import "../styles/ProfileSetting.css";
 
 function ProfileSetting() {
+  const { userid } = useParams();
+  const state = useLocation().state;
   const navigate = useRef(useNavigate());
   const [tracks, setTracks] = useState([]);
   const [favoriteTrack, setFavoriteTrack] = useState(null);
   const [genres, setGenres] = useState([]);
-  const user = useSelector((state) => state.userInfo.user_info);
   const access_token = localStorage.getItem("access_token");
   const token_timestamp = localStorage.getItem("token_timestamp");
-  const dispatch = useDispatch();
+  const currentLoginUser = JSON.parse(localStorage.getItem("user_info"));
 
   useEffect(() => {
     const accessToken = localStorage.getItem("access_token");
@@ -32,11 +33,10 @@ function ProfileSetting() {
     if (!accessTokenIsValid(accessToken, tokenTimestamp)) {
       navigate.current("/");
     } else {
-      const userId = JSON.parse(localStorage.getItem("user_info")).id;
-      getUserFavoriteSong(userId).then((track) => {
+      getUserFavoriteSong(userid).then((track) => {
         setFavoriteTrack(track);
       });
-      getUserGenres(userId).then((genres) => {
+      getUserGenres(userid).then((genres) => {
         setGenres(genres);
       });
     }
@@ -44,13 +44,8 @@ function ProfileSetting() {
 
   const handleUpdateFavoriteTrack = (track) => {
     setFavoriteTrack(track);
-    updateUserFavoriteSong(user, track);
-  };
-
-  const handleChangeProfilePicture = (newImageUrl) => {
-    const userInfo = { ...user, imageUrl: newImageUrl };
-    dispatch(setUserInfo(userInfo));
-    changeUserProfilePicture(user, newImageUrl);
+    updateUserFavoriteSong(userid, track);
+    setTracks([]);
   };
 
   const handleGetSongs = (token, trackQuery) => {
@@ -77,9 +72,10 @@ function ProfileSetting() {
       className="genres-grid"
       style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}
     >
-      {genres.map((genre) => {
+      {genres.map((genre, idx) => {
         return (
           <p
+            key={idx}
             style={{
               textAlign: "center",
               backgroundColor: "#1db954",
@@ -104,25 +100,29 @@ function ProfileSetting() {
       <div className="profile-setting-items">
         <img
           className="user-dp"
-          src={user.display_picture_url}
+          src={state.display_picture_url}
           alt="no image"
         />
-        <h1>{user.display_name}</h1>
+        <h1>{state.display_name}</h1>
         {genresGrid}
         {favoriteTrack ? (
           <div className="favorite-track">
-            <h3 style={{ color: "var(--darker-gray)" }}>Your favorite song</h3>
+            <h3 style={{ color: "var(--darker-gray)" }}>Favorite song</h3>
             <SongItem track={favoriteTrack} />
           </div>
         ) : (
           <p>You don't have a favorite song.</p>
         )}
-        <Form
-          formLabel=""
-          placeholder="Search a new favorite song"
-          handleFormSubmit={handleFormSubmit}
-          handleButtonClick={handleSearch}
-        />
+        {currentLoginUser.id === userid ? (
+          <Form
+            formLabel=""
+            placeholder="Search a new favorite song"
+            handleFormSubmit={handleFormSubmit}
+            handleButtonClick={handleSearch}
+          />
+        ) : (
+          ""
+        )}
         <TrackList
           tracks={tracks}
           handleUpdateFavoriteTrack={handleUpdateFavoriteTrack}

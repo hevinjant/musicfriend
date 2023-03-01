@@ -9,6 +9,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const navbarItem = "navbar-item";
+  const currentLoginUser = JSON.parse(localStorage.getItem("user_info"));
 
   const handleSignOut = () => {
     // clear access token
@@ -35,7 +36,15 @@ const Navbar = () => {
       <Link className={navbarItem} to="/home" style={styles}>
         Home
       </Link>
-      <Link className={navbarItem} to="/profile" style={styles}>
+      <Link
+        className={navbarItem}
+        to={`/profile/${currentLoginUser.id}`}
+        state={{
+          display_picture_url: currentLoginUser.display_picture_url,
+          display_name: currentLoginUser.display_name,
+        }}
+        style={styles}
+      >
         Profile
       </Link>
       <button className={navbarItem} onClick={handleSignOut} style={styles}>
