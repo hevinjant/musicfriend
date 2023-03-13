@@ -20,11 +20,14 @@ import {
 import { SpotifyApiContext } from "react-spotify-api";
 import { SpotifyAuth } from "react-spotify-auth";
 import { insertUserToDatabase } from "../DataManagers/FirebaseManager";
+import { redirect_URI } from "../constant";
 import "react-spotify-auth/dist/index.css";
 
 // - before making a request to Spotify API, check if it's not yet an hour after timestamp
 
 function Login() {
+  const redirectUri = redirect_URI;
+
   //const [token, setToken] = useState(localStorage.getItem("access_token"));
   const { coords, isGeolocationAvailable, isGeolocationEnabled } =
     useGeolocated({
@@ -65,7 +68,6 @@ function Login() {
       localStorage.setItem("user_info", JSON.stringify(userInfo));
       getUserSpotifyPlaylists(token, userInfo.id).then((playlistsID) => {
         getUserSpotifyTracks(token, playlistsID).then((tracks) => {
-          console.log("TRACKS:", tracks);
           getUserGenres(token, tracks).then((genres) => {
             insertUserToDatabase(userInfo, tracks, genres).then(() => {
               setIsLoading(false);
@@ -107,7 +109,7 @@ function Login() {
           ) : (
             // Display the login page
             <SpotifyAuth
-              redirectUri="http://localhost:3000"
+              redirectUri={redirectUri}
               clientID={SPOTIFY_CLIENT_ID}
               scopes={OAUTH_SCOPES}
               onAccessToken={(token) => {
@@ -120,6 +122,7 @@ function Login() {
           )}
         </div>
       </div>
+      <h1 style={{ color: "white" }}>Version: 1.0</h1>
     </div>
   );
 }

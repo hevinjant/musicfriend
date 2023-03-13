@@ -71,7 +71,7 @@ export async function getUserSpotifyPlaylists(token, userId) {
     const playlistIDs = playlistCreatedByCurrentUser.map((playlist) => {
       return playlist["id"];
     });
-    console.log("PL:", playlistIDs[0]);
+
     return playlistIDs;
   } catch (error) {
     console.log("getUserPlaylists():", error);

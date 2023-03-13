@@ -33,50 +33,54 @@ if user exists then just update their tracks.
 export async function insertUserToDatabase(userInfo, userTracks, genres) {
   console.log("Inserting user to database...");
   const userId = userInfo.id;
-  const docRef = doc(database, "users", userId);
-  const docSnap = await getDoc(docRef);
+  try {
+    const docRef = doc(database, "users", userId);
+    const docSnap = await getDoc(docRef);
 
-  // only insert top 20 genres
-  const top = 21;
-  let top21genres = [];
-  for (let i = 0; i < top; i++) {
-    top21genres.push(genres[i][0]);
-  }
+    // only insert top 20 genres
+    const top = 21;
+    let top21genres = [];
+    for (let i = 0; i < top; i++) {
+      top21genres.push(genres[i][0]);
+    }
 
-  if (docSnap.exists()) {
-    console.log("insertUserToDatabase(): User exists.");
-    // if user already exists, update user's info cause they may have changed
-    await setDoc(
-      docRef,
-      {
+    if (docSnap.exists()) {
+      console.log("insertUserToDatabase(): User exists.");
+      // if user already exists, update user's info cause they may have changed
+      await setDoc(
+        docRef,
+        {
+          id: userInfo.id,
+          tracks: userTracks,
+          genres: top21genres,
+          email: userInfo.email,
+          display_name: userInfo.display_name,
+          display_picture_url: userInfo.display_picture_url,
+          country: userInfo.country,
+          long: userInfo.long,
+          lat: userInfo.lat,
+        },
+        { merge: true }
+      );
+    } else {
+      // insert new user and their tracks
+      const userData = {
         id: userInfo.id,
-        tracks: userTracks,
-        genres: top21genres,
         email: userInfo.email,
         display_name: userInfo.display_name,
         display_picture_url: userInfo.display_picture_url,
+        tracks: userTracks,
+        genres: top21genres,
+        match_history: [],
         country: userInfo.country,
+        favorite_track: null,
         long: userInfo.long,
         lat: userInfo.lat,
-      },
-      { merge: true }
-    );
-  } else {
-    // insert new user and their tracks
-    const userData = {
-      id: userInfo.id,
-      email: userInfo.email,
-      display_name: userInfo.display_name,
-      display_picture_url: userInfo.display_picture_url,
-      tracks: userTracks,
-      genres: top21genres,
-      match_history: [],
-      country: userInfo.country,
-      favorite_track: null,
-      long: userInfo.long,
-      lat: userInfo.lat,
-    };
-    await setDoc(docRef, userData);
+      };
+      await setDoc(docRef, userData);
+    }
+  } catch (error) {
+    console.log("insertUserToDatabase: ", error);
   }
 }
 
