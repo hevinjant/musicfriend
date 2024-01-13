@@ -25,8 +25,8 @@
 }
 
 .home .user-item img {
-  height: clamp(150px, 8vw, 200px);
-  width: clamp(150px, 8vw, 200px);
+  height: clamp(65px, 7vw, 100px);
+  width: clamp(65px, 7vw, 100px);
   border-radius: 50%;
 }
 

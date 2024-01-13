@@ -73,9 +73,10 @@ export async function insertUserToDatabase(userInfo, userTracks, genres) {
       match_history: [],
       country: userInfo.country,
       favorite_track: null,
-      long: userInfo.long,
-      lat: userInfo.lat,
+      long: userInfo.long === undefined ? null : userInfo.long,
+      lat: userInfo.lat === undefined ? null : userInfo.lat,
     };
+    console.log("User Data:", userData);
     await setDoc(docRef, userData);
   }
 }

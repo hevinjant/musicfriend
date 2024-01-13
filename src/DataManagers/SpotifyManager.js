@@ -1,7 +1,10 @@
 import axios from "axios";
-import { Scopes } from "react-spotify-auth";
 
-export const SPOTIFY_CLIENT_ID = "4cb59fcbc79e4bbcb51d908f87698410";
+const SPOTIFY_CLIENT_ID = "4cb59fcbc79e4bbcb51d908f87698410";
+const SPOTIFY_AUTHORIZATION_URL = "https://accounts.spotify.com/authorize";
+const REDIRECT_URI = "http://localhost:3000";
+const scopes = ["user-read-private", "user-read-email", "user-read-currently-playing", "user-library-read", "playlist-read-private"];
+export const SPOTIFY_AUTHORIZATION_URL_PARAMETERS = `${SPOTIFY_AUTHORIZATION_URL}?response_type=token&client_id=${SPOTIFY_CLIENT_ID}&scope=${scopes.join("%20")}&show_dialog=true&redirect_uri=${REDIRECT_URI}`;
 
 const GET_USER_SPOTIFY_PROFILE_ENDPOINT = "https://api.spotify.com/v1/me";
 const GET_CURRENT_USER_PLAYLIST_ENDPOINT =
@@ -9,14 +12,6 @@ const GET_CURRENT_USER_PLAYLIST_ENDPOINT =
 const GET_PLAYLIST_ITEMS_ENDPOINT = "https://api.spotify.com/v1/playlists/"; // + {playlist_id}/tracks
 const GET_ARTIST_ENDPOINT = "https://api.spotify.com/v1/artists/"; // + {id}
 const GET_SONGS_ENDPOINT = "https://api.spotify.com/v1/search"; // ex. https://api.spotify.com/v1/search?q=ride%20or%20die
-
-export const OAUTH_SCOPES = [
-  Scopes.userReadPrivate,
-  Scopes.userReadEmail,
-  Scopes.userReadCurrentlyPlaying,
-  Scopes.userLibraryRead,
-  Scopes.playlistReadPrivate,
-];
 
 /* Check if access token is expired (more than an hour) */
 export function accessTokenIsValid(token, timestamp) {
@@ -71,7 +66,7 @@ export async function getUserSpotifyPlaylists(token, userId) {
     const playlistIDs = playlistCreatedByCurrentUser.map((playlist) => {
       return playlist["id"];
     });
-    console.log("PL:", playlistIDs[0]);
+    console.log("Playlists:", playlistIDs[0]);
     return playlistIDs;
   } catch (error) {
     console.log("getUserPlaylists():", error);
@@ -102,6 +97,7 @@ export async function getUserSpotifyTracks(token, playlistsID) {
         tracks = tracks.concat(result);
       }
     }
+    console.log("Tracks: ", tracks);
     // remove duplicates track (because user may have same tracks in different playlists)
     const tracksWithoutDuplicates = tracks.filter(
       (track, index, self) =>

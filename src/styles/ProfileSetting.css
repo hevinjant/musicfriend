@@ -11,8 +11,8 @@
   }
 
 .profile-setting-items .user-dp {
-    height: clamp(150px, 12vw, 250px);
-    width: clamp(150px, 12vw, 250px);
+    height: clamp(65px, 7vw, 100px);
+    width: clamp(65px, 7vw, 100px);
     border-radius: 50%
 }
 

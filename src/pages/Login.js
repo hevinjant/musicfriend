@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setAccessToken, setUserInfo } from "../redux/action";
 import {
@@ -6,21 +6,16 @@ import {
   getUserSpotifyInfo,
   getUserSpotifyTracks,
   getUserGenres,
+  SPOTIFY_AUTHORIZATION_URL_PARAMETERS
 } from "../DataManagers/SpotifyManager";
 import { useNavigate } from "react-router-dom";
 import { useGeolocated } from "react-geolocated";
 import CircularProgress from "@mui/material/CircularProgress";
 import "../styles/Login.css";
 
-// Spotify
-import {
-  OAUTH_SCOPES,
-  SPOTIFY_CLIENT_ID,
-} from "../DataManagers/SpotifyManager";
-import { SpotifyApiContext } from "react-spotify-api";
-import { SpotifyAuth } from "react-spotify-auth";
 import { insertUserToDatabase } from "../DataManagers/FirebaseManager";
-import "react-spotify-auth/dist/index.css";
+
+import axios from "axios";
 
 // - before making a request to Spotify API, check if it's not yet an hour after timestamp
 
@@ -33,8 +28,6 @@ function Login() {
       },
       userDecisionTimeout: 5000,
     });
-
-  // console.log(coords, isGeolocationAvailable, isGeolocationEnabled);
 
   const [token, setToken] = useState();
   const [isLoading, setIsLoading] = useState(false);
@@ -54,6 +47,22 @@ function Login() {
 
     return userInfo;
   };
+
+  const storeToken = (token, current_time) => {
+    localStorage.setItem("access_token", token);
+    localStorage.setItem("token_timestamp", JSON.stringify(current_time));
+    setToken(token);
+  };
+
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (window.location.hash) {
+      const accessToken = (hash.split('#').pop().split('&')[0]).split('=')[1];
+      const current_time = Date.now();
+      storeToken(accessToken, current_time);
+
+    }
+  }, [window.location])
 
   const handleClick = () => {
     setIsLoading(true);
@@ -77,11 +86,15 @@ function Login() {
     });
   };
 
-  const storeToken = (token, current_time) => {
-    localStorage.setItem("access_token", token);
-    localStorage.setItem("token_timestamp", JSON.stringify(current_time));
-    setToken(token);
-  };
+  // const getAccessToken = async () => {
+  
+  //   try {
+  //     const response = await axios.get('https://accounts.spotify.com/authorize?' + `response_type=token&client_id=${spotifyClientID}&scope=user-read-private%20user-read-email&show_dialog=true`
+  //     , {headers: {'Access-Control-Allow-Origin': '*', mode: 'cors'}})
+  //   } catch (error) {
+  //     return false;
+  //   }
+  // }
 
   return (
     <div className="login">
@@ -90,7 +103,6 @@ function Login() {
         <div className="spotify-oauth">
           {token ? (
             // Access token received, user can continue to app
-            <SpotifyApiContext.Provider value={token}>
               <div className="success-login">
                 {isLoading ? (
                   <CircularProgress color="success" />
@@ -103,21 +115,10 @@ function Login() {
                   </>
                 )}
               </div>
-            </SpotifyApiContext.Provider>
-          ) : (
+            ) : (
             // Display the login page
-            <SpotifyAuth
-              redirectUri="http://localhost:3000"
-              clientID={SPOTIFY_CLIENT_ID}
-              scopes={OAUTH_SCOPES}
-              onAccessToken={(token) => {
-                const current_time = Date.now();
-                dispatch(setAccessToken(token, current_time));
-                storeToken(token, current_time);
-              }}
-              showDialog={true} // to always requires user to agree on the Spotify website
-            />
-          )}
+            <a href={SPOTIFY_AUTHORIZATION_URL_PARAMETERS}>LOGIN WITH SPOTIFY</a>
+            )}
         </div>
       </div>
     </div>
