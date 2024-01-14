@@ -27,7 +27,7 @@ const Navbar = () => {
     width: "110px",
     lineHeight: "40px",
     textAlign: "center",
-    fontSize: "15px",
+    fontSize: "13px",
     letterSpacing: "2px",
   };
 

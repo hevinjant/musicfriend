@@ -1,30 +1,13 @@
-import { initializeApp } from "firebase/app";
 import {
   doc,
   getDoc,
   updateDoc,
-  getFirestore,
   setDoc,
   collection,
   getDocs,
   arrayUnion,
 } from "firebase/firestore";
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyCnoUJPCrhshTd7UT7CSodMv0ILIQudn_I",
-  authDomain: "musicfriend-c549b.firebaseapp.com",
-  projectId: "musicfriend-c549b",
-  storageBucket: "musicfriend-c549b.appspot.com",
-  messagingSenderId: "350517233861",
-  appId: "1:350517233861:web:8bb840e25022be42f248ac",
-  measurementId: "G-9E82HZ4G59",
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const database = getFirestore(app);
+import { database } from "../Firebase";
 
 /* Check if user exists in database, 
 if not then insert new user information and their tracks to database.
@@ -46,19 +29,21 @@ export async function insertUserToDatabase(userInfo, userTracks, genres) {
   if (docSnap.exists()) {
     console.log("insertUserToDatabase(): User exists.");
     // if user already exists, update user's info cause they may have changed
+    const userData = {
+      id: userInfo.id,
+      tracks: userTracks,
+      genres: top21genres,
+      email: userInfo.email,
+      display_name: userInfo.display_name,
+      display_picture_url: userInfo.display_picture_url,
+      country: userInfo.country,
+      long: userInfo.long,
+      lat: userInfo.lat,
+    };
+    console.log(userData);
     await setDoc(
       docRef,
-      {
-        id: userInfo.id,
-        tracks: userTracks,
-        genres: top21genres,
-        email: userInfo.email,
-        display_name: userInfo.display_name,
-        display_picture_url: userInfo.display_picture_url,
-        country: userInfo.country,
-        long: userInfo.long,
-        lat: userInfo.lat,
-      },
+      userData,
       { merge: true }
     );
   } else {
@@ -107,6 +92,7 @@ export async function updateUserFavoriteSong(userId, favoriteTrack) {
 }
 
 export async function getUserFavoriteSong(userId) {
+  console.log("Firing getUserFavoriteSong with userid: ", userId)
   const docRef = doc(database, "users", userId);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
@@ -118,6 +104,7 @@ export async function getUserFavoriteSong(userId) {
 
 /* Get user genres */
 export async function getUserGenres(userId) {
+  console.log("Firing getUserGenres with userid: ", userId)
   const docRef = doc(database, "users", userId);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {

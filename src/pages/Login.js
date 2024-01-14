@@ -11,6 +11,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useGeolocated } from "react-geolocated";
 import CircularProgress from "@mui/material/CircularProgress";
+import spotifyIcon from "../assets/spotify-icon.png";
 import "../styles/Login.css";
 
 import { insertUserToDatabase } from "../DataManagers/FirebaseManager";
@@ -117,7 +118,7 @@ function Login() {
               </div>
             ) : (
             // Display the login page
-            <a href={SPOTIFY_AUTHORIZATION_URL_PARAMETERS}>LOGIN WITH SPOTIFY</a>
+            <a className="login-button" href={SPOTIFY_AUTHORIZATION_URL_PARAMETERS}><img className="spotify-icon"src={spotifyIcon}></img>Log in with Spotify</a>
             )}
         </div>
       </div>

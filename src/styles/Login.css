@@ -34,3 +34,26 @@
 .login .success-login button:hover {
   background-color: var(--hover-color);
 }
+
+.login .login-button .spotify-icon {
+  height: 30px;
+  width: 30px;
+  margin-right: 15px;
+}
+
+.login .login-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+  /* background-color: #1ED760; */
+  border: solid 1px white;
+  padding: 15px;
+  border-radius: 15px;
+}
+
+.login .login-button:hover {
+  color: #1ED760;
+  border: solid 1px #1ED760;
+}

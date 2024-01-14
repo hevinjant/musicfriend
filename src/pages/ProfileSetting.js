@@ -13,6 +13,7 @@ import {
   getUserGenres,
 } from "../DataManagers/FirebaseManager";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
+import DefaultPict from "../assets/dfpic.jpeg";
 import "../styles/ProfileSetting.css";
 
 function ProfileSetting() {
@@ -33,6 +34,7 @@ function ProfileSetting() {
     if (!accessTokenIsValid(accessToken, tokenTimestamp)) {
       navigate.current("/");
     } else {
+      console.log("Getting favorite song and genres")
       getUserFavoriteSong(userid).then((track) => {
         setFavoriteTrack(track);
       });
@@ -102,8 +104,13 @@ function ProfileSetting() {
           className="user-dp"
           src={state.display_picture_url}
           alt="no image"
+          onError={(event) => {
+            event.target.src = DefaultPict;
+            event.oneerror = null;
+          }}
         />
         <h1>{state.display_name}</h1>
+        <h3 style={{ color: "var(--darker-gray)" }}>Top Genres</h3>
         {genresGrid}
         {favoriteTrack ? (
           <div className="favorite-track">
