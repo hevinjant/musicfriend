@@ -14,9 +14,9 @@ import {
 } from "../DataManagers/FirebaseManager";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import DefaultPict from "../assets/dfpic.jpeg";
-import "../styles/ProfileSetting.css";
+import "../styles/Profile.css";
 
-function ProfileSetting() {
+function Profile() {
   const { userid } = useParams();
   const state = useLocation().state;
   const navigate = useRef(useNavigate());
@@ -96,9 +96,9 @@ function ProfileSetting() {
   );
 
   return (
-    <div className="profile-setting">
+    <div className="profile">
       <Navbar />
-      <div className="profile-setting-items">
+      <div className="profile-items">
         <img
           className="user-dp"
           src={state.display_picture_url}
@@ -138,4 +138,4 @@ function ProfileSetting() {
   );
 }
 
-export default ProfileSetting;
+export default Profile;

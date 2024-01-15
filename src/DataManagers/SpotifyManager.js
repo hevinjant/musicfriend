@@ -224,7 +224,7 @@ export async function getArtist(token, artistId) {
 export async function getUserSpotifyTopGenres(token) {
   console.log("Getting user Spotify genres...");
   let genres = [];
-  const limit = 10;
+  const limit = 25;
   const url = `${GET_TOP_ARTISTS}?limit=${limit}`;
 
   try {

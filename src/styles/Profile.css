@@ -1,4 +1,4 @@
-.profile-setting-items {
+.profile-items {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -6,52 +6,52 @@
     color: white;
 }
 
-.profile-setting::-webkit-scrollbar {
+.profile::-webkit-scrollbar {
     display: none;
   }
 
-.profile-setting-items .user-dp {
+.profile-items .user-dp {
     height: clamp(65px, 7vw, 100px);
     width: clamp(65px, 7vw, 100px);
     border-radius: 50%
 }
 
-.profile-setting-items .favorite-track {
+.profile-items .favorite-track {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 50px;
 }
 
-.profile-setting-items .song-item {
+.profile-items .song-item {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.profile-setting-items h1 {
+.profile-items h1 {
     border-bottom: 2px solid var(--darker-gray);
     text-align: center;
     padding-bottom: 20px;
     width: 300px;
 }
 
-.profile-setting-items p {
+.profile-items p {
     margin: 10px;
 }
 
-.profile-setting-items .song-item .track-img {
+.profile-items .song-item .track-img {
     height: clamp(300px, 13vw, 500px);
     width: clamp(300px, 13vw, 500px);
 }
 
-.profile-setting-items .form {
+.profile-items .form {
     display: flex;
     flex-direction: row;
     margin-top: 50px;
 }
 
-.profile-setting-items .form button {
+.profile-items .form button {
     width: 100px;
     background-color: transparent;
     color: white;
@@ -59,11 +59,11 @@
     border: none;
 }
 
-.profile-setting-items .form button:hover {
+.profile-items .form button:hover {
     color: var(--hover-color);
 }
 
-.profile-setting-items form input {
+.profile-items form input {
     border: none;
     border-bottom: 2px solid gray;
     background-color: transparent;
@@ -74,12 +74,12 @@
     width: 350px;
 }
 
-.profile-setting-items form input:focus {
+.profile-items form input:focus {
     outline: none;
     border-bottom: 2px solid var(--hover-color);
   }
 
-.profile-setting-items .track-list {
+.profile-items .track-list {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -87,33 +87,33 @@
     margin-bottom: 50px;
 }
 
-.profile-setting-items .track-list-item {
+.profile-items .track-list-item {
     margin: 20px;
     color: white;
     background-color: transparent;
     border: none;
 }
 
-.profile-setting-items .form {
+.profile-items .form {
     display: flex;
     flex-direction: row;
     justify-content: center;
 }
 
 @media only screen and (max-width: 500px) {
-    .profile-setting-items .form {
+    .profile-items .form {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
     }
 
-    .profile-setting-items .form input {
+    .profile-items .form input {
         width: 300px;
         font-size: 16px;
     }
 
-    .profile-setting-items .form button {
+    .profile-items .form button {
         width: 125px;
         margin-top: 25px;
         background-color: var(--spotify-green);
