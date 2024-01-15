@@ -1,18 +1,21 @@
 import axios from "axios";
 
+// Spotify Auth
 const SPOTIFY_CLIENT_ID = "4cb59fcbc79e4bbcb51d908f87698410";
 const SPOTIFY_AUTHORIZATION_URL = "https://accounts.spotify.com/authorize";
 const REDIRECT_URI = "http://localhost:3000";
 const scopes = ["user-read-private", "user-read-email", "user-read-currently-playing", "user-library-read", "playlist-read-private", "user-top-read"];
 export const SPOTIFY_AUTHORIZATION_URL_PARAMETERS = `${SPOTIFY_AUTHORIZATION_URL}?response_type=token&client_id=${SPOTIFY_CLIENT_ID}&scope=${scopes.join("%20")}&show_dialog=true&redirect_uri=${REDIRECT_URI}`;
 
+// Spotify End Points
 const GET_USER_SPOTIFY_PROFILE_ENDPOINT = "https://api.spotify.com/v1/me";
 const GET_CURRENT_USER_PLAYLIST_ENDPOINT =
   "https://api.spotify.com/v1/me/playlists";
 const GET_PLAYLIST_ITEMS_ENDPOINT = "https://api.spotify.com/v1/playlists/"; // + {playlist_id}/tracks
 const GET_ARTIST_ENDPOINT = "https://api.spotify.com/v1/artists/"; // + {id}
 const GET_SONGS_ENDPOINT = "https://api.spotify.com/v1/search"; // ex. https://api.spotify.com/v1/search?q=ride%20or%20die
-const GET_TOP_ARTISTS = "https://api.spotify.com/v1/me/top/artists"
+const GET_TOP_ARTISTS = "https://api.spotify.com/v1/me/top/artists";
+const GET_TOP_TRACKS = "https://api.spotify.com/v1/me/top/tracks";
 
 /* Check if access token is expired (more than an hour) */
 export function accessTokenIsValid(token, timestamp) {
@@ -67,7 +70,7 @@ export async function getUserSpotifyPlaylists(token, userId) {
     const playlistIDs = playlistCreatedByCurrentUser.map((playlist) => {
       return playlist["id"];
     });
-    console.log("Playlists:", playlistIDs[0]);
+
     return playlistIDs;
   } catch (error) {
     console.log("getUserPlaylists():", error);
@@ -98,7 +101,7 @@ export async function getUserSpotifyTracks(token, playlistsID) {
         tracks = tracks.concat(result);
       }
     }
-    console.log("Tracks: ", tracks);
+
     // remove duplicates track (because user may have same tracks in different playlists)
     const tracksWithoutDuplicates = tracks.filter(
       (track, index, self) =>
@@ -116,6 +119,31 @@ export async function getUserSpotifyTracks(token, playlistsID) {
     console.log("getUserTracks():", error);
     return false;
   }
+}
+
+export async function getUserSpotifyTopTracks(token) {
+  const limit = 25;
+
+  const url = `${GET_TOP_TRACKS}?limit=${limit}`;
+
+  try {
+    const response = await axios.get(url, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const topTracks = response["data"]["items"];
+    const parsedTracks = parseSpotifyTopTracks(topTracks);
+    return parsedTracks;
+  } catch (error) {
+    console.log("getUserTopTracks(): ", error);
+    return false;
+  }
+}
+
+function parseSpotifyTopTracks(tracksJSON) {
+  const tracks = tracksJSON.map((track) => {
+    return parseSpotifyTrack(track);
+  });
+  return tracks;
 }
 
 /* Map each Spotify JSON track to only store the data we need */
@@ -193,10 +221,11 @@ export async function getArtist(token, artistId) {
 }
 
 /* Get user genres based on all user's tracks */
-export async function getUserTopGenres(token) {
+export async function getUserSpotifyTopGenres(token) {
   console.log("Getting user Spotify genres...");
   let genres = [];
-  const url = GET_TOP_ARTISTS + "?limit=10";
+  const limit = 10;
+  const url = `${GET_TOP_ARTISTS}?limit=${limit}`;
 
   try {
     const response = await axios.get(url, {

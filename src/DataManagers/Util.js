@@ -25,6 +25,10 @@ export async function getMatchesTracks(userId, otherUserId) {
   };
 }
 
+export async function getMatchesGenres(userId, otherUserId) {
+  
+}
+
 export function getDistanceFromLatLong(lat1, long1, lat2, long2) {
   const _long1 = (long1 * Math.PI) / 180;
   const _long2 = (long2 * Math.PI) / 180;

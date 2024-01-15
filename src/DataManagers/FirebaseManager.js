@@ -43,7 +43,7 @@ export async function insertUserToDatabase(userInfo, userTracks, genres) {
       long: userInfo.long,
       lat: userInfo.lat,
     };
-    console.log(userData);
+    console.log("User Data:", userData);
     await setDoc(
       docRef,
       userData,

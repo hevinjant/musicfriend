@@ -20,18 +20,10 @@ function Home() {
   const [track, setTrack] = useState({});
   const [matchesInfo, setMatchesInfo] = useState({});
   const [nearbyUsers, setNearbyUsers] = useState([]);
-  //const [token, setToken] = useState(localStorage.getItem("access_token"));
-  //const token = useSelector((state) => state.token.access_token);
+
   const user = useSelector((state) => state.userInfo.user_info);
 
   useEffect(() => {
-    // const usrJSON = localStorage.getItem("user_info");
-    // const usr = JSON.parse(usrJSON);
-    // console.log("useEffect:", usr);
-    // getUserTracks(user.email).then((tracks) => {
-    //   console.log("Retrieved tracks:", tracks);
-    //   setTrack(tracks);
-    // });
     const accessToken = localStorage.getItem("access_token");
     if (accessToken === "") {
       navigate.current("/");
@@ -51,7 +43,6 @@ function Home() {
           setMatchesInfo(result);
           insertMatchResultToDatabase(user.id, result);
           setSearched(true);
-          console.log("search result:", result);
         });
       } else {
         console.log("User not found.");

@@ -5,8 +5,9 @@ import {
   getUserSpotifyPlaylists,
   getUserSpotifyInfo,
   getUserSpotifyTracks,
-  getUserTopGenres,
-  SPOTIFY_AUTHORIZATION_URL_PARAMETERS
+  getUserSpotifyTopGenres,
+  SPOTIFY_AUTHORIZATION_URL_PARAMETERS,
+  getUserSpotifyTopTracks
 } from "../DataManagers/SpotifyManager";
 import { useNavigate } from "react-router-dom";
 import { useGeolocated } from "react-geolocated";
@@ -63,36 +64,49 @@ function Login() {
     }
   }, [window.location])
 
-  const handleClick = () => {
-    setIsLoading(true);
-    // fetch user's info
-    getUserSpotifyInfo(token).then((spotifyUserInfo) => {
-      // fetch user's tracks
-      const userInfo = getUserGeolocation(spotifyUserInfo);
-      dispatch(setUserInfo(userInfo));
-      localStorage.setItem("user_info", JSON.stringify(userInfo));
-      getUserSpotifyPlaylists(token, userInfo.id).then((playlistsID) => {
-        getUserSpotifyTracks(token, playlistsID).then((tracks) => {
-          getUserTopGenres(token).then((genres) => {
-            insertUserToDatabase(userInfo, tracks, genres).then(() => {
-              setIsLoading(false);
-              navigate("/home");
-            });
-          });
-        });
-      });
-    });
-  };
+  const getUserInfo =  (token) => {
+    const userInfo = getUserSpotifyInfo(token).then((spotifyUserInfo) => {
+      const res = getUserGeolocation(spotifyUserInfo);
+      dispatch(setUserInfo(res));
+      localStorage.setItem("user_info", JSON.stringify(res));
+      return res;
+    })
+    return userInfo;
+  }
 
-  // const getAccessToken = async () => {
-  
-  //   try {
-  //     const response = await axios.get('https://accounts.spotify.com/authorize?' + `response_type=token&client_id=${spotifyClientID}&scope=user-read-private%20user-read-email&show_dialog=true`
-  //     , {headers: {'Access-Control-Allow-Origin': '*', mode: 'cors'}})
-  //   } catch (error) {
-  //     return false;
-  //   }
+  // const getUserAllTracks = (token, userId) => {
+  //   const userAllTracks = getUserSpotifyPlaylists(token, userId).then((playlistsID) => {
+  //     getUserSpotifyTracks(token, playlistsID).then((tracks) => {
+  //         return tracks;
+  //       });
+  //     return userAllTracks;
+  //   })
   // }
+
+  const getUserTopTracks = (token) => {
+    const userTopTracks = getUserSpotifyTopTracks(token).then((topTracks) => {
+      return topTracks;
+    })
+    return userTopTracks;
+  }
+
+  const getUserTopGenres = (token) => {
+    const userTopGenres = getUserSpotifyTopGenres(token).then((topGenres) => {
+      return topGenres;
+    })
+    return userTopGenres;
+  }
+
+  const handleClick = async () => {
+    setIsLoading(true);
+    
+    const [userInfo, userTopTracks, userTopGenres] = await Promise.all([getUserInfo(token), getUserTopTracks(token), getUserTopGenres(token)]);
+
+    await insertUserToDatabase(userInfo, userTopTracks, userTopGenres).then(() => {
+      setIsLoading(false);
+      navigate("/home");
+    })
+  };
 
   return (
     <div className="login">

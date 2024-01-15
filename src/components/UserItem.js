@@ -4,10 +4,9 @@ import DefaultPict from "../assets/dfpic.jpeg";
 
 function UserItem({ user }) {
   const navigate = useNavigate();
-  const currentUser = JSON.parse(localStorage.getItem("user_info"));
 
   const handleClick = () => {
-    navigate(`/profile/${currentUser.id}`, {
+    navigate(`/profile/${user.id}`, {
       state: {
         display_picture_url: user.display_picture_url,
         display_name: user.display_name,
