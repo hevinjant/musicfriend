@@ -5,7 +5,7 @@ import {
   getUserSpotifyPlaylists,
   getUserSpotifyInfo,
   getUserSpotifyTracks,
-  getUserGenres,
+  getUserTopGenres,
   SPOTIFY_AUTHORIZATION_URL_PARAMETERS
 } from "../DataManagers/SpotifyManager";
 import { useNavigate } from "react-router-dom";
@@ -15,8 +15,6 @@ import spotifyIcon from "../assets/spotify-icon.png";
 import "../styles/Login.css";
 
 import { insertUserToDatabase } from "../DataManagers/FirebaseManager";
-
-import axios from "axios";
 
 // - before making a request to Spotify API, check if it's not yet an hour after timestamp
 
@@ -75,8 +73,7 @@ function Login() {
       localStorage.setItem("user_info", JSON.stringify(userInfo));
       getUserSpotifyPlaylists(token, userInfo.id).then((playlistsID) => {
         getUserSpotifyTracks(token, playlistsID).then((tracks) => {
-          console.log("TRACKS:", tracks);
-          getUserGenres(token, tracks).then((genres) => {
+          getUserTopGenres(token).then((genres) => {
             insertUserToDatabase(userInfo, tracks, genres).then(() => {
               setIsLoading(false);
               navigate("/home");

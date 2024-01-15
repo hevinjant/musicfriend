@@ -3,7 +3,7 @@ import axios from "axios";
 const SPOTIFY_CLIENT_ID = "4cb59fcbc79e4bbcb51d908f87698410";
 const SPOTIFY_AUTHORIZATION_URL = "https://accounts.spotify.com/authorize";
 const REDIRECT_URI = "http://localhost:3000";
-const scopes = ["user-read-private", "user-read-email", "user-read-currently-playing", "user-library-read", "playlist-read-private"];
+const scopes = ["user-read-private", "user-read-email", "user-read-currently-playing", "user-library-read", "playlist-read-private", "user-top-read"];
 export const SPOTIFY_AUTHORIZATION_URL_PARAMETERS = `${SPOTIFY_AUTHORIZATION_URL}?response_type=token&client_id=${SPOTIFY_CLIENT_ID}&scope=${scopes.join("%20")}&show_dialog=true&redirect_uri=${REDIRECT_URI}`;
 
 const GET_USER_SPOTIFY_PROFILE_ENDPOINT = "https://api.spotify.com/v1/me";
@@ -12,6 +12,7 @@ const GET_CURRENT_USER_PLAYLIST_ENDPOINT =
 const GET_PLAYLIST_ITEMS_ENDPOINT = "https://api.spotify.com/v1/playlists/"; // + {playlist_id}/tracks
 const GET_ARTIST_ENDPOINT = "https://api.spotify.com/v1/artists/"; // + {id}
 const GET_SONGS_ENDPOINT = "https://api.spotify.com/v1/search"; // ex. https://api.spotify.com/v1/search?q=ride%20or%20die
+const GET_TOP_ARTISTS = "https://api.spotify.com/v1/me/top/artists"
 
 /* Check if access token is expired (more than an hour) */
 export function accessTokenIsValid(token, timestamp) {
@@ -192,27 +193,25 @@ export async function getArtist(token, artistId) {
 }
 
 /* Get user genres based on all user's tracks */
-export async function getUserGenres(token, tracks) {
+export async function getUserTopGenres(token) {
   console.log("Getting user Spotify genres...");
-  let artistIDs = new Set();
-  let genres = new Object();
+  let genres = [];
+  const url = GET_TOP_ARTISTS + "?limit=10";
 
-  for (const track of tracks) {
-    for (const artistId of track.trackArtistsId) {
-      if (!artistIDs.has(artistId)) {
-        const artist = await getArtist(token, artistId);
-        for (const genre of artist.genres) {
-          if (genre in genres) {
-            genres[genre] += 1;
-          } else {
-            genres[genre] = 1;
-          }
-        }
-        artistIDs.add(artistId);
+  try {
+    const response = await axios.get(url, {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+    const topArtists = response["data"]["items"];
+
+    for (const artist of topArtists) {
+      if (artist.genres) {
+        (artist.genres).forEach(genre => genres.push(genre))
       }
     }
+    return genres;
+  } catch (error) {
+    console.log("getUserTopGenres(): ", error);
+    return false;
   }
-
-  genres = Object.entries(genres).sort((a, b) => b[1] - a[1]);
-  return genres;
 }

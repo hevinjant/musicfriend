@@ -34,7 +34,6 @@ function ProfileSetting() {
     if (!accessTokenIsValid(accessToken, tokenTimestamp)) {
       navigate.current("/");
     } else {
-      console.log("Getting favorite song and genres")
       getUserFavoriteSong(userid).then((track) => {
         setFavoriteTrack(track);
       });

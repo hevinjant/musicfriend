@@ -20,19 +20,22 @@ export async function insertUserToDatabase(userInfo, userTracks, genres) {
   const docSnap = await getDoc(docRef);
 
   // only insert top 20 genres
-  const top = 21;
-  let top21genres = [];
-  for (let i = 0; i < top; i++) {
-    top21genres.push(genres[i][0]);
+  const top = 12;
+  let topGenres = [];
+  for (let i = 0; i < genres.length; i++) {
+    if (i == top) {
+      break;
+    }
+    topGenres.push(genres[i]);
   }
-
+  
   if (docSnap.exists()) {
     console.log("insertUserToDatabase(): User exists.");
     // if user already exists, update user's info cause they may have changed
     const userData = {
       id: userInfo.id,
       tracks: userTracks,
-      genres: top21genres,
+      genres: topGenres,
       email: userInfo.email,
       display_name: userInfo.display_name,
       display_picture_url: userInfo.display_picture_url,
@@ -54,7 +57,7 @@ export async function insertUserToDatabase(userInfo, userTracks, genres) {
       display_name: userInfo.display_name,
       display_picture_url: userInfo.display_picture_url,
       tracks: userTracks,
-      genres: top21genres,
+      genres: topGenres,
       match_history: [],
       country: userInfo.country,
       favorite_track: null,
@@ -92,7 +95,6 @@ export async function updateUserFavoriteSong(userId, favoriteTrack) {
 }
 
 export async function getUserFavoriteSong(userId) {
-  console.log("Firing getUserFavoriteSong with userid: ", userId)
   const docRef = doc(database, "users", userId);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
@@ -104,7 +106,6 @@ export async function getUserFavoriteSong(userId) {
 
 /* Get user genres */
 export async function getUserGenres(userId) {
-  console.log("Firing getUserGenres with userid: ", userId)
   const docRef = doc(database, "users", userId);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
