@@ -9,10 +9,11 @@ import {
   insertMatchResultToDatabase,
   getAllUsersFromDatabase,
 } from "../DataManagers/FirebaseManager";
-import { getMatchesTracks } from "../DataManagers/Util";
+import { getMatchesGenres, getMatchesTracks } from "../DataManagers/Util";
 import { useNavigate } from "react-router-dom";
 import "../styles/Home.css";
 import ExploreList from "../components/ExploreList";
+import GenresList from "../components/GenresList";
 
 function Home() {
   const navigate = useRef(useNavigate());
@@ -34,20 +35,54 @@ function Home() {
     });
   }, []);
 
-  /* Get the matching tracks and matching percentage of users */
-  const getSearchResult = (otherUserName) => {
-    getUserIdByDisplayName(otherUserName).then((otherUserIds) => {
-      if (otherUserIds.length > 0) {
-        const otherUserId = otherUserIds[0];
-        getMatchesTracks(user.id, otherUserId).then((result) => {
-          setMatchesInfo(result);
-          insertMatchResultToDatabase(user.id, result);
-          setSearched(true);
-        });
-      } else {
-        console.log("User not found.");
+  const _getMatchesTracks = (userId, otherUserId) => {
+    const matchesTracks = getMatchesTracks(userId, otherUserId).then(
+      (result) => {
+        return result;
       }
-    });
+    );
+    return matchesTracks;
+  };
+
+  const _getMatchesGenres = (userId, otherUserId) => {
+    const matchesGenres = getMatchesGenres(userId, otherUserId).then(
+      (result) => {
+        return result;
+      }
+    );
+    return matchesGenres;
+  };
+
+  /* Get the matching tracks and matching percentage of users */
+  const getSearchResult = async (otherUserName) => {
+    const otherUserId = await getUserIdByDisplayName(otherUserName).then(
+      (otherUserIds) => {
+        if (otherUserIds.length > 0) {
+          const otherUserId = otherUserIds[0];
+          return otherUserId;
+        } else {
+          console.log("User not found.");
+        }
+      }
+    );
+
+    const [trackMatches, genresMatches] = await Promise.all([
+      _getMatchesTracks(user.id, otherUserId),
+      _getMatchesGenres(user.id, otherUserId),
+    ]);
+
+    const matchesResult = {
+      tracksPercentage: trackMatches.percentage,
+      similarTracks: trackMatches.matches,
+      genresPercentage: genresMatches.percentage,
+      similarGenres: genresMatches.matches,
+      otherUserInfo: trackMatches.otherUserInfo,
+      timestamp: Date.now(),
+    };
+
+    setMatchesInfo(matchesResult);
+    insertMatchResultToDatabase(user.id, matchesResult);
+    setSearched(true);
   };
 
   const handleFormSubmit = (otherUserName) => {
@@ -93,21 +128,34 @@ function Home() {
       <div className="display-result">
         <div className="match-header">
           <UserItem user={matchesInfo.otherUserInfo} />
-          <div className="match-text">
-            <p className="match-percentage">
-              Your songs match <strong>{matchesInfo.percentage}%</strong>
-            </p>
-            <p className="match-total">
-              {matchesInfo.matches.length} total match songs
-            </p>
-          </div>
           <button onClick={handleSearchAgain}>Search Again</button>
         </div>
         <div className="match-body">
-          <div className="track-list" style={{ marginBottom: "100px" }}>
-            {matchesInfo.matches.map((track, key) => {
-              return <SongItem key={key} track={track} />;
-            })}
+          <div className="genres-match">
+            <p className="match-percentage">
+              Your top genres match{" "}
+              <strong>{matchesInfo.genresPercentage}%</strong>
+            </p>
+            <p className="match-total">
+              {matchesInfo.similarGenres.length} total match genres
+            </p>
+            <div className="genres-list">
+              <GenresList genres={matchesInfo.similarGenres} />
+            </div>
+          </div>
+          <div className="tracks-match">
+            <p className="match-percentage">
+              Your top songs match{" "}
+              <strong>{matchesInfo.tracksPercentage}%</strong>
+            </p>
+            <p className="match-total">
+              {matchesInfo.similarTracks.length} total match songs
+            </p>
+            <div className="track-list" style={{ marginBottom: "100px" }}>
+              {matchesInfo.similarTracks.map((track, key) => {
+                return <SongItem key={key} track={track} />;
+              })}
+            </div>
           </div>
         </div>
       </div>

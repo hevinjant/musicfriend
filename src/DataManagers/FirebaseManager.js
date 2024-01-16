@@ -28,7 +28,7 @@ export async function insertUserToDatabase(userInfo, userTracks, genres) {
     }
     topGenres.push(genres[i]);
   }
-  
+
   if (docSnap.exists()) {
     console.log("insertUserToDatabase(): User exists.");
     // if user already exists, update user's info cause they may have changed
@@ -44,11 +44,7 @@ export async function insertUserToDatabase(userInfo, userTracks, genres) {
       lat: userInfo.lat,
     };
     console.log("User Data:", userData);
-    await setDoc(
-      docRef,
-      userData,
-      { merge: true }
-    );
+    await setDoc(docRef, userData, { merge: true });
   } else {
     // insert new user and their tracks
     const userData = {
@@ -104,7 +100,7 @@ export async function getUserFavoriteSong(userId) {
   return null;
 }
 
-/* Get user genres */
+/* Get user genres from database */
 export async function getUserGenres(userId) {
   const docRef = doc(database, "users", userId);
   const docSnap = await getDoc(docRef);
@@ -181,9 +177,12 @@ export async function getUserByName(displayName) {}
 /* Insert match result to database */
 export async function insertMatchResultToDatabase(userId, matchResult) {
   const matchHistory = {
-    percentage: matchResult.percentage,
+    tracksPercentage: matchResult.tracksPercentage,
+    similarTracks: matchResult.similarTracks,
+    genresPercentage: matchResult.genresPercentage,
+    similarGenres: matchResult.similarGenres,
     otherUserInfo: matchResult.otherUserInfo,
-    timestamp: Date.now(),
+    timestamp: matchResult.timestamp,
   };
   const docRef = doc(database, "users", userId);
   const docSnap = await getDoc(docRef);

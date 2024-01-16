@@ -14,6 +14,7 @@ import {
 } from "../DataManagers/FirebaseManager";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import DefaultPict from "../assets/dfpic.jpeg";
+import GenresList from "../components/GenresList";
 import "../styles/Profile.css";
 
 function Profile() {
@@ -68,33 +69,6 @@ function Profile() {
     handleGetSongs(access_token, trackQuery);
   };
 
-  const genresGrid = (
-    <div
-      className="genres-grid"
-      style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}
-    >
-      {genres.map((genre, idx) => {
-        return (
-          <p
-            key={idx}
-            style={{
-              textAlign: "center",
-              backgroundColor: "#1db954",
-              borderRadius: "5px",
-              width: "auto",
-              padding: "5px",
-              fontSize: "12px",
-              fontWeight: "700",
-              margin: "5px",
-            }}
-          >
-            {genre}
-          </p>
-        );
-      })}
-    </div>
-  );
-
   return (
     <div className="profile">
       <Navbar />
@@ -110,7 +84,7 @@ function Profile() {
         />
         <h1>{state.display_name}</h1>
         <h3 style={{ color: "var(--darker-gray)" }}>Top Genres</h3>
-        {genresGrid}
+        <GenresList genres={genres} />
         {favoriteTrack ? (
           <div className="favorite-track">
             <h3 style={{ color: "var(--darker-gray)" }}>Favorite song</h3>

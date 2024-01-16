@@ -34,6 +34,7 @@
   color: white;
   text-align: center;
   width: auto;
+  margin-top: 5px;
 }
 
 .home-right {
@@ -110,12 +111,13 @@
 
 .home-right .display-result .match-header .user-item button {
   height: 100%;
+  margin: 5px;
 }
 
 .home-right .display-result .match-header .user-item .display-name {
   color: white;
   text-align: center;
-  font-size: clamp(20px, 1vw, 25px);
+  font-size: clamp(17px, 0.9vw, 23px);
   width: 100%;
   margin: 0;
 }
@@ -154,6 +156,8 @@
   margin-top: 10px;
   overflow-y: scroll;
   height: 65vh;
+  color: white;
+  padding: 20px 50px 20px 50px;
 }
 
 .home-right .display-result .match-body .track-list {
@@ -194,6 +198,14 @@
 
 .home-right .display-result .match-body::-webkit-scrollbar {
   display: none;
+}
+
+.home-right .display-result .match-total {
+  font-size: clamp(12px, 0.6vw, 15px);
+}
+
+.home-right .display-result .genres-match {
+  margin-bottom: 30px;
 }
 
 @media only screen and (max-width: 1300px) {

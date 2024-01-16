@@ -223,7 +223,7 @@ export async function getArtist(token, artistId) {
 /* Get user genres based on all user's tracks */
 export async function getUserSpotifyTopGenres(token) {
   console.log("Getting user Spotify genres...");
-  let genres = [];
+  let genres = new Set();
   const limit = 25;
   const url = `${GET_TOP_ARTISTS}?limit=${limit}`;
 
@@ -235,10 +235,10 @@ export async function getUserSpotifyTopGenres(token) {
 
     for (const artist of topArtists) {
       if (artist.genres) {
-        (artist.genres).forEach(genre => genres.push(genre))
+        (artist.genres).forEach(genre => genres.add(genre))
       }
     }
-    return genres;
+    return [...genres];
   } catch (error) {
     console.log("getUserTopGenres(): ", error);
     return false;

@@ -1,4 +1,4 @@
-import { getUserInfo, getUserTracks } from "./FirebaseManager";
+import { getUserInfo, getUserTracks, getUserGenres } from "./FirebaseManager";
 
 /*
 Find all tracks that match between two users.
@@ -6,9 +6,13 @@ Find all tracks that match between two users.
 export async function getMatchesTracks(userId, otherUserId) {
   let similarTracks = [];
   let percentage = 0.0;
-  const userTracks = await getUserTracks(userId);
-  const otherUserTracks = await getUserTracks(otherUserId);
-  const otherUserInfo = await getUserInfo(otherUserId);
+
+  const [userTracks, otherUserTracks, otherUserInfo] = await Promise.all([
+    getUserTracks(userId),
+    getUserTracks(otherUserId),
+    getUserInfo(otherUserId),
+  ]);
+
   // find the matches
   for (let track1 of userTracks) {
     for (let track2 of otherUserTracks) {
@@ -26,7 +30,29 @@ export async function getMatchesTracks(userId, otherUserId) {
 }
 
 export async function getMatchesGenres(userId, otherUserId) {
-  
+  let similarGenres = [];
+  let percentage = 0.0;
+
+  const [userGenres, otherUserGenres, otherUserInfo] = await Promise.all([
+    getUserGenres(userId),
+    getUserGenres(otherUserId),
+    getUserInfo(otherUserId),
+  ]);
+
+  // find the matches
+  for (let genre1 of userGenres) {
+    for (let genre2 of otherUserGenres) {
+      if (genre1 === genre2) {
+        similarGenres.push(genre1);
+      }
+    }
+  }
+  percentage = ((similarGenres.length / userGenres.length) * 100).toFixed(1);
+  return {
+    matches: similarGenres,
+    percentage: percentage,
+    otherUserInfo: otherUserInfo,
+  };
 }
 
 export function getDistanceFromLatLong(lat1, long1, lat2, long2) {
