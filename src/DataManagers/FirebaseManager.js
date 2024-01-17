@@ -13,8 +13,9 @@ import { database } from "../Firebase";
 if not then insert new user information and their tracks to database.
 if user exists then just update their tracks.
 */
-export async function insertUserToDatabase(userInfo, userTracks, genres) {
+export async function insertUserToDatabase(userInfo, tracks, genres) {
   console.log("Inserting user to database...");
+
   const userId = userInfo.id;
   const docRef = doc(database, "users", userId);
   const docSnap = await getDoc(docRef);
@@ -34,7 +35,8 @@ export async function insertUserToDatabase(userInfo, userTracks, genres) {
     // if user already exists, update user's info cause they may have changed
     const userData = {
       id: userInfo.id,
-      tracks: userTracks,
+      tracks: tracks.allTracks,
+      topTracks: tracks.topTracks,
       genres: topGenres,
       email: userInfo.email,
       display_name: userInfo.display_name,
@@ -43,7 +45,7 @@ export async function insertUserToDatabase(userInfo, userTracks, genres) {
       long: userInfo.long,
       lat: userInfo.lat,
     };
-    console.log("User Data:", userData);
+    console.log("User Data (Existing):", userData);
     await setDoc(docRef, userData, { merge: true });
   } else {
     // insert new user and their tracks
@@ -52,7 +54,8 @@ export async function insertUserToDatabase(userInfo, userTracks, genres) {
       email: userInfo.email,
       display_name: userInfo.display_name,
       display_picture_url: userInfo.display_picture_url,
-      tracks: userTracks,
+      tracks: tracks.allTracks,
+      topTracks: tracks.topTracks,
       genres: topGenres,
       match_history: [],
       country: userInfo.country,
@@ -60,7 +63,7 @@ export async function insertUserToDatabase(userInfo, userTracks, genres) {
       long: userInfo.long === undefined ? null : userInfo.long,
       lat: userInfo.lat === undefined ? null : userInfo.lat,
     };
-    console.log("User Data:", userData);
+    console.log("User Data (New):", userData);
     await setDoc(docRef, userData);
   }
 }
@@ -110,6 +113,9 @@ export async function getUserGenres(userId) {
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
     const genres = docSnap.data().genres;
+    if (!genres) {
+      return [];
+    }
     return genres;
   }
 }
@@ -124,7 +130,28 @@ export async function getUserTracks(userId) {
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
     const tracks = docSnap.data().tracks;
+    if (!tracks) {
+      return [];
+    }
     return tracks;
+  }
+  return [];
+}
+
+/* Get all user's top tracks from database */
+export async function getUserTopTracks(userId) {
+  if (!userId) {
+    return [];
+  }
+
+  const docRef = doc(database, "users", userId);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    const topTracks = docSnap.data().topTracks;
+    if (!topTracks) {
+      return [];
+    }
+    return topTracks;
   }
   return [];
 }
@@ -191,6 +218,8 @@ export async function insertMatchResultToDatabase(userId, matchResult) {
   const matchHistory = {
     tracksPercentage: matchResult.tracksPercentage,
     similarTracks: matchResult.similarTracks,
+    topTracksPercentage: matchResult.topTracksPercentage,
+    similarTopTracks: matchResult.similarTopTracks,
     genresPercentage: matchResult.genresPercentage,
     similarGenres: matchResult.similarGenres,
     otherUserInfo: matchResult.otherUserInfo,

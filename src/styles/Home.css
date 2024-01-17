@@ -135,11 +135,6 @@
   margin-bottom: 0px;
 }
 
-.home-right .display-result .match-header .match-total {
-  color: white;
-  font-size: clamp(15px, 2vw, 20px);
-}
-
 .home-right .display-result .match-header button {
   background-color: var(--button-color);
   border: none;
@@ -194,8 +189,9 @@
   display: none;
 }
 
-.home-right .display-result .match-total {
-  font-size: clamp(12px, 0.6vw, 15px);
+.home-right .display-result .match-body .match-total {
+  color:  var(--lightest-gray);
+  font-size: clamp(12px, 0.9vw, 15px);
 }
 
 .home-right .display-result .genres-match {

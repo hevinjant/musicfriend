@@ -9,12 +9,13 @@ import {
   insertMatchResultToDatabase,
   getAllUsersFromDatabase,
 } from "../DataManagers/FirebaseManager";
-import { getMatchesGenres, getMatchesTracks } from "../DataManagers/Util";
+import { getMatchesGenres, getMatchesTracks, getMatchesTopTracks } from "../DataManagers/Util";
 import { useNavigate } from "react-router-dom";
 import "../styles/Home.css";
 import ExploreList from "../components/ExploreList";
 import GenresList from "../components/GenresList";
 import TracksList from "../components/TracksList";
+import { Divider } from "@mui/material";
 
 function Home() {
   const navigate = useRef(useNavigate());
@@ -45,6 +46,15 @@ function Home() {
     return matchesTracks;
   };
 
+  const _getMatchesTopTracks = (userId, otherUserId) => {
+    const matchesTopTracks = getMatchesTopTracks(userId, otherUserId).then(
+      (result) => {
+        return result;
+      }
+    );
+    return matchesTopTracks;
+  };
+
   const _getMatchesGenres = (userId, otherUserId) => {
     const matchesGenres = getMatchesGenres(userId, otherUserId).then(
       (result) => {
@@ -73,14 +83,17 @@ function Home() {
       return;
     }
 
-    const [trackMatches, genresMatches] = await Promise.all([
+    const [trackMatches, topTrackMatches, genresMatches] = await Promise.all([
       _getMatchesTracks(user.id, otherUserId),
+      _getMatchesTopTracks(user.id, otherUserId),
       _getMatchesGenres(user.id, otherUserId),
     ]);
 
     const matchesResult = {
       tracksPercentage: trackMatches.percentage,
       similarTracks: trackMatches.matches,
+      topTracksPercentage: topTrackMatches.percentage,
+      similarTopTracks: topTrackMatches.matches,
       genresPercentage: genresMatches.percentage,
       similarGenres: genresMatches.matches,
       otherUserInfo: trackMatches.otherUserInfo,
@@ -144,19 +157,33 @@ function Home() {
               <strong>{matchesInfo.genresPercentage}%</strong>
             </p>
             <p className="match-total">
-              {matchesInfo.similarGenres.length} total match genres
+              {matchesInfo.similarGenres.length} total match genre(s)
             </p>
             <div className="genres-list">
               <GenresList genres={matchesInfo.similarGenres} />
             </div>
           </div>
+          <hr style={{color: "white"}} />
+          <div className="top-tracks-match">
+            <p className="match-percentage">
+              Your top listened songs match{" "}
+              <strong>{matchesInfo.topTracksPercentage}%</strong>
+            </p>
+            <p className="match-total">
+              {matchesInfo.similarTopTracks.length} total match top listened song(s)
+            </p>
+            <div className="track-list" style={{ marginBottom: "100px" }}>
+              <TracksList tracks={matchesInfo.similarTopTracks} />
+            </div>
+          </div>
+          <hr style={{color: "white"}} />
           <div className="tracks-match">
             <p className="match-percentage">
-              Your top songs match{" "}
+              Your playlist songs match{" "}
               <strong>{matchesInfo.tracksPercentage}%</strong>
             </p>
             <p className="match-total">
-              {matchesInfo.similarTracks.length} total match songs
+              {matchesInfo.similarTracks.length} total match song(s)
             </p>
             <div className="track-list" style={{ marginBottom: "100px" }}>
               <TracksList tracks={matchesInfo.similarTracks} />

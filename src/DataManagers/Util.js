@@ -1,4 +1,4 @@
-import { getUserInfo, getUserTracks, getUserGenres } from "./FirebaseManager";
+import { getUserInfo, getUserTracks, getUserTopTracks ,getUserGenres } from "./FirebaseManager";
 
 /*
 Find all tracks that match between two users.
@@ -24,6 +24,32 @@ export async function getMatchesTracks(userId, otherUserId) {
   percentage = ((similarTracks.length / userTracks.length) * 100).toFixed(1);
   return {
     matches: similarTracks,
+    percentage: percentage,
+    otherUserInfo: otherUserInfo,
+  };
+}
+
+export async function getMatchesTopTracks(userId, otherUserId) {
+  let similarTopTracks = [];
+  let percentage = 0.0;
+
+  const [userTracks, otherUserTracks, otherUserInfo] = await Promise.all([
+    getUserTopTracks(userId),
+    getUserTopTracks(otherUserId),
+    getUserInfo(otherUserId),
+  ]);
+
+  // find the matches
+  for (let track1 of userTracks) {
+    for (let track2 of otherUserTracks) {
+      if (track1.trackId === track2.trackId) {
+        similarTopTracks.push(track1);
+      }
+    }
+  }
+  percentage = ((similarTopTracks.length / userTracks.length) * 100).toFixed(1);
+  return {
+    matches: similarTopTracks,
     percentage: percentage,
     otherUserInfo: otherUserInfo,
   };

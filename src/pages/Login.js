@@ -73,14 +73,15 @@ function Login() {
     return userInfo;
   };
 
-  // const getUserAllTracks = (token, userId) => {
-  //   const userAllTracks = getUserSpotifyPlaylists(token, userId).then((playlistsID) => {
-  //     getUserSpotifyTracks(token, playlistsID).then((tracks) => {
-  //         return tracks;
-  //       });
-  //     return userAllTracks;
-  //   })
-  // }
+  const getUserAllTracks = (token, userId) => {
+    const userAllTracks = getUserSpotifyPlaylists(token, userId).then((playlistsID) => {
+      return getUserSpotifyTracks(token, playlistsID).then((tracks) => {
+
+          return tracks;
+        });
+      })
+    return userAllTracks;
+  }
 
   const getUserTopTracks = (token) => {
     const userTopTracks = getUserSpotifyTopTracks(token).then((topTracks) => {
@@ -99,13 +100,23 @@ function Login() {
   const handleClick = async () => {
     setIsLoading(true);
 
-    const [userInfo, userTopTracks, userTopGenres] = await Promise.all([
-      getUserInfo(token),
+    const userInfo = await getUserInfo(token);
+    if (!userInfo && !userInfo.id) {
+      return;
+    }
+
+    const [userTopTracks, userAllTracks, userTopGenres] = await Promise.all([
       getUserTopTracks(token),
-      getUserTopGenres(token),
+      getUserAllTracks(token, userInfo.id),
+      getUserTopGenres(token)
     ]);
 
-    await insertUserToDatabase(userInfo, userTopTracks, userTopGenres).then(
+    const userTracks = {
+      allTracks: userAllTracks,
+      topTracks: userTopTracks
+    }
+
+    await insertUserToDatabase(userInfo, userTracks, userTopGenres).then(
       () => {
         setIsLoading(false);
         navigate("/home");
