@@ -1,4 +1,5 @@
 import React from "react";
+import "../styles/SongItem.css";
 
 function SongItem({ track }) {
   return (

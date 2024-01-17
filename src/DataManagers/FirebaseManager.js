@@ -102,6 +102,10 @@ export async function getUserFavoriteSong(userId) {
 
 /* Get user genres from database */
 export async function getUserGenres(userId) {
+  if (!userId) {
+    return [];
+  }
+
   const docRef = doc(database, "users", userId);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
@@ -112,6 +116,10 @@ export async function getUserGenres(userId) {
 
 /* Get all user's tracks from database */
 export async function getUserTracks(userId) {
+  if (!userId) {
+    return [];
+  }
+
   const docRef = doc(database, "users", userId);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
@@ -154,6 +162,10 @@ export async function getUserIdByDisplayName(displayName) {
 
 /* Get user information from database */
 export async function getUserInfo(userId) {
+  if (!userId) {
+    return {};
+  }
+
   const docRef = doc(database, "users", userId);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {

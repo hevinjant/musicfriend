@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import "../styles/Home.css";
 import ExploreList from "../components/ExploreList";
 import GenresList from "../components/GenresList";
+import TracksList from "../components/TracksList";
 
 function Home() {
   const navigate = useRef(useNavigate());
@@ -62,9 +63,15 @@ function Home() {
           return otherUserId;
         } else {
           console.log("User not found.");
+          return null;
         }
       }
     );
+
+    if (!otherUserId) {
+      console.log("Unable to find user.")
+      return;
+    }
 
     const [trackMatches, genresMatches] = await Promise.all([
       _getMatchesTracks(user.id, otherUserId),
@@ -152,9 +159,7 @@ function Home() {
               {matchesInfo.similarTracks.length} total match songs
             </p>
             <div className="track-list" style={{ marginBottom: "100px" }}>
-              {matchesInfo.similarTracks.map((track, key) => {
-                return <SongItem key={key} track={track} />;
-              })}
+              <TracksList tracks={matchesInfo.similarTracks} />
             </div>
           </div>
         </div>
@@ -181,7 +186,7 @@ function Home() {
           ) : (
             <>
               {searchBarAndPeopleList()}
-              <h3 style={{ color: "#a9a9a9" }}>People around you</h3>
+              <h3 style={{ color: "#a9a9a9", fontSize: "clamp(12px, 1.2vw, 25px)" }}>People around you</h3>
               <ExploreList nearbyUsers={nearbyUsers} />
             </>
           )}

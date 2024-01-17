@@ -160,12 +160,6 @@
   padding: 20px 50px 20px 50px;
 }
 
-.home-right .display-result .match-body .track-list {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 10px;
-}
-
 .home-right .display-result .match-body .song-item {
   display: flex;
   flex-direction: column;

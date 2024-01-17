@@ -1,0 +1,29 @@
+.song-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+.song-item img {
+    margin-top: 10px;
+    height: clamp(100px, 6vw, 500px);
+    width: clamp(100px, 6vw, 500px);
+    border-radius: 5px;
+  }
+  
+.song-item .track-name {
+    color: white;
+    font-size: clamp(15px, 1vw, 18px);
+    font-weight: 700;
+    margin-bottom: 3px;
+    max-width: 300px;
+    text-align: center;
+  }
+  
+.song-item .track-artists {
+    margin-top: 3px;
+    color: white;
+    font-size: clamp(12px, 0.8vw, 15px);
+    max-width: 300px;
+    text-align: center;
+  }

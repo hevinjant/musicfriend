@@ -13,7 +13,7 @@
 .profile-items .user-dp {
     height: clamp(65px, 7vw, 100px);
     width: clamp(65px, 7vw, 100px);
-    border-radius: 50%
+    border-radius: 50%;
 }
 
 .profile-items .favorite-track {
@@ -21,12 +21,6 @@
     flex-direction: column;
     align-items: center;
     margin-top: 50px;
-}
-
-.profile-items .song-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
 .profile-items h1 {
@@ -38,11 +32,6 @@
 
 .profile-items p {
     margin: 10px;
-}
-
-.profile-items .song-item .track-img {
-    height: clamp(300px, 13vw, 500px);
-    width: clamp(300px, 13vw, 500px);
 }
 
 .profile-items .form {

@@ -21,6 +21,7 @@ const UserExploreItem = ({ user }) => {
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
+        marginBottom: "15px"
       }}
     >
       <button
@@ -37,16 +38,19 @@ const UserExploreItem = ({ user }) => {
           }}
           style={{
             borderRadius: "50%",
-            width: "clamp(50px, 4vw, 75px)",
-            height: "clamp(50px, 4vw, 75px)",
+            width: "clamp(50px, 4vw, 65px)",
+            height: "clamp(50px, 4vw, 65px)",
+            position: "relative",
+            zIndex: "3"
           }}
         />
         <img
           src={user.favorite_track?.trackImageUrl}
           alt="no image"
           style={{
-            width: "clamp(50px, 4vw, 75px)",
-            height: "clamp(50px, 4vw, 75px)",
+            width: "clamp(50px, 4vw, 65px)",
+            height: "clamp(50px, 4vw, 65px)",
+            marginLeft: "-10px"
           }}
         />
       </button>
@@ -59,12 +63,12 @@ const UserExploreItem = ({ user }) => {
       >
         <p
           className="display-name"
-          style={{ color: "white", marginLeft: "10px" }}
+          style={{ color: "white", marginLeft: "10px", fontSize: "clamp(12px, 1vw, 15px)" }}
         >
           <strong>{user.display_name}</strong>
         </p>
 
-        <p style={{ color: "white", marginLeft: "10px", marginTop: "0px" }}>
+        <p style={{ color: "white", marginLeft: "10px", marginTop: "0px", fontSize: "clamp(12px, 0.9vw, 15px)" }}>
           {user.favorite_track?.trackName} - {user.favorite_track?.trackArtists}
         </p>
       </div>

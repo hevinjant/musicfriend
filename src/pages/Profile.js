@@ -5,12 +5,14 @@ import Navbar from "../components/Navbar";
 import { useSelector, useDispatch } from "react-redux";
 import { setUserInfo } from "../redux/action";
 import TrackList from "../components/TrackList";
+import TracksList from "../components/TracksList";
 import { getSongs, accessTokenIsValid } from "../DataManagers/SpotifyManager";
 import {
   changeUserProfilePicture,
   updateUserFavoriteSong,
   getUserFavoriteSong,
   getUserGenres,
+  getUserTracks
 } from "../DataManagers/FirebaseManager";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import DefaultPict from "../assets/dfpic.jpeg";
@@ -22,6 +24,7 @@ function Profile() {
   const state = useLocation().state;
   const navigate = useRef(useNavigate());
   const [tracks, setTracks] = useState([]);
+  const [topTracks, setTopTracks] = useState([]);
   const [favoriteTrack, setFavoriteTrack] = useState(null);
   const [genres, setGenres] = useState([]);
   const access_token = localStorage.getItem("access_token");
@@ -41,6 +44,9 @@ function Profile() {
       getUserGenres(userid).then((genres) => {
         setGenres(genres);
       });
+      getUserTracks(userid).then((topTracks) => {
+        setTopTracks(topTracks);
+      })
     }
   }, []);
 
@@ -85,6 +91,10 @@ function Profile() {
         <h1>{state.display_name}</h1>
         <h3 style={{ color: "var(--darker-gray)" }}>Top Genres</h3>
         <GenresList genres={genres} />
+        <h3 style={{ color: "var(--darker-gray)", marginTop: "30px" }}>Top Listened Tracks</h3>
+        <div className="top-tracks" style={{width: "75%"}}>
+          <TracksList tracks={topTracks} />
+        </div>
         {favoriteTrack ? (
           <div className="favorite-track">
             <h3 style={{ color: "var(--darker-gray)" }}>Favorite song</h3>
