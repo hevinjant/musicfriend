@@ -163,7 +163,7 @@ function Home() {
               <GenresList genres={matchesInfo.similarGenres} />
             </div>
           </div>
-          <hr style={{color: "white"}} />
+          <hr style={{borderColor: "#3d3d3d"}} />
           <div className="top-tracks-match">
             <p className="match-percentage">
               Your top listened songs match{" "}
@@ -176,7 +176,7 @@ function Home() {
               <TracksList tracks={matchesInfo.similarTopTracks} />
             </div>
           </div>
-          <hr style={{color: "white"}} />
+          <hr style={{borderColor: "#3d3d3d"}} />
           <div className="tracks-match">
             <p className="match-percentage">
               Your playlist songs match{" "}

@@ -74,14 +74,15 @@ function Login() {
   };
 
   const getUserAllTracks = (token, userId) => {
-    const userAllTracks = getUserSpotifyPlaylists(token, userId).then((playlistsID) => {
-      return getUserSpotifyTracks(token, playlistsID).then((tracks) => {
-
+    const userAllTracks = getUserSpotifyPlaylists(token, userId).then(
+      (playlistsID) => {
+        return getUserSpotifyTracks(token, playlistsID).then((tracks) => {
           return tracks;
         });
-      })
+      }
+    );
     return userAllTracks;
-  }
+  };
 
   const getUserTopTracks = (token) => {
     const userTopTracks = getUserSpotifyTopTracks(token).then((topTracks) => {
@@ -108,20 +109,18 @@ function Login() {
     const [userTopTracks, userAllTracks, userTopGenres] = await Promise.all([
       getUserTopTracks(token),
       getUserAllTracks(token, userInfo.id),
-      getUserTopGenres(token)
+      getUserTopGenres(token),
     ]);
 
     const userTracks = {
       allTracks: userAllTracks,
-      topTracks: userTopTracks
-    }
+      topTracks: userTopTracks,
+    };
 
-    await insertUserToDatabase(userInfo, userTracks, userTopGenres).then(
-      () => {
-        setIsLoading(false);
-        navigate("/home");
-      }
-    );
+    await insertUserToDatabase(userInfo, userTracks, userTopGenres).then(() => {
+      setIsLoading(false);
+      navigate("/home");
+    });
   };
 
   return (

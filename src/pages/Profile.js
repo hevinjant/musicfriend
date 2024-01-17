@@ -12,10 +12,10 @@ import {
   updateUserFavoriteSong,
   getUserFavoriteSong,
   getUserGenres,
-  getUserTracks
+  getUserTracks,
 } from "../DataManagers/FirebaseManager";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
-import DefaultPict from "../assets/dfpic.jpeg";
+import DefaultProfilePict from "../assets/dfpp.jpg";
 import GenresList from "../components/GenresList";
 import "../styles/Profile.css";
 
@@ -46,7 +46,7 @@ function Profile() {
       });
       getUserTracks(userid).then((topTracks) => {
         setTopTracks(topTracks);
-      })
+      });
     }
   }, []);
 
@@ -81,18 +81,24 @@ function Profile() {
       <div className="profile-items">
         <img
           className="user-dp"
-          src={state.display_picture_url}
+          src={
+            state.display_picture_url
+              ? state.display_picture_url
+              : DefaultProfilePict
+          }
           alt="no image"
           onError={(event) => {
-            event.target.src = DefaultPict;
+            event.target.src = DefaultProfilePict;
             event.oneerror = null;
           }}
         />
         <h1>{state.display_name}</h1>
         <h3 style={{ color: "var(--darker-gray)" }}>Top Genres</h3>
         <GenresList genres={genres} />
-        <h3 style={{ color: "var(--darker-gray)", marginTop: "30px" }}>Top Listened Tracks</h3>
-        <div className="top-tracks" style={{width: "75%"}}>
+        <h3 style={{ color: "var(--darker-gray)", marginTop: "30px" }}>
+          Top Listened Tracks
+        </h3>
+        <div className="top-tracks" style={{ width: "75%" }}>
           <TracksList tracks={topTracks} />
         </div>
         {favoriteTrack ? (
