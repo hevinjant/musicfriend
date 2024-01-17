@@ -74,7 +74,7 @@ export async function getUserSpotifyPlaylists(token, userId) {
     return playlistIDs;
   } catch (error) {
     console.log("getUserPlaylists():", error);
-    return false;
+    return [];
   }
 }
 
@@ -89,7 +89,7 @@ export async function getUserSpotifyTracks(token, playlistsID) {
     for (const id of playlistsID) {
       // for each playlist, get 100 tracks per offset until we get all of the tracks
       for (let offset = 0; offset < 10000; offset += limit) {
-        const endpoint = `${GET_PLAYLIST_ITEMS_ENDPOINT}${id}/tracks??limit=${limit}&offset=${offset}`;
+        const endpoint = `${GET_PLAYLIST_ITEMS_ENDPOINT}${id}/tracks?limit=${limit}&offset=${offset}`;
         const response = await axios.get(endpoint, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -117,7 +117,7 @@ export async function getUserSpotifyTracks(token, playlistsID) {
     return parsedTracks;
   } catch (error) {
     console.log("getUserTracks():", error);
-    return false;
+    return [];
   }
 }
 
@@ -135,7 +135,7 @@ export async function getUserSpotifyTopTracks(token) {
     return parsedTracks;
   } catch (error) {
     console.log("getUserTopTracks(): ", error);
-    return false;
+    return [];
   }
 }
 

@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import DefaultProfilePict from "../assets/dfpp.jpg";
 import DefaultPict from "../assets/dfpic.jpeg";
 
 const UserExploreItem = ({ user }) => {
@@ -21,7 +22,7 @@ const UserExploreItem = ({ user }) => {
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        marginBottom: "15px"
+        marginBottom: "15px",
       }}
     >
       <button
@@ -30,10 +31,12 @@ const UserExploreItem = ({ user }) => {
       >
         <img
           className="user-dp"
-          src={user.display_picture_url}
+          src={
+            user.display_picture_url ? user.display_picture_url : DefaultProfilePict
+          }
           alt="no image"
           onError={(event) => {
-            event.target.src = DefaultPict;
+            event.target.src = DefaultProfilePict;
             event.oneerror = null;
           }}
           style={{
@@ -41,16 +44,21 @@ const UserExploreItem = ({ user }) => {
             width: "clamp(50px, 4vw, 65px)",
             height: "clamp(50px, 4vw, 65px)",
             position: "relative",
-            zIndex: "3"
+            zIndex: "3",
           }}
         />
+
         <img
-          src={user.favorite_track?.trackImageUrl}
+          src={
+            user.favorite_track?.trackImageUrl
+              ? user.favorite_track?.trackImageUrl
+              : DefaultPict
+          }
           alt="no image"
           style={{
             width: "clamp(50px, 4vw, 65px)",
             height: "clamp(50px, 4vw, 65px)",
-            marginLeft: "-10px"
+            marginLeft: "-10px",
           }}
         />
       </button>
@@ -63,14 +71,27 @@ const UserExploreItem = ({ user }) => {
       >
         <p
           className="display-name"
-          style={{ color: "white", marginLeft: "10px", fontSize: "clamp(12px, 1vw, 15px)" }}
+          style={{
+            color: "white",
+            marginLeft: "10px",
+            fontSize: "clamp(12px, 1vw, 15px)",
+          }}
         >
           <strong>{user.display_name}</strong>
         </p>
-
-        <p style={{ color: "white", marginLeft: "10px", marginTop: "0px", fontSize: "clamp(12px, 0.9vw, 15px)" }}>
-          {user.favorite_track?.trackName} - {user.favorite_track?.trackArtists}
-        </p>
+        {user.favorite_track ? (
+          <p
+            style={{
+              color: "white",
+              marginLeft: "10px",
+              marginTop: "0px",
+              fontSize: "clamp(12px, 0.9vw, 15px)",
+            }}
+          >
+            {user.favorite_track?.trackName} -{" "}
+            {user.favorite_track?.trackArtists}
+          </p>
+        ) : null}
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import DefaultPict from "../assets/dfpic.jpeg";
+import DefaultProfilePict from "../assets/dfpp.jpg";
 
 function UserItem({ user }) {
   const navigate = useNavigate();
@@ -22,10 +22,10 @@ function UserItem({ user }) {
       >
         <img
           className="user-dp"
-          src={user.display_picture_url}
+          src={user.display_picture_url ? user.display_picture_url : DefaultProfilePict}
           alt="no image"
           onError={(event) => {
-            event.target.src = DefaultPict;
+            event.target.src = DefaultProfilePict;
             event.oneerror = null;
           }}
         />
