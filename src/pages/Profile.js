@@ -12,7 +12,7 @@ import {
   updateUserFavoriteSong,
   getUserFavoriteSong,
   getUserGenres,
-  getUserTracks,
+  getUserTopTracks,
 } from "../DataManagers/FirebaseManager";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import DefaultProfilePict from "../assets/dfpp.jpg";
@@ -44,7 +44,7 @@ function Profile() {
       getUserGenres(userid).then((genres) => {
         setGenres(genres);
       });
-      getUserTracks(userid).then((topTracks) => {
+      getUserTopTracks(userid).then((topTracks) => {
         setTopTracks(topTracks);
       });
     }
@@ -107,12 +107,12 @@ function Profile() {
             <SongItem track={favoriteTrack} />
           </div>
         ) : (
-          <p>You don't have a favorite song.</p>
+          <p style={{marginTop: "50px", marginBottom: "0px"}}>You don't have a featured song.</p>
         )}
         {currentLoginUser.id === userid ? (
           <Form
             formLabel=""
-            placeholder="Search a new favorite song"
+            placeholder="Search your featured song"
             handleFormSubmit={handleFormSubmit}
             handleButtonClick={handleSearch}
           />
