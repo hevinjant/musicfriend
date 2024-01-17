@@ -213,7 +213,7 @@ function Home() {
           ) : (
             <>
               {searchBarAndPeopleList()}
-              <h3 style={{ color: "#a9a9a9", fontSize: "clamp(12px, 1.2vw, 25px)" }}>People around you</h3>
+              <h3 style={{ color: "#a9a9a9", fontSize: "clamp(12px, 1vw, 25px)" }}>People around you</h3>
               <ExploreList nearbyUsers={nearbyUsers} />
             </>
           )}

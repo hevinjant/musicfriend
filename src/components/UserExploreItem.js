@@ -22,7 +22,7 @@ const UserExploreItem = ({ user }) => {
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        marginBottom: "15px",
+        marginBottom: "20px",
       }}
     >
       <button
@@ -41,8 +41,8 @@ const UserExploreItem = ({ user }) => {
           }}
           style={{
             borderRadius: "50%",
-            width: "clamp(50px, 4vw, 65px)",
-            height: "clamp(50px, 4vw, 65px)",
+            width: "clamp(50px, 3vw, 65px)",
+            height: "clamp(50px, 3vw, 65px)",
             position: "relative",
             zIndex: "3",
           }}
@@ -56,8 +56,8 @@ const UserExploreItem = ({ user }) => {
           }
           alt="no image"
           style={{
-            width: "clamp(50px, 4vw, 65px)",
-            height: "clamp(50px, 4vw, 65px)",
+            width: "clamp(50px, 3vw, 65px)",
+            height: "clamp(50px, 3vw, 65px)",
             marginLeft: "-10px",
           }}
         />
@@ -74,7 +74,7 @@ const UserExploreItem = ({ user }) => {
           style={{
             color: "white",
             marginLeft: "10px",
-            fontSize: "clamp(12px, 1vw, 15px)",
+            fontSize: "clamp(12px, 0.8vw, 15px)",
           }}
         >
           <strong>{user.display_name}</strong>
@@ -85,7 +85,7 @@ const UserExploreItem = ({ user }) => {
               color: "white",
               marginLeft: "10px",
               marginTop: "0px",
-              fontSize: "clamp(12px, 0.9vw, 15px)",
+              fontSize: "clamp(12px, 0.6vw, 15px)",
             }}
           >
             {user.favorite_track?.trackName} -{" "}

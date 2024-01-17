@@ -82,8 +82,8 @@
   height: 35px;
   margin: 20px;
   color: white;
-  font-weight: 700;
-  font-size: clamp(12px, 1.1vw, 17px);
+  letter-spacing: 1px;
+  font-size: clamp(12px, 0.9vw, 15px);
 }
 
 .home-right .display-search p {
