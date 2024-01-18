@@ -278,6 +278,47 @@ export async function getArtist(token, artistId) {
   }
 }
 
+export function parseSpotifyArtist(artists) {
+  // for (const artist of artists) {
+  //   artistNames += artist["name"] + ", ";
+  //   artistsId.push(artist["id"]);
+  // }
+  // artistNames = artistNames.slice(0, -2); // get rid of the last comma and space
+
+  // const parsed = {
+  //   trackId: track["id"],
+  //   trackName: track["name"],
+  //   trackArtists: artistNames,
+  //   trackArtistsId: artistsId,
+  //   trackImageUrl:
+  //     track["album"]["images"].length > 0
+  //       ? track["album"]["images"][0]["url"]
+  //       : null,
+  //   trackLink: track["external_urls"]["spotify"],
+  //   trackPreviewUrl: track["preview_url"],
+  //   trackGenres: null,
+  // };
+
+  // return parsed;
+}
+
+export async function getUserTopArtists(token) {
+  console.log("Getting user top artists...");
+  const limit = 10;
+  const url = `${GET_TOP_ARTISTS}?limit=${limit}`;
+
+  try {
+    const response = await axios.get(url, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    const topArtists = response["data"]["items"];
+    return topArtists;
+  } catch (error) {
+    console.log("getUserTopGenres(): ", error);
+    return false;
+  }
+}
+
 /* Get user genres based on all user's tracks */
 export async function getUserSpotifyTopGenres(token) {
   console.log("Getting user Spotify genres...");

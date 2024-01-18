@@ -28,6 +28,7 @@
     text-align: center;
     padding-bottom: 20px;
     width: 300px;
+    font-size: clamp(12px, 1.7vw, 20px);
 }
 
 .profile-items p {
