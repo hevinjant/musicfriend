@@ -142,13 +142,22 @@ function Login() {
             </div>
           ) : (
             // Display the login page
-            <a
-              className="login-button"
-              href={SPOTIFY_AUTHORIZATION_URL_PARAMETERS}
-            >
-              <img className="spotify-icon" src={spotifyIcon}></img>Log in with
-              Spotify
-            </a>
+            <div className="pre-login-container">
+              <a
+                className="login-button"
+                href={SPOTIFY_AUTHORIZATION_URL_PARAMETERS}
+              >
+                <img className="spotify-icon" src={spotifyIcon}></img>Log in
+                with Spotify
+              </a>
+              <button
+                onClick={() => {
+                  navigate("/guest");
+                }}
+              >
+                About this app
+              </button>
+            </div>
           )}
         </div>
       </div>

@@ -12,8 +12,8 @@
   }
   
 .song-item .track-name {
-    color: white;
-    font-size: clamp(15px, 1vw, 18px);
+    color: var(--lightest-gray);
+    font-size: clamp(15px, 0.7vw, 18px);
     font-weight: 700;
     margin-bottom: 3px;
     max-width: 300px;
@@ -21,9 +21,9 @@
   }
   
 .song-item .track-artists {
+    color: var(--lightest-gray);
     margin-top: 3px;
-    color: white;
-    font-size: clamp(12px, 0.8vw, 15px);
+    font-size: clamp(12px, 0.6vw, 15px);
     max-width: 300px;
     text-align: center;
   }

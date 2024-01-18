@@ -4,8 +4,17 @@ import axios from "axios";
 const SPOTIFY_CLIENT_ID = "4cb59fcbc79e4bbcb51d908f87698410";
 const SPOTIFY_AUTHORIZATION_URL = "https://accounts.spotify.com/authorize";
 const REDIRECT_URI = "http://localhost:3000";
-const scopes = ["user-read-private", "user-read-email", "user-read-currently-playing", "user-library-read", "playlist-read-private", "user-top-read"];
-export const SPOTIFY_AUTHORIZATION_URL_PARAMETERS = `${SPOTIFY_AUTHORIZATION_URL}?response_type=token&client_id=${SPOTIFY_CLIENT_ID}&scope=${scopes.join("%20")}&show_dialog=true&redirect_uri=${REDIRECT_URI}`;
+const scopes = [
+  "user-read-private",
+  "user-read-email",
+  "user-read-currently-playing",
+  "user-library-read",
+  "playlist-read-private",
+  "user-top-read",
+];
+export const SPOTIFY_AUTHORIZATION_URL_PARAMETERS = `${SPOTIFY_AUTHORIZATION_URL}?response_type=token&client_id=${SPOTIFY_CLIENT_ID}&scope=${scopes.join(
+  "%20"
+)}&show_dialog=true&redirect_uri=${REDIRECT_URI}`;
 
 // Spotify End Points
 const GET_USER_SPOTIFY_PROFILE_ENDPOINT = "https://api.spotify.com/v1/me";
@@ -16,6 +25,7 @@ const GET_ARTIST_ENDPOINT = "https://api.spotify.com/v1/artists/"; // + {id}
 const GET_SONGS_ENDPOINT = "https://api.spotify.com/v1/search"; // ex. https://api.spotify.com/v1/search?q=ride%20or%20die
 const GET_TOP_ARTISTS = "https://api.spotify.com/v1/me/top/artists";
 const GET_TOP_TRACKS = "https://api.spotify.com/v1/me/top/tracks";
+const GET_SAVED_TRACKS = "https://api.spotify.com/v1/me/tracks";
 
 /* Check if access token is expired (more than an hour) */
 export function accessTokenIsValid(token, timestamp) {
@@ -35,7 +45,8 @@ export async function getUserSpotifyInfo(token) {
     const user = {
       display_name: result["display_name"],
       email: result["email"],
-      display_picture_url: result["images"].length > 0 ? result["images"][0]["url"] : null,
+      display_picture_url:
+        result["images"].length > 0 ? result["images"][0]["url"] : null,
       id: result["id"],
       country: result["country"],
     };
@@ -119,6 +130,49 @@ export async function getUserSpotifyTracks(token, playlistsID) {
     console.log("getUserTracks():", error);
     return [];
   }
+}
+
+export async function getUserSpotifySavedTracks(token, playlistsID) {
+  console.log("Getting user Spotify tracks...");
+  try {
+    let tracks = [];
+    const limit = 100; // Spotify let app to retrieve 100 tracks at once
+
+    // for each playlist, get 100 tracks per offset until we get all of the tracks
+    for (let offset = 0; offset < 10000; offset += limit) {
+      const endpoint = `${GET_SAVED_TRACKS}?limit=${limit}&offset=${offset}`;
+      const response = await axios.get(endpoint, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const result = response["data"]["items"];
+      // if no more result is returned with the current offset, exit the loop
+      if (result.length === 0) {
+        break;
+      }
+      tracks = tracks.concat(result);
+    }
+
+    // remove duplicates track (because user may have same tracks in different playlists)
+    const tracksWithoutDuplicates = tracks.filter(
+      (track, index, self) =>
+        index ===
+        self.findIndex(
+          (target) =>
+            target["track"]["id"] === track["track"]["id"] &&
+            target["track"]["name"] === track["track"]["name"]
+        )
+    );
+
+    const parsedTracks = parseSpotifyTracks(tracksWithoutDuplicates);
+    return parsedTracks;
+  } catch (error) {
+    console.log("getUserTracks():", error);
+    return [];
+  }
+}
+
+async function getUserSpotifyAllTracks() {
+  // combine getUserSpotifyTracks and getUserSpotifySavedTracks
 }
 
 export async function getUserSpotifyTopTracks(token) {
@@ -229,13 +283,13 @@ export async function getUserSpotifyTopGenres(token) {
 
   try {
     const response = await axios.get(url, {
-      headers: { Authorization: `Bearer ${token}` }
-    })
+      headers: { Authorization: `Bearer ${token}` },
+    });
     const topArtists = response["data"]["items"];
 
     for (const artist of topArtists) {
       if (artist.genres) {
-        (artist.genres).forEach(genre => genres.add(genre))
+        artist.genres.forEach((genre) => genres.add(genre));
       }
     }
     return [...genres];

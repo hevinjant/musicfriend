@@ -74,7 +74,7 @@ const UserExploreItem = ({ user }) => {
           style={{
             color: "white",
             marginLeft: "10px",
-            fontSize: "clamp(12px, 0.8vw, 15px)",
+            fontSize: "clamp(12px, 0.9vw, 15px)",
           }}
         >
           <strong>{user.display_name}</strong>
@@ -82,7 +82,7 @@ const UserExploreItem = ({ user }) => {
         {user.favorite_track ? (
           <p
             style={{
-              color: "white",
+              color: "#a9a9a9",
               marginLeft: "10px",
               marginTop: "0px",
               fontSize: "clamp(12px, 0.6vw, 15px)",
