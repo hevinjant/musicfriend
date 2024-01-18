@@ -1,4 +1,5 @@
 import axios from "axios";
+import { removeTrackDuplicates } from "./Util";
 
 // Spotify Auth
 const SPOTIFY_CLIENT_ID = "4cb59fcbc79e4bbcb51d908f87698410";
@@ -114,29 +115,23 @@ export async function getUserSpotifyTracks(token, playlistsID) {
     }
 
     // remove duplicates track (because user may have same tracks in different playlists)
-    const tracksWithoutDuplicates = tracks.filter(
-      (track, index, self) =>
-        index ===
-        self.findIndex(
-          (target) =>
-            target["track"]["id"] === track["track"]["id"] &&
-            target["track"]["name"] === track["track"]["name"]
-        )
-    );
+    // const tracksWithoutDuplicates = removeTrackDuplicates(tracks);
 
-    const parsedTracks = parseSpotifyTracks(tracksWithoutDuplicates);
-    return parsedTracks;
+    // const parsedTracks = parseSpotifyTracks(tracksWithoutDuplicates);
+    // return parsedTracks;
+
+    return tracks;
   } catch (error) {
     console.log("getUserTracks():", error);
     return [];
   }
 }
 
-export async function getUserSpotifySavedTracks(token, playlistsID) {
+export async function getUserSpotifySavedTracks(token) {
   console.log("Getting user Spotify tracks...");
   try {
     let tracks = [];
-    const limit = 100; // Spotify let app to retrieve 100 tracks at once
+    const limit = 50; // Spotify let app to retrieve 50 tracks at once for Saved Tracks
 
     // for each playlist, get 100 tracks per offset until we get all of the tracks
     for (let offset = 0; offset < 10000; offset += limit) {
@@ -153,30 +148,39 @@ export async function getUserSpotifySavedTracks(token, playlistsID) {
     }
 
     // remove duplicates track (because user may have same tracks in different playlists)
-    const tracksWithoutDuplicates = tracks.filter(
-      (track, index, self) =>
-        index ===
-        self.findIndex(
-          (target) =>
-            target["track"]["id"] === track["track"]["id"] &&
-            target["track"]["name"] === track["track"]["name"]
-        )
-    );
+    // const tracksWithoutDuplicates = removeTrackDuplicates(tracks);
 
-    const parsedTracks = parseSpotifyTracks(tracksWithoutDuplicates);
-    return parsedTracks;
+    // const parsedTracks = parseSpotifyTracks(tracksWithoutDuplicates);
+    // return parsedTracks;
+
+    return tracks;
   } catch (error) {
-    console.log("getUserTracks():", error);
+    console.log("getUserSpotifySavedTracks():", error);
     return [];
   }
 }
 
-async function getUserSpotifyAllTracks() {
-  // combine getUserSpotifyTracks and getUserSpotifySavedTracks
+export async function getUserSpotifyTracksFromPlaylists(token, userId) {
+  const userAllTracks = getUserSpotifyPlaylists(token, userId).then(
+    (playlistsID) => {
+      return getUserSpotifyTracks(token, playlistsID).then((tracks) => {
+        return tracks;
+      });
+    }
+  );
+  return userAllTracks;
+}
+
+export async function getUserSpotifyAllTracks(token, userId) {
+  const [tracksFromPlaylists, tracksFromSavedSongs] = await Promise.all([getUserSpotifyTracksFromPlaylists(token, userId), getUserSpotifySavedTracks(token)]);
+  const allTracks = tracksFromPlaylists.concat(tracksFromSavedSongs);
+  const tracksWithoutDuplicates = removeTrackDuplicates(allTracks);
+  const parsedTracks = parseSpotifyTracks(tracksWithoutDuplicates);
+  return parsedTracks;
 }
 
 export async function getUserSpotifyTopTracks(token) {
-  const limit = 25;
+  const limit = 50;
 
   const url = `${GET_TOP_TRACKS}?limit=${limit}`;
 

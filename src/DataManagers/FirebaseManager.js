@@ -249,6 +249,10 @@ export async function getAllUsersFromDatabase() {
   return result;
 }
 
+export async function insertTracksForUser(userid, tracks) {
+  console.log("Inserting user tracks to database...");
+}
+
 /* Database scheme for user
 
 Users:

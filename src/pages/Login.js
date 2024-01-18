@@ -8,6 +8,7 @@ import {
   getUserSpotifyTopGenres,
   SPOTIFY_AUTHORIZATION_URL_PARAMETERS,
   getUserSpotifyTopTracks,
+  getUserSpotifyAllTracks
 } from "../DataManagers/SpotifyManager";
 import { useNavigate } from "react-router-dom";
 import { useGeolocated } from "react-geolocated";
@@ -74,13 +75,9 @@ function Login() {
   };
 
   const getUserAllTracks = (token, userId) => {
-    const userAllTracks = getUserSpotifyPlaylists(token, userId).then(
-      (playlistsID) => {
-        return getUserSpotifyTracks(token, playlistsID).then((tracks) => {
-          return tracks;
-        });
-      }
-    );
+    const userAllTracks = getUserSpotifyAllTracks(token, userId).then((tracks) => {
+      return tracks;
+    })
     return userAllTracks;
   };
 

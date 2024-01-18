@@ -12,13 +12,15 @@ function GenresList({ genres }) {
             key={idx}
             style={{
               textAlign: "center",
-              backgroundColor: "#1db954",
+              backgroundColor: "var(--light-purple)",
               borderRadius: "5px",
               width: "auto",
               padding: "5px 15px 5px 15px",
               fontSize: "12px",
-              fontWeight: "700",
+              color: "var(--lightest-gray)",
+              // fontWeight: "700",
               margin: "5px",
+              letterSpacing: "0.5px"
             }}
           >
             {genre}
