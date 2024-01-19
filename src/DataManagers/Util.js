@@ -1,5 +1,18 @@
 import { getUserInfo, getUserTracks, getUserTopTracks ,getUserGenres } from "./FirebaseManager";
 
+export function removeTrackDuplicates(tracks) {
+  const tracksWithoutDuplicates = tracks.filter(
+    (track, index, self) =>
+      index ===
+      self.findIndex(
+        (target) =>
+          target["track"]["id"] === track["track"]["id"] &&
+          target["track"]["name"] === track["track"]["name"]
+      )
+  );
+  return tracksWithoutDuplicates;
+}
+
 /*
 Find all tracks that match between two users.
  */

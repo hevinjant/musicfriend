@@ -96,14 +96,14 @@ function Profile() {
         <h3 style={{ color: "var(--darker-gray)" }}>Top Genres</h3>
         <GenresList genres={genres} />
         <h3 style={{ color: "var(--darker-gray)", marginTop: "30px" }}>
-          Top Listened Tracks
+          Top Listened Songs
         </h3>
         <div className="top-tracks" style={{ width: "75%" }}>
           <TracksList tracks={topTracks} />
         </div>
         {favoriteTrack ? (
           <div className="favorite-track">
-            <h3 style={{ color: "var(--darker-gray)" }}>Favorite song</h3>
+            <h3 style={{ color: "var(--darker-gray)" }}>Your featured song</h3>
             <SongItem track={favoriteTrack} />
           </div>
         ) : (
@@ -112,7 +112,7 @@ function Profile() {
         {currentLoginUser.id === userid ? (
           <Form
             formLabel=""
-            placeholder="Search your featured song"
+            placeholder="Search for your featured song"
             handleFormSubmit={handleFormSubmit}
             handleButtonClick={handleSearch}
           />
