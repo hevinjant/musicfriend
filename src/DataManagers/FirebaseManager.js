@@ -13,7 +13,7 @@ import { database } from "../Firebase";
 if not then insert new user information and their tracks to database.
 if user exists then just update their tracks.
 */
-export async function insertUserToDatabase(userInfo, tracks, genres) {
+export async function insertUserToDatabase(userInfo, tracks, genres, artists) {
   console.log("Inserting user to database...");
 
   const userId = userInfo.id;
@@ -37,6 +37,7 @@ export async function insertUserToDatabase(userInfo, tracks, genres) {
       id: userInfo.id,
       tracks: tracks.allTracks,
       topTracks: tracks.topTracks,
+      topArtists: artists,
       genres: topGenres,
       email: userInfo.email,
       display_name: userInfo.display_name,
@@ -56,6 +57,7 @@ export async function insertUserToDatabase(userInfo, tracks, genres) {
       display_picture_url: userInfo.display_picture_url,
       tracks: tracks.allTracks,
       topTracks: tracks.topTracks,
+      topArtists: artists,
       genres: topGenres,
       match_history: [],
       country: userInfo.country,
@@ -155,6 +157,25 @@ export async function getUserTopTracks(userId) {
   }
   return [];
 }
+
+/* Get all user's top artists from database */
+export async function getUserTopArtists(userId) {
+  if (!userId) {
+    return [];
+  }
+
+  const docRef = doc(database, "users", userId);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    const topArtists = docSnap.data().topArtists;
+    if (!topArtists) {
+      return [];
+    }
+    return topArtists;
+  }
+  return [];
+}
+
 
 /* Get user's match history */
 export async function getUserMatchHistory(userId) {

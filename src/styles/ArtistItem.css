@@ -1,29 +1,21 @@
-.song-item {
+.artist-item {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
 
-.song-item img {
+.artist-item img {
     margin-top: 10px;
     height: clamp(100px, 6vw, 500px);
     width: clamp(100px, 6vw, 500px);
     border-radius: 5px;
   }
   
-.song-item .track-name {
+.artist-item .artist-name {
     color: var(--lightest-gray);
     font-size: clamp(12px, 0.9vw, 18px);
     font-weight: 700;
     margin-bottom: 3px;
-    max-width: 300px;
-    text-align: center;
-  }
-  
-.song-item .track-artists {
-    color: var(--lightest-gray);
-    margin-top: 3px;
-    font-size: clamp(12px, 0.6vw, 15px);
     max-width: 300px;
     text-align: center;
   }

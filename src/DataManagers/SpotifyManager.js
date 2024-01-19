@@ -172,7 +172,10 @@ export async function getUserSpotifyTracksFromPlaylists(token, userId) {
 }
 
 export async function getUserSpotifyAllTracks(token, userId) {
-  const [tracksFromPlaylists, tracksFromSavedSongs] = await Promise.all([getUserSpotifyTracksFromPlaylists(token, userId), getUserSpotifySavedTracks(token)]);
+  const [tracksFromPlaylists, tracksFromSavedSongs] = await Promise.all([
+    getUserSpotifyTracksFromPlaylists(token, userId),
+    getUserSpotifySavedTracks(token),
+  ]);
   const allTracks = tracksFromPlaylists.concat(tracksFromSavedSongs);
   const tracksWithoutDuplicates = removeTrackDuplicates(allTracks);
   const parsedTracks = parseSpotifyTracks(tracksWithoutDuplicates);
@@ -278,31 +281,26 @@ export async function getArtist(token, artistId) {
   }
 }
 
-export function parseSpotifyArtist(artists) {
-  // for (const artist of artists) {
-  //   artistNames += artist["name"] + ", ";
-  //   artistsId.push(artist["id"]);
-  // }
-  // artistNames = artistNames.slice(0, -2); // get rid of the last comma and space
+export function parseSpotifyArtists(artists) {
+  const parsedArtists = [];
 
-  // const parsed = {
-  //   trackId: track["id"],
-  //   trackName: track["name"],
-  //   trackArtists: artistNames,
-  //   trackArtistsId: artistsId,
-  //   trackImageUrl:
-  //     track["album"]["images"].length > 0
-  //       ? track["album"]["images"][0]["url"]
-  //       : null,
-  //   trackLink: track["external_urls"]["spotify"],
-  //   trackPreviewUrl: track["preview_url"],
-  //   trackGenres: null,
-  // };
+  for (const artist of artists) {
+    const parsed = {
+      artistId: artist.id,
+      artistName: artist.name,
+      artistGenres: artist.genres,
+      artistType: artist.type,
+      artistImageUrl: artist.images.length > 0
+      ? artist.images[0].url
+      : null
 
-  // return parsed;
+    };
+    parsedArtists.push(parsed);
+  }
+  return parsedArtists;
 }
 
-export async function getUserTopArtists(token) {
+export async function getUserSpotifyTopArtists(token) {
   console.log("Getting user top artists...");
   const limit = 10;
   const url = `${GET_TOP_ARTISTS}?limit=${limit}`;
@@ -312,9 +310,10 @@ export async function getUserTopArtists(token) {
       headers: { Authorization: `Bearer ${token}` },
     });
     const topArtists = response["data"]["items"];
-    return topArtists;
+    const parsedTopArtists = parseSpotifyArtists(topArtists);
+    return parsedTopArtists;
   } catch (error) {
-    console.log("getUserTopGenres(): ", error);
+    console.log("getUserTopArtists(): ", error);
     return false;
   }
 }
@@ -339,7 +338,7 @@ export async function getUserSpotifyTopGenres(token) {
     }
     return [...genres];
   } catch (error) {
-    console.log("getUserTopGenres(): ", error);
+    console.log("getUserSpotifyTopGenres(): ", error);
     return false;
   }
 }

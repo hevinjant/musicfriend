@@ -4,7 +4,7 @@ function GenresList({ genres }) {
   return (
     <div
       className="genres-grid"
-      style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}
+      style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", padding: "0px 20px 0px 20px" }}
     >
       {genres.map((genre, idx) => {
         return (
@@ -18,7 +18,7 @@ function GenresList({ genres }) {
               padding: "5px 15px 5px 15px",
               fontSize: "12px",
               color: "var(--lightest-gray)",
-              // fontWeight: "700",
+              fontWeight: "700",
               margin: "5px",
               letterSpacing: "0.5px"
             }}

@@ -1,5 +1,6 @@
 import React from "react";
 import ArtistItem from "./ArtistItem";
+import "../styles/ArtistsList.css";
 
 function ArtistsList({ artists }) {
   return (

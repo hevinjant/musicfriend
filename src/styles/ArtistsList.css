@@ -1,4 +1,4 @@
-.tracks-list {
+.artists-list {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 10px;
@@ -6,7 +6,7 @@
   }
 
   @media only screen and (max-width: 600px) {
-    .tracks-list {
+    .artists-list {
       grid-template-columns: 1fr 1fr;
     }
   }

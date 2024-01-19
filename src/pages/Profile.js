@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setUserInfo } from "../redux/action";
 import TrackList from "../components/TrackList";
 import TracksList from "../components/TracksList";
+import ArtistsList from "../components/ArtistsList";
 import { getSongs, accessTokenIsValid } from "../DataManagers/SpotifyManager";
 import {
   changeUserProfilePicture,
@@ -13,6 +14,7 @@ import {
   getUserFavoriteSong,
   getUserGenres,
   getUserTopTracks,
+  getUserTopArtists,
 } from "../DataManagers/FirebaseManager";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import DefaultProfilePict from "../assets/dfpp.jpg";
@@ -25,6 +27,7 @@ function Profile() {
   const navigate = useRef(useNavigate());
   const [tracks, setTracks] = useState([]);
   const [topTracks, setTopTracks] = useState([]);
+  const [topArtists, setTopArtists] = useState([]);
   const [favoriteTrack, setFavoriteTrack] = useState(null);
   const [genres, setGenres] = useState([]);
   const access_token = localStorage.getItem("access_token");
@@ -46,6 +49,9 @@ function Profile() {
       });
       getUserTopTracks(userid).then((topTracks) => {
         setTopTracks(topTracks);
+      });
+      getUserTopArtists(userid).then((topArtists) => {
+        setTopArtists(topArtists);
       });
     }
   }, []);
@@ -96,6 +102,12 @@ function Profile() {
         <h3 style={{ color: "var(--darker-gray)" }}>Top Genres</h3>
         <GenresList genres={genres} />
         <h3 style={{ color: "var(--darker-gray)", marginTop: "30px" }}>
+          Top Artists
+        </h3>
+        <div className="top-artists" style={{ width: "75%" }}>
+          <ArtistsList artists={topArtists} />
+        </div>
+        <h3 style={{ color: "var(--darker-gray)", marginTop: "30px" }}>
           Top Listened Songs
         </h3>
         <div className="top-tracks" style={{ width: "75%" }}>
@@ -107,7 +119,9 @@ function Profile() {
             <SongItem track={favoriteTrack} />
           </div>
         ) : (
-          <p style={{marginTop: "50px", marginBottom: "0px"}}>You don't have a featured song.</p>
+          <p style={{ marginTop: "50px", marginBottom: "0px" }}>
+            You don't have a featured song.
+          </p>
         )}
         {currentLoginUser.id === userid ? (
           <Form

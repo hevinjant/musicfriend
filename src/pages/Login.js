@@ -8,7 +8,8 @@ import {
   getUserSpotifyTopGenres,
   SPOTIFY_AUTHORIZATION_URL_PARAMETERS,
   getUserSpotifyTopTracks,
-  getUserSpotifyAllTracks
+  getUserSpotifyAllTracks,
+  getUserSpotifyTopArtists
 } from "../DataManagers/SpotifyManager";
 import { useNavigate } from "react-router-dom";
 import { useGeolocated } from "react-geolocated";
@@ -74,27 +75,6 @@ function Login() {
     return userInfo;
   };
 
-  const getUserAllTracks = (token, userId) => {
-    const userAllTracks = getUserSpotifyAllTracks(token, userId).then((tracks) => {
-      return tracks;
-    })
-    return userAllTracks;
-  };
-
-  const getUserTopTracks = (token) => {
-    const userTopTracks = getUserSpotifyTopTracks(token).then((topTracks) => {
-      return topTracks;
-    });
-    return userTopTracks;
-  };
-
-  const getUserTopGenres = (token) => {
-    const userTopGenres = getUserSpotifyTopGenres(token).then((topGenres) => {
-      return topGenres;
-    });
-    return userTopGenres;
-  };
-
   const handleClick = async () => {
     setIsLoading(true);
 
@@ -103,10 +83,11 @@ function Login() {
       return;
     }
 
-    const [userTopTracks, userAllTracks, userTopGenres] = await Promise.all([
-      getUserTopTracks(token),
-      getUserAllTracks(token, userInfo.id),
-      getUserTopGenres(token),
+    const [userTopTracks, userAllTracks, userTopGenres, userTopArtists] = await Promise.all([
+      getUserSpotifyTopTracks(token),
+      getUserSpotifyAllTracks(token, userInfo.id),
+      getUserSpotifyTopGenres(token),
+      getUserSpotifyTopArtists(token)
     ]);
 
     const userTracks = {
@@ -114,7 +95,7 @@ function Login() {
       topTracks: userTopTracks,
     };
 
-    await insertUserToDatabase(userInfo, userTracks, userTopGenres).then(() => {
+    await insertUserToDatabase(userInfo, userTracks, userTopGenres, userTopArtists).then(() => {
       setIsLoading(false);
       navigate("/home");
     });
