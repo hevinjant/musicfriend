@@ -24,7 +24,7 @@ export async function insertUserToDatabase(userInfo, tracks, genres, artists) {
   const top = 12;
   let topGenres = [];
   for (let i = 0; i < genres.length; i++) {
-    if (i == top) {
+    if (i === top) {
       break;
     }
     topGenres.push(genres[i]);
