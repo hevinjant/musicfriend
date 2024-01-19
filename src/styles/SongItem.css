@@ -4,6 +4,10 @@
     align-items: center;
   }
 
+.song-item a {
+  background-color: transparent;
+}
+
 .song-item img {
     margin-top: 10px;
     height: clamp(100px, 6vw, 500px);
@@ -15,6 +19,7 @@
     color: var(--lightest-gray);
     font-size: clamp(12px, 0.9vw, 18px);
     font-weight: 700;
+    margin-top: 3px;
     margin-bottom: 3px;
     max-width: 300px;
     text-align: center;

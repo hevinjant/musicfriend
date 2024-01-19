@@ -237,6 +237,7 @@ export function parseSpotifyTrack(track) {
     trackLink: track["external_urls"]["spotify"],
     trackPreviewUrl: track["preview_url"],
     trackGenres: null,
+    trackExternalUrl: track.external_urls.spotify ? track.external_urls.spotify : null
   };
 
   return parsed;
@@ -292,7 +293,8 @@ export function parseSpotifyArtists(artists) {
       artistType: artist.type,
       artistImageUrl: artist.images.length > 0
       ? artist.images[0].url
-      : null
+      : null,
+      artistExternalUrl: artist.external_urls.spotify ? artist.external_urls.spotify : null
 
     };
     parsedArtists.push(parsed);
