@@ -1,8 +1,9 @@
 import axios from "axios";
 import { removeTrackDuplicates } from "./Util";
+import { SPOTIFY_MUSICFRIEND_CLIENT_ID } from "../../Credentials";}
 
 // Spotify Auth
-const SPOTIFY_CLIENT_ID = "4cb59fcbc79e4bbcb51d908f87698410";
+const SPOTIFY_CLIENT_ID = SPOTIFY_MUSICFRIEND_CLIENT_ID;
 const SPOTIFY_AUTHORIZATION_URL = "https://accounts.spotify.com/authorize";
 const REDIRECT_URI = "http://localhost:3000";
 const scopes = [
