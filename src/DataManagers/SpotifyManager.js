@@ -6,6 +6,7 @@ import { SPOTIFY_MUSICFRIEND_CLIENT_ID } from "../Credentials";
 const SPOTIFY_CLIENT_ID = SPOTIFY_MUSICFRIEND_CLIENT_ID;
 const SPOTIFY_AUTHORIZATION_URL = "https://accounts.spotify.com/authorize";
 const REDIRECT_URI = "http://localhost:3000";
+// const REDIRECT_URI = "https://musicfriend-c549b.web.app";
 const scopes = [
   "user-read-private",
   "user-read-email",
