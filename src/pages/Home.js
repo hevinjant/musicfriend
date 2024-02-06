@@ -134,7 +134,6 @@ function Home() {
     return (
       <div className="search-and-people">
         {displaySearch()}
-        <div className="people-list"></div>
       </div>
     );
   };

@@ -17,7 +17,7 @@
   
 .song-item .track-name {
     color: var(--lightest-gray);
-    font-size: clamp(12px, 0.9vw, 18px);
+    font-size: clamp(11px, 0.9vw, 18px);
     font-weight: 700;
     margin-top: 3px;
     margin-bottom: 3px;
@@ -28,7 +28,7 @@
 .song-item .track-artists {
     color: var(--lightest-gray);
     margin-top: 3px;
-    font-size: clamp(12px, 0.6vw, 15px);
+    font-size: clamp(10px, 0.6vw, 15px);
     max-width: 300px;
     text-align: center;
   }

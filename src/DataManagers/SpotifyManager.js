@@ -1,12 +1,14 @@
 import axios from "axios";
 import { removeTrackDuplicates } from "./Util";
-import { SPOTIFY_MUSICFRIEND_CLIENT_ID } from "../Credentials";
+import {
+  SPOTIFY_MUSICFRIEND_CLIENT_ID,
+  SPOTIFY_REDIRECT_URI,
+} from "../Credentials";
 
 // Spotify Auth
 const SPOTIFY_CLIENT_ID = SPOTIFY_MUSICFRIEND_CLIENT_ID;
 const SPOTIFY_AUTHORIZATION_URL = "https://accounts.spotify.com/authorize";
-const REDIRECT_URI = "http://localhost:3000";
-// const REDIRECT_URI = "https://musicfriend-c549b.web.app";
+const REDIRECT_URI = SPOTIFY_REDIRECT_URI;
 const scopes = [
   "user-read-private",
   "user-read-email",
@@ -239,7 +241,9 @@ export function parseSpotifyTrack(track) {
     trackLink: track["external_urls"]["spotify"],
     trackPreviewUrl: track["preview_url"],
     trackGenres: null,
-    trackExternalUrl: track.external_urls.spotify ? track.external_urls.spotify : null
+    trackExternalUrl: track.external_urls.spotify
+      ? track.external_urls.spotify
+      : null,
   };
 
   return parsed;
@@ -293,11 +297,10 @@ export function parseSpotifyArtists(artists) {
       artistName: artist.name,
       artistGenres: artist.genres,
       artistType: artist.type,
-      artistImageUrl: artist.images.length > 0
-      ? artist.images[0].url
-      : null,
-      artistExternalUrl: artist.external_urls.spotify ? artist.external_urls.spotify : null
-
+      artistImageUrl: artist.images.length > 0 ? artist.images[0].url : null,
+      artistExternalUrl: artist.external_urls.spotify
+        ? artist.external_urls.spotify
+        : null,
     };
     parsedArtists.push(parsed);
   }

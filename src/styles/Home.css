@@ -47,28 +47,11 @@
   justify-content: center;
 }
 
-.home-right .display-search .form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 100px;
-}
-
 .home-right .display-search form {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.home-right .display-search form input {
-  height: 40px;
-  width: 350px;
-  background-color: transparent;
-  border: none;
-  border-bottom: 1px solid gray;
-  font-size: clamp(16px, 1.3vw, 20px);
-  text-align: center;
-  color: white;
+  margin-top: 100px;
 }
 
 .home-right .display-search form input:focus {
@@ -77,21 +60,15 @@
 }
 
 .home-right .display-search button {
-  background-color: var(--button-color);
-  border: none;
-  border-radius: 5px;
-  width: 120px;
-  height: 35px;
-  margin-top: 20px;
   color: white;
-  letter-spacing: 1px;
-  font-size: clamp(12px, 0.9vw, 15px);
+  border: none;
+  margin-top: 25px;
+  background-color: var(--button-color);
+  border-radius: 10px;
 }
 
 .home-right .display-search p {
   color: gray;
-  font-size: clamp(12px, 1vw, 15px);
-  padding: 20px;
   text-align: center;
   margin-top: 0px;
 }
@@ -158,36 +135,6 @@
   padding: 20px 50px 20px 50px;
 }
 
-/* .home-right .display-result .match-body .song-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.home-right .display-result .match-body .song-item img {
-  margin-top: 10px;
-  height: clamp(100px, 6vw, 500px);
-  width: clamp(100px, 6vw, 500px);
-  border-radius: 5px;
-}
-
-.home-right .display-result .match-body .song-item .track-name {
-  color: white;
-  font-size: clamp(15px, 1vw, 18px);
-  font-weight: 700;
-  margin-bottom: 3px;
-  max-width: 300px;
-  text-align: center;
-}
-
-.home-right .display-result .match-body .song-item .track-artists {
-  margin-top: 3px;
-  color: white;
-  font-size: clamp(12px, 0.8vw, 15px);
-  max-width: 300px;
-  text-align: center;
-} */
-
 .home-right .display-result .match-body::-webkit-scrollbar {
   display: none;
 }
@@ -238,13 +185,82 @@
   background-color: var(--hover-color);
 }
 
-@media only screen and (max-width: 500px) {
-  .home-right .explore-list {
+ /* Extra small devices (phones, 600px and down) */
+ @media only screen and (max-width: 600px) {
+  .home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+    overflow-x: hidden;
+  }
+
+  .home-right {
+    width: 80vw;
+    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
   }
-  .home-right .explore-list .user-explore-item {
-    width: 350px;
+
+  .home-right .display-search .form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 100px;
   }
-}
+
+  .home-right .display-search form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 100px;
+  }
+  
+  .home-right .display-search form input {
+    height: 30px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid gray;
+    font-size: clamp(12px, 1vw, 18px);
+    text-align: center;
+    color: white;
+  }
+
+  .home-right .display-search p {
+    font-size: clamp(12px, 1vw, 15px);
+    padding: 5px;
+    margin-top: 10px;
+  }
+
+  .home-right .display-search button {
+    background-color: var(--button-color);
+    border: none;
+    border-radius: 5px;
+    width: 120px;
+    height: 35px;
+    margin-top: 20px;
+    color: white;
+    letter-spacing: 1px;
+    font-size: clamp(12px, 3vw, 35px);
+  }
+ }
+
+ /* Small devices (portrait tablets and large phones, 600px and up) */
+ @media only screen and (min-width: 600px) {
+
+ }
+ 
+ /* Medium devices (landscape tablets, 768px and up) */
+ @media only screen and (min-width: 768px) {
+
+ }
+ 
+
+ /* Large devices (laptops/desktops, 992px and up) */
+ @media only screen and (min-width: 992px) {
+
+ }
+ 
+ /* Extra large devices (large laptops and desktops, 1200px and up) */
+ @media only screen and (min-width: 1200px) {} 

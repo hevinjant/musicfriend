@@ -1,6 +1,7 @@
 import React from "react";
 import { getAllUsersWithinMiles } from "../DataManagers/Util";
 import UserExploreItem from "./UserExploreItem";
+import "../styles/ExploreList.css";
 
 const ExploreList = ({ nearbyUsers }) => {
   const currentUser = JSON.parse(localStorage.getItem("user_info"));

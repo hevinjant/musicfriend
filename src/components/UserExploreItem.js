@@ -18,12 +18,6 @@ const UserExploreItem = ({ user }) => {
   return (
     <div
       className="user-explore-item"
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        marginBottom: "20px",
-      }}
     >
       <button
         onClick={handleClick}
@@ -39,54 +33,29 @@ const UserExploreItem = ({ user }) => {
             event.target.src = DefaultProfilePict;
             event.oneerror = null;
           }}
-          style={{
-            borderRadius: "50%",
-            width: "clamp(50px, 3vw, 65px)",
-            height: "clamp(50px, 3vw, 65px)",
-            position: "relative",
-            zIndex: "3",
-          }}
         />
 
         <img
+          className="track-dp"
           src={
             user.favorite_track?.trackImageUrl
               ? user.favorite_track?.trackImageUrl
               : DefaultPict
           }
           alt="no image"
-          style={{
-            width: "clamp(50px, 3vw, 65px)",
-            height: "clamp(50px, 3vw, 65px)",
-            marginLeft: "-10px",
-          }}
         />
       </button>
       <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-start",
-        }}
+        className="item-text"
       >
         <p
-          className="display-name"
-          style={{
-            color: "white",
-            marginLeft: "10px",
-            fontSize: "clamp(12px, 0.9vw, 15px)",
-          }}
+          className="name-text"
         >
           <strong>{user.display_name}</strong>
         </p>
         {user.favorite_track ? (
           <p
-            style={{
-              color: "#a9a9a9",
-              marginLeft: "10px",
-              marginTop: "0px",
-              fontSize: "clamp(12px, 0.6vw, 15px)",
-            }}
+            className="track-text"
           >
             {user.favorite_track?.trackName} -{" "}
             {user.favorite_track?.trackArtists}

@@ -42,11 +42,11 @@
 }
 
 .profile-items .form button {
-    width: 100px;
-    background-color: transparent;
     color: white;
-    font-size: 20px;
     border: none;
+    margin-top: 25px;
+    background-color: var(--spotify-green);
+    border-radius: 10px;
 }
 
 .profile-items .form button:hover {
@@ -57,11 +57,8 @@
     border: none;
     border-bottom: 2px solid gray;
     background-color: transparent;
-    font-size: clamp(15px, 1.3vw, 20px);
     text-align: center;
     color: white;
-    height: 40px;
-    width: 350px;
 }
 
 .profile-items form input:focus {
@@ -90,6 +87,10 @@
     justify-content: center;
 }
 
+.profile-items .section-header {
+    color: var(--darker-gray);
+}
+
 @media only screen and (max-width: 500px) {
     .profile-items .form {
         display: flex;
@@ -102,12 +103,54 @@
         width: 300px;
         font-size: 16px;
     }
+}
+
+ /* Extra small devices (phones, 600px and down) */
+ @media only screen and (max-width: 600px) {
+    .profile {
+        width: 100vw;
+        overflow-x: hidden;
+    }
+
+    .profile .profile-items form input {
+        height: 30px;
+        border-bottom: 1px solid gray;
+        font-size: clamp(12px, 1vw, 18px);
+    }   
 
     .profile-items .form button {
-        width: 125px;
-        margin-top: 25px;
-        background-color: var(--spotify-green);
+        border: none;
+        border-radius: 5px;
+        width: 120px;
         height: 35px;
-        border-radius: 10px;
+        margin-top: 20px;
+        color: white;
+        letter-spacing: 1px;
+        font-size: clamp(12px, 3vw, 35px);
     }
-}
+
+    .profile-items .section-header {
+        font-size: 15px;
+        margin-top: 20px;
+        margin-bottom: 5px;
+    }
+ }
+
+ /* Small devices (portrait tablets and large phones, 600px and up) */
+ @media only screen and (min-width: 600px) {
+
+ }
+ 
+ /* Medium devices (landscape tablets, 768px and up) */
+ @media only screen and (min-width: 768px) {
+
+ }
+ 
+
+ /* Large devices (laptops/desktops, 992px and up) */
+ @media only screen and (min-width: 992px) {
+
+ }
+ 
+ /* Extra large devices (large laptops and desktops, 1200px and up) */
+ @media only screen and (min-width: 1200px) {} 

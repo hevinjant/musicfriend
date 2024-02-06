@@ -99,27 +99,27 @@ function Profile() {
           }}
         />
         <h1>{state.display_name}</h1>
-        <h3 style={{ color: "var(--darker-gray)" }}>Top Genres</h3>
+        <h4 className="section-header">Top Genres</h4>
         <GenresList genres={genres} />
-        <h3 style={{ color: "var(--darker-gray)", marginTop: "30px" }}>
+        <h4 className="section-header">
           Top Artists
-        </h3>
+        </h4>
         <div className="top-artists" style={{ width: "75%" }}>
           <ArtistsList artists={topArtists} />
         </div>
-        <h3 style={{ color: "var(--darker-gray)", marginTop: "30px" }}>
+        <h4 className="section-header">
           Top Listened Songs
-        </h3>
+        </h4>
         <div className="top-tracks" style={{ width: "75%" }}>
           <TracksList tracks={topTracks} />
         </div>
         {favoriteTrack ? (
           <div className="favorite-track">
-            <h3 style={{ color: "var(--darker-gray)" }}>Your featured song</h3>
+            <h4 className="section-header">Your featured song</h4>
             <SongItem track={favoriteTrack} />
           </div>
         ) : (
-          <p style={{ marginTop: "50px", marginBottom: "0px" }}>
+          <p>
             You don't have a featured song.
           </p>
         )}
