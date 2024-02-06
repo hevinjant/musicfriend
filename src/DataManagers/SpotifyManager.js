@@ -1,6 +1,6 @@
 import axios from "axios";
 import { removeTrackDuplicates } from "./Util";
-import { SPOTIFY_MUSICFRIEND_CLIENT_ID } from "../../Credentials";}
+import { SPOTIFY_MUSICFRIEND_CLIENT_ID } from "../../Credentials";
 
 // Spotify Auth
 const SPOTIFY_CLIENT_ID = SPOTIFY_MUSICFRIEND_CLIENT_ID;
