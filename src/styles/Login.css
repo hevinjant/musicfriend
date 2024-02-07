@@ -95,11 +95,8 @@
   }
 
   .login .success-login button {
-    background-color: var(--button-color);
-    color: white;
     font-size: clamp(12px, 0.8vw, 17px);
     font-weight: 700;
-    border: none;
     padding: 10px 15px 10px 15px;
     border-radius: 2.5px;
   }
@@ -136,6 +133,13 @@
     height: 25px;
     width: 25px;
     margin-right: 9px;
+  }
+
+  .login .success-login button {
+    font-size: clamp(12px, 0.8vw, 17px);
+    font-weight: 700;
+    padding: 15px 20px 15px 20px;
+    border-radius: 2.5px;
   }
  }
  

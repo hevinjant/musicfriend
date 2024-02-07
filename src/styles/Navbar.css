@@ -36,6 +36,10 @@
 
  /* Extra small devices (phones, 600px and down) */
  @media only screen and (max-width: 600px) {
+    .navbar {
+        margin-top: 10px;
+    }
+
     .navbar .navbar-item {
         border-radius: 10px;
         background-color: var(--darkest-gray);

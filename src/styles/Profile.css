@@ -44,7 +44,6 @@
 .profile-items .form button {
     color: white;
     border: none;
-    margin-top: 25px;
     background-color: var(--spotify-green);
     border-radius: 10px;
 }
@@ -114,12 +113,10 @@
     }   
 
     .profile-items .form button {
-        border: none;
         border-radius: 5px;
         width: 120px;
         height: 35px;
         margin-top: 20px;
-        color: white;
         letter-spacing: 1px;
         font-size: clamp(12px, 3vw, 35px);
     }
@@ -133,7 +130,38 @@
 
  /* Small devices (portrait tablets and large phones, 600px and up) */
  @media only screen and (min-width: 600px) {
+    .profile {
+        width: 100vw;
+        overflow-x: hidden;
+    }
 
+    .profile .profile-items .form {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .profile .profile-items .form input {
+        height: 35px;
+        width: 200px;
+        font-size: clamp(12px, 2vw, 25px);
+    }   
+
+    .profile-items .form button {
+        border-radius: 5px;
+        width: 120px;
+        height: 35px;
+        letter-spacing: 1px;
+        font-size: clamp(12px, 1.4vw, 25px);
+        margin-left: 10px;
+    }
+
+    .profile-items .section-header {
+        font-size: 15px;
+        margin-top: 20px;
+        margin-bottom: 5px;
+    }
  }
  
  /* Medium devices (landscape tablets, 768px and up) */
