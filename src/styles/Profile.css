@@ -98,11 +98,6 @@
         justify-content: center;
         align-items: center;
     }
-
-    .profile-items .form input {
-        width: 300px;
-        font-size: 16px;
-    }
 }
 
  /* Extra small devices (phones, 600px and down) */
@@ -112,9 +107,9 @@
         overflow-x: hidden;
     }
 
-    .profile .profile-items form input {
+    .profile .profile-items .form input {
         height: 30px;
-        border-bottom: 1px solid gray;
+        width: 200px;
         font-size: clamp(12px, 1vw, 18px);
     }   
 

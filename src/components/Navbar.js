@@ -18,22 +18,9 @@ const Navbar = () => {
     navigate("/");
   };
 
-  const styles = {
-    textDecoration: "none",
-    color: "white",
-    border: "none",
-    borderRadius: "12px",
-    backgroundColor: "var(--darkest-gray)",
-    width: "110px",
-    lineHeight: "40px",
-    textAlign: "center",
-    fontSize: "13px",
-    letterSpacing: "2px",
-  };
-
   return (
     <div className="navbar">
-      <Link className={navbarItem} to="/home" style={styles}>
+      <Link className={navbarItem} to="/home">
         Home
       </Link>
       <Link
@@ -43,11 +30,10 @@ const Navbar = () => {
           display_picture_url: currentLoginUser.display_picture_url,
           display_name: currentLoginUser.display_name,
         }}
-        style={styles}
       >
         Profile
       </Link>
-      <button className={navbarItem} onClick={handleSignOut} style={styles}>
+      <button className={navbarItem} onClick={handleSignOut}>
         Sign out
       </button>
     </div>

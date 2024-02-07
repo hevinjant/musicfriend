@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import UserItem from "../components/UserItem";
 import Form from "../components/Form";
-import SongItem from "../components/SongItem";
 import Navbar from "../components/Navbar";
 import { useSelector } from "react-redux";
 import {
@@ -15,7 +14,6 @@ import "../styles/Home.css";
 import ExploreList from "../components/ExploreList";
 import GenresList from "../components/GenresList";
 import TracksList from "../components/TracksList";
-import { Divider } from "@mui/material";
 
 function Home() {
   const navigate = useRef(useNavigate());
