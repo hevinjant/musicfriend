@@ -100,17 +100,15 @@ function Profile() {
         />
         <h1>{state.display_name}</h1>
         <h4 className="section-header">Top Genres</h4>
-        <GenresList genres={genres} />
-        <h4 className="section-header">
-          Top Artists
-        </h4>
-        <div className="top-artists" style={{ width: "75%" }}>
+        <div className="top-genres">
+          <GenresList genres={genres} />
+        </div>
+        <h4 className="section-header">Top Artists</h4>
+        <div className="top-artists">
           <ArtistsList artists={topArtists} />
         </div>
-        <h4 className="section-header">
-          Top Listened Songs
-        </h4>
-        <div className="top-tracks" style={{ width: "75%" }}>
+        <h4 className="section-header">Top Listened Songs</h4>
+        <div className="top-tracks">
           <TracksList tracks={topTracks} />
         </div>
         {favoriteTrack ? (
@@ -119,9 +117,7 @@ function Profile() {
             <SongItem track={favoriteTrack} />
           </div>
         ) : (
-          <p>
-            You don't have a featured song.
-          </p>
+          <p>You don't have a featured song.</p>
         )}
         {currentLoginUser.id === userid ? (
           <Form

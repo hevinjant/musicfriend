@@ -63,7 +63,7 @@
 .profile-items form input:focus {
     outline: none;
     border-bottom: 2px solid var(--hover-color);
-  }
+}
 
 .profile-items .track-list {
     display: flex;
@@ -88,15 +88,6 @@
 
 .profile-items .section-header {
     color: var(--darker-gray);
-}
-
-@media only screen and (max-width: 500px) {
-    .profile-items .form {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
 }
 
  /* Extra small devices (phones, 600px and down) */
@@ -126,7 +117,17 @@
         margin-top: 20px;
         margin-bottom: 5px;
     }
+
+    .profile-items .top-artists {
+        width: 80vw;
+    }
+    
+    .profile-items .top-tracks {
+        width: 80vw;
+    }
  }
+
+
 
  /* Small devices (portrait tablets and large phones, 600px and up) */
  @media only screen and (min-width: 600px) {
@@ -161,6 +162,18 @@
         font-size: 15px;
         margin-top: 20px;
         margin-bottom: 5px;
+    }
+
+    .profile-items .top-genres {
+        width: 75vw;
+    }
+
+    .profile-items .top-artists {
+        width: 80vw;
+    }
+    
+    .profile-items .top-tracks {
+        width: 80vw;
     }
  }
  
