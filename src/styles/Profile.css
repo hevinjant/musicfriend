@@ -97,10 +97,16 @@
         overflow-x: hidden;
     }
 
+    .profile .profile-items .form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
     .profile .profile-items .form input {
         height: 30px;
         width: 200px;
-        font-size: clamp(12px, 1vw, 18px);
+        font-size: clamp(12px, 1vw, 15px);
     }   
 
     .profile-items .form button {
@@ -127,8 +133,6 @@
     }
  }
 
-
-
  /* Small devices (portrait tablets and large phones, 600px and up) */
  @media only screen and (min-width: 600px) {
     .profile {
@@ -146,7 +150,7 @@
     .profile .profile-items .form input {
         height: 35px;
         width: 200px;
-        font-size: clamp(12px, 2vw, 25px);
+        font-size: clamp(12px, 1.7vw, 15px);
     }   
 
     .profile-items .form button {
@@ -182,7 +186,6 @@
 
  }
  
-
  /* Large devices (laptops/desktops, 992px and up) */
  @media only screen and (min-width: 992px) {
 
