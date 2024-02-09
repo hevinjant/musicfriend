@@ -16,6 +16,18 @@
     border-radius: 50%;
 }
 
+.profile-items .top-artists {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-items .top-tracks {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .profile-items .favorite-track {
     display: flex;
     flex-direction: column;
@@ -169,7 +181,7 @@
     }
 
     .profile-items .top-genres {
-        width: 75vw;
+        width: 70vw;
     }
 
     .profile-items .top-artists {

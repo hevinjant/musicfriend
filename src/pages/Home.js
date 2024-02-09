@@ -99,7 +99,7 @@ function Home() {
     };
 
     setMatchesInfo(matchesResult);
-    insertMatchResultToDatabase(user.id, matchesResult);
+    // insertMatchResultToDatabase(user.id, matchesResult);
     setSearched(true);
   };
 
