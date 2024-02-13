@@ -287,17 +287,20 @@
   }
 
   .home-right .display-result .match-header {
-    height: 175px;
     margin-top: 20px;
-    background-color: red;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
   }
 
   .home-right .display-result .match-header button {
-    font-size: clamp(12px, 1vw, 35px);
+    font-size: clamp(12px, 1vw, 16px);
     padding: 8px 12px 8px 12px;
   }
  }
- 
+
  /* Medium devices (landscape tablets, 768px and up) */
  @media only screen and (min-width: 768px) {
     .home {
@@ -311,12 +314,11 @@
       height: 100%;
     }
  }
- 
 
  /* Large devices (laptops/desktops, 992px and up) */
  @media only screen and (min-width: 992px) {
 
  }
- 
+
  /* Extra large devices (large laptops and desktops, 1200px and up) */
  @media only screen and (min-width: 1200px) {} 
