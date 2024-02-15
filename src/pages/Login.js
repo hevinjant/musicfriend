@@ -91,7 +91,8 @@ function Login() {
     ]);
 
     const userTracks = {
-      allTracks: userAllTracks,
+      // allTracks: userAllTracks,
+      allTracks: [],
       topTracks: userTopTracks,
     };
 
