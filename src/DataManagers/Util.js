@@ -52,6 +52,9 @@ export async function getMatchesTopTracks(userId, otherUserId) {
     getUserInfo(otherUserId),
   ]);
 
+  console.log("usrTrk:", userTracks);
+  console.log("otrUsrTrk:", otherUserTracks);
+
   // find the matches
   for (let track1 of userTracks) {
     for (let track2 of otherUserTracks) {
