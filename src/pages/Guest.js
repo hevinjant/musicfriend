@@ -8,7 +8,7 @@ function Guest() {
   return (
     <div className="guest-page">
       <div>Welcome to Music Friend!</div>
-      <p>Music is an essential part in </p>
+      <p>Music is an essential part in our lifes.</p>
       <p>
         Music Friend is a friendly music-based social media web application that lets people find other people with the same music tastes.
       </p>
