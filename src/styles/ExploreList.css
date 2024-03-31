@@ -72,7 +72,8 @@
 
     .user-explore-item {
         margin-bottom: 10px;
-        width: 50vw;
+        width: 25vw;
+        min-width: 300px;
         display: flex;
         flex-direction: row;
         justify-content: flex-start;

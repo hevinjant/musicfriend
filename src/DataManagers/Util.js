@@ -26,6 +26,8 @@ export async function getMatchesTracks(userId, otherUserId) {
     getUserInfo(otherUserId),
   ]);
 
+  console.log(`Tracks: user: ${userTracks.length} - otheruser: ${otherUserTracks.length}`);
+
   // find the matches
   for (let track1 of userTracks) {
     for (let track2 of otherUserTracks) {
@@ -52,8 +54,7 @@ export async function getMatchesTopTracks(userId, otherUserId) {
     getUserInfo(otherUserId),
   ]);
 
-  console.log("usrTrk:", userTracks);
-  console.log("otrUsrTrk:", otherUserTracks);
+  console.log(`Top Tracks: user: ${userTracks.length} - otheruser: ${otherUserTracks.length}`);
 
   // find the matches
   for (let track1 of userTracks) {
@@ -80,6 +81,8 @@ export async function getMatchesGenres(userId, otherUserId) {
     getUserGenres(otherUserId),
     getUserInfo(otherUserId),
   ]);
+
+  console.log(`Genres: user: ${userGenres.length} - otheruser: ${otherUserGenres.length}`);
 
   // find the matches
   for (let genre1 of userGenres) {
