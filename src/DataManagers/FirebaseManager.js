@@ -13,7 +13,7 @@ import { database } from "../Firebase";
 if not then insert new user information and their tracks to database.
 if user exists then just update their tracks.
 */
-export async function insertUserToDatabase(userInfo, tracks, genres, artists) {
+export async function insertUserToDatabase(userInfo, tokenInfo, tracks, genres, artists) {
   console.log("Inserting user to database...");
 
   const userId = userInfo.id;
@@ -35,6 +35,7 @@ export async function insertUserToDatabase(userInfo, tracks, genres, artists) {
     // if user already exists, update user's info cause they may have changed
     const userData = {
       id: userInfo.id,
+      token: tokenInfo,
       tracks: tracks.allTracks,
       topTracks: tracks.topTracks,
       topArtists: artists,

@@ -32,6 +32,22 @@ const GET_TOP_ARTISTS = "https://api.spotify.com/v1/me/top/artists";
 const GET_TOP_TRACKS = "https://api.spotify.com/v1/me/top/tracks";
 const GET_SAVED_TRACKS = "https://api.spotify.com/v1/me/tracks";
 
+export function getUserAuthorization() {
+  const url = `${SPOTIFY_AUTHORIZATION_URL}?response_type=code&client_id=${SPOTIFY_CLIENT_ID}&scope=${scopes.join(
+    "%20"
+  )}&show_dialog=true&redirect_uri=${REDIRECT_URI}`;
+  return url;
+}
+
+export function getAccessToken() {
+  try {
+    const response = getUserAuthorization().then((resp) => resp);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 /* Check if access token is expired (more than an hour) */
 export function accessTokenIsValid(token, timestamp) {
   const oneHour = 60 * 60 * 1000; /* ms */

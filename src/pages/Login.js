@@ -9,7 +9,9 @@ import {
   SPOTIFY_AUTHORIZATION_URL_PARAMETERS,
   getUserSpotifyTopTracks,
   getUserSpotifyAllTracks,
-  getUserSpotifyTopArtists
+  getUserSpotifyTopArtists,
+  getUserAuthorization,
+  getAccessToken,
 } from "../DataManagers/SpotifyManager";
 import { useNavigate } from "react-router-dom";
 import { useGeolocated } from "react-geolocated";
@@ -50,20 +52,29 @@ function Login() {
     return userInfo;
   };
 
-  const storeToken = (token, current_time) => {
+  const storeToken = (token, refresh_token, current_time) => {
     localStorage.setItem("access_token", token);
     localStorage.setItem("token_timestamp", JSON.stringify(current_time));
+    localStorage.setItem("refresh_token", refresh_token);
     setToken(token);
   };
 
   useEffect(() => {
-    const hash = window.location.hash;
-    if (window.location.hash) {
-      const accessToken = hash.split("#").pop().split("&")[0].split("=")[1];
-      const current_time = Date.now();
-      storeToken(accessToken, current_time);
-    }
+    const href = window.location.href;
+    console.log("HREF: ", href);
+    const current_time = Date.now();
+    // getAccessToken();
+    // storeToken(accessToken, current_time);
   }, [window.location]);
+
+  // useEffect(() => {
+  //   const hash = window.location.hash;
+  //   if (window.location.hash) {
+  //     const accessToken = hash.split("#").pop().split("&")[0].split("=")[1];
+  //     const current_time = Date.now();
+  //     storeToken(accessToken, current_time);
+  //   }
+  // }, [window.location]);
 
   const getUserInfo = (token) => {
     const userInfo = getUserSpotifyInfo(token).then((spotifyUserInfo) => {
@@ -83,12 +94,15 @@ function Login() {
       return;
     }
 
-    const [userTopTracks, userAllTracks, userTopGenres, userTopArtists] = await Promise.all([
-      getUserSpotifyTopTracks(token),
-      getUserSpotifyAllTracks(token, userInfo.id),
-      getUserSpotifyTopGenres(token),
-      getUserSpotifyTopArtists(token)
-    ]);
+    const tokenInfo = {};
+
+    const [userTopTracks, userAllTracks, userTopGenres, userTopArtists] =
+      await Promise.all([
+        getUserSpotifyTopTracks(token),
+        getUserSpotifyAllTracks(token, userInfo.id),
+        getUserSpotifyTopGenres(token),
+        getUserSpotifyTopArtists(token),
+      ]);
 
     const userTracks = {
       // allTracks: userAllTracks,
@@ -96,11 +110,21 @@ function Login() {
       topTracks: userTopTracks,
     };
 
-    await insertUserToDatabase(userInfo, userTracks, userTopGenres, userTopArtists).then(() => {
+    await insertUserToDatabase(
+      userInfo,
+      tokenInfo,
+      userTracks,
+      userTopGenres,
+      userTopArtists
+    ).then(() => {
       setIsLoading(false);
       navigate("/home");
     });
   };
+
+  function testLogin() {
+    getAccessToken();
+  }
 
   return (
     <div className="login">
@@ -136,6 +160,10 @@ function Login() {
               >
                 About this app
               </button>
+              <a href={getUserAuthorization()}
+              >
+                Test Login
+              </a>
             </div>
           )}
         </div>
