@@ -60,11 +60,23 @@ function Login() {
   };
 
   useEffect(() => {
-    const href = window.location.href;
-    console.log("HREF: ", href);
-    const current_time = Date.now();
-    // getAccessToken();
-    // storeToken(accessToken, current_time);
+    // const href = window.location.href;
+    // if (window.location.href && href.length > 0 && href.includes("code=")) {
+    //   const code = href.split("=")[1];
+    //   const current_time = Date.now();
+    //   getAccessToken(code).then((token) => {
+    //     console.log(token);
+    //   });
+    // }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get("code");
+    if (code?.length > 0) {
+      const current_time = Date.now();
+      getAccessToken(code).then((tokenInfo) => {
+        console.log(tokenInfo);
+      });
+    }
   }, [window.location]);
 
   // useEffect(() => {
@@ -122,10 +134,6 @@ function Login() {
     });
   };
 
-  function testLogin() {
-    getAccessToken();
-  }
-
   return (
     <div className="login">
       <div className="container">
@@ -160,10 +168,13 @@ function Login() {
               >
                 About this app
               </button>
-              <a href={getUserAuthorization()}
+              <button
+                onClick={() => {
+                  getUserAuthorization();
+                }}
               >
-                Test Login
-              </a>
+                TEST LOGIN
+              </button>
             </div>
           )}
         </div>

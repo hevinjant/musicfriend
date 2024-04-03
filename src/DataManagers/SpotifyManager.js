@@ -20,6 +20,7 @@ const scopes = [
 export const SPOTIFY_AUTHORIZATION_URL_PARAMETERS = `${SPOTIFY_AUTHORIZATION_URL}?response_type=token&client_id=${SPOTIFY_CLIENT_ID}&scope=${scopes.join(
   "%20"
 )}&show_dialog=true&redirect_uri=${REDIRECT_URI}`;
+const SPOTIFY_API_TOKEN = "https://accounts.spotify.com/api/token";
 
 // Spotify End Points
 const GET_USER_SPOTIFY_PROFILE_ENDPOINT = "https://api.spotify.com/v1/me";
@@ -32,20 +33,99 @@ const GET_TOP_ARTISTS = "https://api.spotify.com/v1/me/top/artists";
 const GET_TOP_TRACKS = "https://api.spotify.com/v1/me/top/tracks";
 const GET_SAVED_TRACKS = "https://api.spotify.com/v1/me/tracks";
 
-export function getUserAuthorization() {
-  const url = `${SPOTIFY_AUTHORIZATION_URL}?response_type=code&client_id=${SPOTIFY_CLIENT_ID}&scope=${scopes.join(
-    "%20"
-  )}&show_dialog=true&redirect_uri=${REDIRECT_URI}`;
-  return url;
+function generateRandomString(length) {
+  const possible =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const values = crypto.getRandomValues(new Uint8Array(length));
+  return values.reduce((acc, x) => acc + possible[x % possible.length], "");
 }
 
-export function getAccessToken() {
-  try {
-    const response = getUserAuthorization().then((resp) => resp);
-    return response;
-  } catch (error) {
-    console.log(error);
-  }
+async function sha256(plain) {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(plain);
+  return window.crypto.subtle.digest("SHA-256", data);
+}
+
+function base64encode(input) {
+  // return btoa(String.fromCharCode(...new Uint8Array(input)))
+  //   .replace(/=/g, "")
+  //   .replace(/\+/g, "-")
+  //   .replace(/\//g, "_");
+  return btoa(
+    String.fromCharCode
+      .apply(null, new Uint8Array(input))
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(/=+$/, "")
+  );
+}
+
+async function getCodeChallenge(codeVerifier) {
+  const hashed = await sha256(codeVerifier);
+  return base64encode(hashed);
+}
+
+// Get Spotify Authorization Code with PKCE Flow
+export function getUserAuthorization() {
+  const codeVerifier = generateRandomString(64);
+  localStorage.setItem("code_verifier", codeVerifier);
+  const codeChallenge = getCodeChallenge(codeVerifier);
+  const params = {
+    response_type: "code",
+    client_id: SPOTIFY_CLIENT_ID,
+    scopes,
+    code_challenge_method: "S256",
+    code_challenge: codeChallenge,
+    redirect_uri: REDIRECT_URI,
+  };
+  const url = new URL(SPOTIFY_AUTHORIZATION_URL);
+  url.search = new URLSearchParams(params).toString();
+  window.location.href = url.toString();
+}
+
+// Get Spotify Access Token with PKCE Flow
+export async function getAccessToken(authCode) {
+  const codeVerifier = localStorage.getItem("code_verifier");
+  console.log("authCode: ", authCode);
+  // try {
+  //   const data = {
+  //     headers: {
+  //       'Content-Type': 'application/x-www-form-urlencoded',
+  //     },
+  //     body: new URLSearchParams({
+  //       client_id: SPOTIFY_CLIENT_ID,
+  //       grant_type: 'authorization_code',
+  //       code: authCode,
+  //       redirect_uri: REDIRECT_URI,
+  //       code_verifier: codeVerifier,
+  //     })
+  //   };
+
+  //   const response = await axios.post(SPOTIFY_API_TOKEN, data.body, {
+  //     headers: data.headers
+  //   });
+  //   return response;
+  // } catch (error) {
+  //   console.log("Error:", error);
+  // }
+
+  console.log("code_verifier: ", codeVerifier);
+
+  const response = await fetch(SPOTIFY_API_TOKEN, {
+    method: "POST",
+    headers: {
+      "content-type": "application/x-www-form-urlencoded",
+    },
+    body: new URLSearchParams({
+      client_id: SPOTIFY_CLIENT_ID,
+      grant_type: "authorization_code",
+      code: authCode,
+      redirect_uri: REDIRECT_URI,
+      code_verifier: codeVerifier,
+    }),
+  });
+
+  return await response.json();
 }
 
 /* Check if access token is expired (more than an hour) */
